@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "inner_candidate_fold_rows": 1750,
+  "selected_configurations": 30,
+  "outer_evaluations": 30,
+  "saved_predictions": 3420,
+  "paired_difference_rows": 45,
+  "primary_F1_tests": 3,
+  "failed_runs": 0,
+  "checks": [
+    "complete candidate grids",
+    "selection reproduced from raw fold scores",
+    "classical choices reproduced",
+    "outer/inner split disjointness",
+    "identical paired seeds",
+    "saved predictions reproduce metrics",
+    "Holm reference case",
+    "deterministic bootstrap"
+  ]
+}
