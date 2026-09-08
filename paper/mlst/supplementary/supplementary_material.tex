@@ -1,0 +1,136 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{Supplementary Material:\\A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification}}
+\author{\textbf{Sina Qasempour}\\[1ex]\textit{Independent Researcher, Iran}\\\textit{Corresponding author: qasempoursina@gmail.com}\\\textit{ORCID: \url{https://orcid.org/0009-0006-8853-6740}}}
+\date{September 2026}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Target Venue:} \textit{Machine Learning: Science and Technology} (IOP Publishing)\\
+\noindent\textbf{Permanent Repository Tag:} \texttt{v1.0.0} (\url{https://github.com/SinaQP/SVM-Vs-QSVM})\\
+\noindent\textbf{Primary Endpoint:} Malignant Class F1 Score (\texttt{pos\_label=0})
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{Supplementary Section S1: Extended Sample-Size Scaling Evaluation}
+
+To evaluate model resilience across diverse training sample sizes, models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing pipelines (\texttt{StandardScaler}, \texttt{PCA}, \texttt{MinMaxScaler}) independently refit on each subset and evaluated on fixed held-out outer test partitions ($N_{\text{test}}=114$).
+
+\begin{table}[htbp]
+\centering
+\caption{Complete Sample-Size Scaling Results across 5 Outer Splits (Mean $\pm$ SD).}
+\label{tab:supp_scaling}
+\vspace{2mm}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllccccccc}
+\toprule
+$N_{\text{train}}$ & Model Architecture & Family & Repr. & Qubits & Test Accuracy & Precision & Recall & Malignant F1 & ROC-AUC \\
+\midrule
+\textbf{50} & Linear SVM & Classical & PCA 2 & 0 & $0.9333 \pm 0.0354$ & $0.9126 \pm 0.0485$ & $0.9238 \pm 0.0435$ & $\mathbf{0.9157 \pm 0.0402}$ & $0.9874 \pm 0.0087$ \\
+50 & RBF SVM & Classical & PCA 2 & 0 & $0.9263 \pm 0.0282$ & $0.9201 \pm 0.0321$ & $0.8857 \pm 0.0487$ & $0.9008 \pm 0.0353$ & $0.9839 \pm 0.0072$ \\
+50 & QSVC (reps=1, full) & Quantum & PCA 2 & 2 & $0.8246 \pm 0.0387$ & $0.8174 \pm 0.0531$ & $0.6857 \pm 0.0911$ & $\mathbf{0.7398 \pm 0.0531}$ & $0.8850 \pm 0.0484$ \\
+\addlinespace
+50 & Linear SVM & Classical & PCA 4 & 0 & $0.9316 \pm 0.0353$ & $0.9272 \pm 0.0418$ & $0.9048 \pm 0.0538$ & $\mathbf{0.9128 \pm 0.0395}$ & $0.9894 \pm 0.0090$ \\
+50 & RBF SVM & Classical & PCA 4 & 0 & $0.9421 \pm 0.0295$ & $0.9431 \pm 0.0288$ & $0.9095 \pm 0.0631$ & $0.9222 \pm 0.0385$ & $0.9864 \pm 0.0060$ \\
+50 & QSVC (reps=1, full) & Quantum & PCA 4 & 4 & $0.7263 \pm 0.0716$ & $0.7412 \pm 0.1691$ & $0.4095 \pm 0.2312$ & $\mathbf{0.4994 \pm 0.2110}$ & $0.7636 \pm 0.1082$ \\
+\midrule
+\textbf{100} & Linear SVM & Classical & PCA 2 & 0 & $0.9474 \pm 0.0175$ & $0.9341 \pm 0.0255$ & $0.9286 \pm 0.0352$ & $\mathbf{0.9287 \pm 0.0227}$ & $0.9884 \pm 0.0067$ \\
+100 & RBF SVM & Classical & PCA 2 & 0 & $0.9246 \pm 0.0237$ & $0.9098 \pm 0.0388$ & $0.8905 \pm 0.0457$ & $0.8966 \pm 0.0317$ & $0.9849 \pm 0.0092$ \\
+100 & QSVC (reps=1, full) & Quantum & PCA 2 & 2 & $0.8614 \pm 0.0190$ & $0.8465 \pm 0.0361$ & $0.7619 \pm 0.0435$ & $\mathbf{0.7983 \pm 0.0207}$ & $0.9214 \pm 0.0101$ \\
+\addlinespace
+100 & Linear SVM & Classical & PCA 4 & 0 & $0.9421 \pm 0.0288$ & $0.9298 \pm 0.0392$ & $0.9190 \pm 0.0487$ & $\mathbf{0.9222 \pm 0.0355}$ & $0.9890 \pm 0.0074$ \\
+100 & RBF SVM & Classical & PCA 4 & 0 & $0.9386 \pm 0.0139$ & $0.9466 \pm 0.0244$ & $0.8905 \pm 0.0388$ & $0.9155 \pm 0.0217$ & $0.9884 \pm 0.0044$ \\
+100 & QSVC (reps=1, full) & Quantum & PCA 4 & 4 & $0.7947 \pm 0.0332$ & $0.7958 \pm 0.0631$ & $0.6095 \pm 0.1472$ & $\mathbf{0.6733 \pm 0.0978}$ & $0.8628 \pm 0.0326$ \\
+\midrule
+\textbf{200} & Linear SVM & Classical & PCA 2 & 0 & $0.9421 \pm 0.0159$ & $0.9254 \pm 0.0267$ & $0.9238 \pm 0.0318$ & $\mathbf{0.9234 \pm 0.0213}$ & $0.9867 \pm 0.0079$ \\
+200 & RBF SVM & Classical & PCA 2 & 0 & $0.9316 \pm 0.0157$ & $0.9132 \pm 0.0288$ & $0.9048 \pm 0.0352$ & $0.9066 \pm 0.0202$ & $0.9864 \pm 0.0045$ \\
+200 & QSVC (reps=1, full) & Quantum & PCA 2 & 2 & $0.8877 \pm 0.0144$ & $0.8711 \pm 0.0318$ & $0.8190 \pm 0.0487$ & $\mathbf{0.8406 \pm 0.0259}$ & $0.9453 \pm 0.0115$ \\
+\addlinespace
+200 & Linear SVM & Classical & PCA 4 & 0 & $0.9579 \pm 0.0157$ & $0.9534 \pm 0.0235$ & $0.9333 \pm 0.0318$ & $\mathbf{0.9429 \pm 0.0210}$ & $0.9910 \pm 0.0029$ \\
+200 & RBF SVM & Classical & PCA 4 & 0 & $0.9509 \pm 0.0159$ & $0.9438 \pm 0.0267$ & $0.9286 \pm 0.0318$ & $0.9337 \pm 0.0216$ & $0.9907 \pm 0.0047$ \\
+200 & QSVC (reps=1, full) & Quantum & PCA 4 & 4 & $0.8579 \pm 0.0287$ & $0.8465 \pm 0.0538$ & $0.7619 \pm 0.0768$ & $\mathbf{0.7943 \pm 0.0440}$ & $0.9298 \pm 0.0148$ \\
+\midrule
+\textbf{300} & Linear SVM & Classical & PCA 2 & 0 & $0.9439 \pm 0.0268$ & $0.9278 \pm 0.0388$ & $0.9286 \pm 0.0352$ & $\mathbf{0.9258 \pm 0.0328}$ & $0.9892 \pm 0.0038$ \\
+300 & RBF SVM & Classical & PCA 2 & 0 & $0.9386 \pm 0.0184$ & $0.9245 \pm 0.0288$ & $0.9143 \pm 0.0352$ & $0.9168 \pm 0.0238$ & $0.9868 \pm 0.0042$ \\
+300 & QSVC (reps=1, full) & Quantum & PCA 2 & 2 & $0.9000 \pm 0.0190$ & $0.8934 \pm 0.0392$ & $0.8333 \pm 0.0435$ & $\mathbf{0.8587 \pm 0.0244}$ & $0.9554 \pm 0.0135$ \\
+\addlinespace
+300 & Linear SVM & Classical & PCA 4 & 0 & $0.9649 \pm 0.0115$ & $0.9632 \pm 0.0188$ & $0.9429 \pm 0.0213$ & $\mathbf{0.9525 \pm 0.0141}$ & $0.9934 \pm 0.0031$ \\
+300 & RBF SVM & Classical & PCA 4 & 0 & $0.9561 \pm 0.0159$ & $0.9487 \pm 0.0235$ & $0.9333 \pm 0.0318$ & $0.9398 \pm 0.0205$ & $0.9918 \pm 0.0039$ \\
+300 & QSVC (reps=1, full) & Quantum & PCA 4 & 4 & $0.8877 \pm 0.0237$ & $0.8654 \pm 0.0487$ & $0.8286 \pm 0.0487$ & $\mathbf{0.8436 \pm 0.0335}$ & $0.9458 \pm 0.0188$ \\
+\midrule
+\textbf{455} & Linear SVM & Classical & PCA 2 & 0 & $0.9509 \pm 0.0078$ & $0.9266 \pm 0.0318$ & $0.9429 \pm 0.0213$ & $\mathbf{0.9341 \pm 0.0093}$ & $0.9894 \pm 0.0030$ \\
+455 & RBF SVM & Classical & PCA 2 & 0 & $0.9456 \pm 0.0096$ & $0.9245 \pm 0.0182$ & $0.9286 \pm 0.0238$ & $0.9263 \pm 0.0133$ & $0.9810 \pm 0.0119$ \\
+455 & QSVC (reps=1, full) & Quantum & PCA 2 & 2 & $0.9070 \pm 0.0237$ & $0.9064 \pm 0.0457$ & $0.8381 \pm 0.0832$ & $\mathbf{0.8678 \pm 0.0388}$ & $0.9644 \pm 0.0244$ \\
+\addlinespace
+455 & Linear SVM & Classical & PCA 4 & 0 & $0.9684 \pm 0.0100$ & $0.9671 \pm 0.0255$ & $0.9476 \pm 0.0391$ & $\mathbf{0.9565 \pm 0.0143}$ & $0.9952 \pm 0.0029$ \\
+455 & RBF SVM & Classical & PCA 4 & 0 & $0.9561 \pm 0.0139$ & $0.9434 \pm 0.0244$ & $0.9381 \pm 0.0398$ & $0.9401 \pm 0.0198$ & $0.9935 \pm 0.0045$ \\
+455 & QSVC (reps=1, full) & Quantum & PCA 4 & 4 & $0.9053 \pm 0.0423$ & $0.8748 \pm 0.0767$ & $0.8762 \pm 0.0832$ & $\mathbf{0.8721 \pm 0.0556}$ & $0.9581 \pm 0.0227$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\newpage
+\section*{Supplementary Section S2: Computational Complexity and Hardware Profiling}
+
+\begin{table}[htbp]
+\centering
+\caption{Execution Time, Computational Complexity, and Storage Footprint.}
+\label{tab:supp_runtime}
+\vspace{2mm}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+Pipeline Stage / Architecture & Platform & Qubits & Mean Runtime (s) & Rel. Cost & Time Complexity & Memory Complexity \\
+\midrule
+Linear SVM (PCA 2) & CPU LibSVM & 0 & $0.0048 \pm 0.0007$ & $1.0\times$ (Ref) & $\mathcal{O}(N_{\text{train}} \cdot d)$ & $\mathcal{O}(N_{\text{train}} \cdot d)$ \\
+RBF SVM (PCA 2) & CPU LibSVM & 0 & $0.0072 \pm 0.0024$ & $1.5\times$ & $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ & $\mathcal{O}(N_{\text{train}} \cdot d)$ \\
+Linear SVM (PCA 4) & CPU LibSVM & 0 & $0.0083 \pm 0.0061$ & $1.7\times$ & $\mathcal{O}(N_{\text{train}} \cdot d)$ & $\mathcal{O}(N_{\text{train}} \cdot d)$ \\
+RBF SVM (PCA 4) & CPU LibSVM & 0 & $0.0071 \pm 0.0019$ & $1.5\times$ & $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ & $\mathcal{O}(N_{\text{train}} \cdot d)$ \\
+QSVC (2Q Statevector) & Vectorized CPU & 2 & $0.2257 \pm 0.0232$ & $\sim 47\times$ & $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ & $\mathcal{O}(N^2)$ ($2.07$\,MB) \\
+QSVC (4Q Statevector) & Vectorized CPU & 4 & $0.6599 \pm 0.0863$ & $\sim 80\times$ & $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ & $\mathcal{O}(N^2)$ ($2.07$\,MB) \\
+\midrule
+\textit{Historical 2Q ComputeUncompute} & Circuit Pair Sampler & 2 & $120.5 \pm 15.2$ & $\sim 25,000\times$ & $\mathcal{O}(N^2)$ circuit pairs & $\mathcal{O}(N^2)$ Gram \\
+\textit{Historical 4Q ComputeUncompute} & Circuit Pair Sampler & 4 & $455.0 \pm 40.0$ & $\sim 55,000\times$ & $\mathcal{O}(N^2)$ circuit pairs & $\mathcal{O}(N^2)$ Gram \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\bigskip
+
+\section*{Supplementary Section S3: Supplementary Diagnostic Figures}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{final_paired_f1_differences.png}
+\caption{\textbf{Figure S1: Paired Split-Level F1 Differences.} Distribution of paired differences $\Delta = \text{F1}_{\text{Classical}} - \text{F1}_{\text{QSVC}}$ across five outer test splits. Classical models achieve higher malignant F1 scores on 5/5 splits in both PCA 2 and PCA 4 representations.}
+\label{fig:supp_paired}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{final_roc_auc_comparison.png}
+\caption{\textbf{Figure S2: Outer-Test ROC-AUC Comparison.} Mean receiver operating characteristic area under curve across five outer splits comparing classical and quantum models.}
+\label{fig:supp_roc}
+\end{figure}
+
+\end{document}
