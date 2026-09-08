@@ -1,0 +1,21 @@
+# Phase 11 Nested Hyperparameter Tuning Configuration
+inner_folds: 5
+selection_metric: "inner_cv_f1_mean"
+tie_tolerance: 1e-12
+
+seeds:
+  - 42
+  - 123
+  - 456
+  - 789
+  - 2026
+
+bootstrap:
+  n_resamples: 10000
+  seed: 42
+  alpha: 0.05
+
+comparisons:
+  - "Classical PCA2 vs QSVC PCA2"
+  - "Classical PCA4 vs QSVC PCA4"
+  - "QSVC PCA2 vs QSVC PCA4"

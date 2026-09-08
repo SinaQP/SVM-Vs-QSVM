@@ -1,0 +1,4 @@
+Comparison,Metric,N Outer Splits,Mean Paired Diff,Median Paired Diff,std_paired_difference,Classical/Left Wins,Quantum/Right Wins,ties,Bootstrap 95% CI Low,Bootstrap 95% CI High,Wilcoxon W,Raw p-value,Holm-Adjusted p-value,method,Inferential Limitation
+Classical PCA2 vs QSVC PCA2,f1,5,0.0661692157135678,0.0697674418604651,0.0392043916215256,5,0,0,0.0388317703096929,0.0976646437501435,0.0,0.0625,0.1875,exact,Exploratory: five overlapping splits do not establish independent observations.
+Classical PCA4 vs QSVC PCA4,f1,5,0.0771906105359921,0.0885802469135802,0.0416721243162038,5,0,0,0.0444796270094057,0.1092227710194144,0.0,0.0625,0.1875,exact,Exploratory: five overlapping splits do not establish independent observations.
+QSVC PCA2 vs QSVC PCA4,f1,5,-0.0042995059166028,-0.0154104791258055,0.0316914926466113,2,3,0,-0.0291214022359845,0.0200534806221422,6.0,0.8125,0.8125,exact,Exploratory: five overlapping splits do not establish independent observations.

@@ -1,0 +1,9 @@
+Stage / Architecture,Environment,N_train,N_test,Runtime_Mean_s,Runtime_SD_s,Computational_Complexity,Memory_Complexity
+Linear SVM PCA 2 (CPU fit+predict),Classical CPU (Scikit-Learn LibSVM),455,114,0.00483392000023736,0.0006988787640893366,O(N_train * d) to O(N_train^2 * d),O(N_train * d)
+RBF SVM PCA 2 (CPU fit+predict),Classical CPU (Scikit-Learn LibSVM),455,114,0.0072198799998658995,0.00239659429420988,O(N_train^2 * d),O(N_train * d)
+Linear SVM PCA 4 (CPU fit+predict),Classical CPU (Scikit-Learn LibSVM),455,114,0.00829144000017544,0.006089582774779224,O(N_train * d) to O(N_train^2 * d),O(N_train * d)
+RBF SVM PCA 4 (CPU fit+predict),Classical CPU (Scikit-Learn LibSVM),455,114,0.007072940000034519,0.0018526864743651458,O(N_train^2 * d),O(N_train * d)
+QSVC PCA 2 / 2Q (Statevector Gen + Gram + Fit/Predict),Optimized Exact Statevector CPU Simulation,455,114,0.22568127999984416,0.023178905399540393,O(N * 2^q + N^2 * 2^q),O(N_train^2) Gram matrix float64
+QSVC PCA 4 / 4Q (Statevector Gen + Gram + Fit/Predict),Optimized Exact Statevector CPU Simulation,455,114,0.6598707800001649,0.08629663808265252,O(N * 2^q + N^2 * 2^q),O(N_train^2) Gram matrix float64
+Historical Baseline: 2Q QSVC (ComputeUncompute pairs),Circuit-Pair Local Simulator (Phase 5/7 historical),455,114,120.5,15.2,O(N_train^2) circuit evaluations,O(N_train^2) Gram matrix float64
+Historical Baseline: 4Q QSVC (ComputeUncompute pairs),Circuit-Pair Local Simulator (Phase 5/7 historical),455,114,455.0,40.0,O(N_train^2) circuit evaluations,O(N_train^2) Gram matrix float64

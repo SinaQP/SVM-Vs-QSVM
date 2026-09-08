@@ -1,4 +1,32 @@
+# Virtual environment
 .venv/
-.ipynb_checkpoints/
+env/
+venv/
+ENV/
+
+# Python cache and bytecode
 __pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing & Jupyter runtime
 .pytest_cache/
+.ipynb_checkpoints/
+results/phase11_notebook_execution.json
+
+# Reproduction scratch outputs (protects canonical results)
+results/reproduced/
+
+# Local IDE and editor configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db

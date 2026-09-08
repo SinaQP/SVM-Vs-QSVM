@@ -9,14 +9,14 @@ import sys
 import nbformat
 from nbclient import NotebookClient
 
-root = Path(__file__).resolve().parent
+root = Path(__file__).resolve().parent.parent
 os.chdir(root)
 os.environ["PYTHONIOENCODING"] = "utf-8"
 os.environ["MPLBACKEND"] = "module://matplotlib_inline.backend_inline"
 os.environ["JUPYTER_RUNTIME_DIR"] = str(root / ".venv" / "jupyter-runtime")
 os.environ["IPYTHONDIR"] = str(root / ".venv" / "ipython")
 sys.stdout.reconfigure(encoding="utf-8")
-notebook_path = root / "svm_vs_qsvm_setup.ipynb"
+notebook_path = root / "notebooks" / "svm_vs_qsvm_setup.ipynb"
 notebook = nbformat.read(notebook_path, as_version=4)
 for cell in notebook.cells:
     if cell.cell_type == "code":

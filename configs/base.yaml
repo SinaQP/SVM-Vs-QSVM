@@ -1,0 +1,39 @@
+# Base experimental configuration for Classical SVM vs Quantum SVM
+dataset:
+  name: "breast_cancer_wisconsin"
+  source: "sklearn.datasets.load_breast_cancer"
+  n_samples: 569
+  n_features: 30
+  positive_label: 0  # 0: Malignant, 1: Benign
+  test_size: 0.20
+
+seeds:
+  - 42
+  - 123
+  - 456
+  - 789
+  - 2026
+
+pca_components:
+  - 2
+  - 4
+
+quantum:
+  feature_map: "ZZ"
+  reps: 1
+  entanglement: "full"
+  input_range: [0.0, 3.141592653589793]  # [0, pi]
+
+hyperparameters:
+  C_values:
+    - 0.01
+    - 0.1
+    - 1.0
+    - 10.0
+    - 100.0
+  gamma_values:
+    - "scale"
+    - "auto"
+    - 0.01
+    - 0.1
+    - 1.0

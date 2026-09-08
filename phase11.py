@@ -611,3 +611,15 @@ def research_report(selected, summary, comparisons, tests, tuning_comparison, va
     report = "\n".join(lines)
     (Path(directory) / "phase11_report.md").write_text(report, encoding="utf-8")
     return report
+
+
+def run_all(directory="results"):
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    selected, comparators = tune_all(directory)
+    outer, summary = evaluate_all(selected, directory)
+    pairs, effects, statistics, comparison = analyze(outer, comparators, directory)
+    plot_results(summary, pairs, comparison, directory)
+    validation = validate_results(directory)
+    report = research_report(selected, summary, comparators, statistics, comparison, validation, directory)
+    return {"selected": selected, "outer": outer, "summary": summary, "validation": validation}

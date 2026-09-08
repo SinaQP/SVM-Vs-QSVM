@@ -1,0 +1,22 @@
+# Phase 9 Quantum Feature-Map Ablation Study Configuration
+pca_components:
+  - 2
+  - 4
+
+reps_list:
+  - 1
+  - 2
+  - 3
+
+entanglement_list:
+  - "linear"
+  - "full"
+
+fixed_C: 1.0
+
+seeds:
+  - 42
+  - 123
+  - 456
+  - 789
+  - 2026
