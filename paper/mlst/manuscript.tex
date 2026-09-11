@@ -173,9 +173,9 @@ where $\rho(\mathbf{x}) = |\psi(\mathbf{x})\rangle\langle\psi(\mathbf{x})|$ is t
 \subsection{Statevector Simulation Engine}
 Kernel matrices are evaluated exactly for the specified noiseless feature map via statevector linear algebra on classical CPUs:
 \begin{equation}
-\mathbf{K} = |\mathbf{\Psi} \mathbf{\Psi}^\dagger|^2
+K_{ij} = \left|\langle \psi(\mathbf{x}_i) \mid \psi(\mathbf{x}_j) \rangle\right|^2
 \end{equation}
-where $\mathbf{\Psi} \in \mathbb{C}^{N \times 2^n}$ represents the matrix of statevectors. Gram matrix diagonals are explicitly enforced to $K_{i,i} = 1.0$, and numerical symmetry and positive semi-definiteness ($\text{eigvals} \ge -10^{-10}$) are verified.
+Equivalently, if $\mathbf{\Psi} \in \mathbb{C}^{N \times 2^n}$ is the matrix whose rows are statevectors, each entry of $\mathbf{\Psi}\mathbf{\Psi}^{\dagger}$ is converted to its element-wise squared modulus. Gram matrix diagonals are explicitly enforced to $K_{i,i} = 1.0$, and numerical symmetry and positive semi-definiteness ($\text{eigvals} \ge -10^{-10}$) are verified.
 
 \noindent\textbf{Simulation vs.\ Hardware Distinction:} Exact statevector simulation evaluates mathematical inner products directly without shot noise, gate infidelities, or decoherence~\cite{peters2021machine}. It provides an ideal representation of the feature-map geometry but does \textbf{not} represent physical quantum processor (QPU) execution latencies.
 
@@ -422,7 +422,7 @@ In the measured CPU implementation, exact statevector QSVC pipelines took roughl
 \subsection{Scope and Boundaries of Conclusions}
 To avoid over-generalizing our negative result, we explicitly delineate the scientific scope of our findings:
 \begin{itemize}
-    \item \textbf{What is Ruled Out:} For the Wisconsin Diagnostic Breast Cancer dataset, evaluated under PCA compression to 2 and 4 dimensions using standard fixed Second-Order Pauli-Z expansion (\texttt{ZZFeatureMap}), QSVC offers no empirical advantage over properly tuned classical Linear or RBF SVMs in predictive accuracy, malignant F1, sample efficiency, or computational cost.
+    \item \textbf{What Was Not Observed:} Within the evaluated Wisconsin Diagnostic Breast Cancer setting---PCA compression to 2 and 4 dimensions, corresponding 2Q and 4Q fixed Second-Order Pauli-Z feature maps, the predefined outer splits, and exact statevector simulation---no QSVC advantage over the tuned classical Linear or RBF SVM comparators was observed in the reported predictive or computational measures.
     \item \textbf{What Remains Open:} These findings do not rule out quantum advantages for: (a) alternative quantum feature maps, including data re-uploading or trainable kernels; (b) projected quantum kernels designed to mitigate concentration~\cite{huang2021power}; (c) larger representations whose simulation cost depends on circuit structure, algorithms, and hardware; or (d) inherently quantum data for which classical kernels may lack a natural representation.
 \end{itemize}
 
@@ -444,7 +444,7 @@ To maintain scientific rigor, we explicitly enumerate the methodological limitat
 \end{enumerate}
 
 \section{Conclusion and Future Work}
-This study conducted a controlled, leakage-free empirical comparison of Classical Support Vector Machines and Quantum Support Vector Classifiers on the Wisconsin Diagnostic Breast Cancer dataset. Across all evaluated dimensions, metrics, and outer train/test partitions:
+This study conducted a controlled, leakage-free empirical comparison of Classical Support Vector Machines and Quantum Support Vector Classifiers on the Wisconsin Diagnostic Breast Cancer dataset. Across the evaluated configurations and aggregate predictive metrics:
 \begin{enumerate}
     \item Tuned classical SVM baselines consistently achieved higher descriptive predictive accuracy and malignant F1 scores than QSVC (Classical F1 $\approx 0.934$ vs.\ QSVC $\approx 0.868$ in 2Q; Classical F1 $\approx 0.949$ vs.\ QSVC $\approx 0.872$ in 4Q).
     \item Classical models outperformed QSVC across all five outer cross-validation splits without exception (5/5 wins in both 2D and 4D).

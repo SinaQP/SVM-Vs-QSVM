@@ -168,8 +168,8 @@ $$\dim \mathcal{B}(\mathcal{H}) = (2^n)^2 = 4^n$$
 
 ### 7.3 Statevector Simulation Engine
 To evaluate the ideal, noise-free kernel defined by the selected circuits, kernel matrices are computed by exact statevector linear algebra on classical CPUs:
-$$\mathbf{K} = |\mathbf{\Psi} \mathbf{\Psi}^\dagger|^2$$
-where $\mathbf{\Psi} \in \mathbb{C}^{N \times 2^n}$ represents the matrix of statevectors. Gram matrix diagonals are explicitly enforced to $K_{i,i} = 1.0$, and numerical symmetry and positive semi-definiteness ($eigvals \ge -10^{-10}$) are verified. 
+$$K_{ij} = \left|\langle \psi(\mathbf{x}_i) \mid \psi(\mathbf{x}_j) \rangle\right|^2.$$
+Equivalently, if $\mathbf{\Psi} \in \mathbb{C}^{N \times 2^n}$ is the matrix whose rows are statevectors, each entry of $\mathbf{\Psi}\mathbf{\Psi}^{\dagger}$ is converted to its element-wise squared modulus. Gram matrix diagonals are explicitly enforced to $K_{i,i} = 1.0$, and numerical symmetry and positive semi-definiteness ($eigvals \ge -10^{-10}$) are verified.
 
 *Simulation vs Hardware Distinction:* Exact statevector simulation evaluates mathematical inner products directly without shot noise, gate infidelities, or decoherence [peters2021machine]. It provides an ideal representation of the feature-map geometry but does **not** represent physical quantum processor (QPU) execution latencies.
 
@@ -371,7 +371,7 @@ In the measured CPU implementation, exact statevector QSVC pipelines took roughl
 
 ### 15.6 What Can and Cannot Be Concluded About Quantum Advantage
 To avoid over-generalizing our negative result, we explicitly delineate the scientific scope of our findings:
-* **What is Ruled Out:** For the Wisconsin Diagnostic Breast Cancer dataset, evaluated under PCA compression to 2 and 4 dimensions using standard fixed Second-Order Pauli-Z expansion (`ZZFeatureMap`), QSVC offers no empirical advantage over properly tuned classical Linear or RBF SVMs in predictive accuracy, malignant F1, sample efficiency, or computational cost.
+* **What Was Not Observed:** Within the evaluated Wisconsin Diagnostic Breast Cancer setting—PCA compression to 2 and 4 dimensions, corresponding 2Q and 4Q fixed Second-Order Pauli-Z feature maps, the predefined outer splits, and exact statevector simulation—no QSVC advantage over the tuned classical Linear or RBF SVM comparators was observed in the reported predictive or computational measures.
 * **What Remains Open:** These findings do not rule out different outcomes for: (a) alternative or trainable quantum feature maps, (b) projected quantum kernels designed to mitigate concentration [huang2021power], (c) qubit counts beyond the tractable range of the exact simulator and resources used here, or (d) inherently quantum data for which classical representation is itself costly.
 
 ---
@@ -397,7 +397,7 @@ To maintain scientific rigor, we explicitly enumerate the methodological limitat
 
 ## 17. Conclusion
 
-This study conducted a controlled, leakage-free empirical comparison of Classical Support Vector Machines and Quantum Support Vector Classifiers on the Wisconsin Diagnostic Breast Cancer dataset. Across all evaluated dimensions, metrics, and outer train/test partitions:
+This study conducted a controlled, leakage-free empirical comparison of Classical Support Vector Machines and Quantum Support Vector Classifiers on the Wisconsin Diagnostic Breast Cancer dataset. Across the evaluated configurations and aggregate predictive metrics:
 
 1. Tuned classical SVM baselines consistently achieved higher descriptive predictive accuracy and malignant F1 scores than QSVC (Classical F1 $\approx 0.934$ vs. QSVC $\approx 0.868$ in 2Q; Classical F1 $\approx 0.949$ vs. QSVC $\approx 0.872$ in 4Q).
 2. Classical models outperformed QSVC across all five outer cross-validation splits without exception (5/5 wins in both 2D and 4D).
@@ -460,7 +460,7 @@ python scripts/validate_project.py
 28. [schuld2021supervised] Schuld, M. (2021). Supervised quantum machine learning models are kernel methods. *PRX Quantum*, 2(4), 040315. doi:10.1103/PRXQuantum.2.040315.
 29. [shaydulin2022importance] Shaydulin, R., & Wild, S. M. (2022). Importance of Kernel Bandwidth in Quantum Machine Learning. *Physical Review A*, 106(4), 042407. doi:10.1103/PhysRevA.106.042407.
 30. [street1993nuclear] Street, W. N., Wolberg, W. H., & Mangasarian, O. L. (1993). Nuclear feature extraction for breast tumor diagnosis. *IS&T/SPIE 1993 International Symposium on Electronic Imaging*, 1905, 861–870. doi:10.1117/12.148698.
-31. [suzuki2020analysis] Suzuki, Y., Yano, H., Uno, S., Uno, S., & Yamamoto, N. (2020). Analysis and synthesis of feature map for kernel-based quantum classifier. *Quantum Machine Intelligence*, 2(1), 9. doi:10.1007/s42484-020-00020-y.
+31. [suzuki2020analysis] Suzuki, Y., Yano, H., Gao, Q., Uno, S., Tanaka, T., Akiyama, M., & Yamamoto, N. (2020). Analysis and synthesis of feature map for kernel-based quantum classifier. *Quantum Machine Intelligence*, 2, Article 9. doi:10.1007/s42484-020-00020-y.
 32. [tang2019quantum] Tang, E. (2019). A quantum-inspired classical algorithm for recommendation systems. In *Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing (STOC 2019)*, 217–228. doi:10.1145/3313276.3316310.
 33. [thanasilp2023subtleties] Thanasilp, S., Wang, S., Nghiem, N. A., Coles, P., & Cerezo, M. (2023). Subtleties in the trainability of quantum machine learning models. *Quantum Science and Technology*, 8(3), 035014. doi:10.1088/2058-9565/acd569.
 34. [thanasilp2024exponential] Thanasilp, S., Wang, S., Cerezo, M., & Holmes, Z. (2024). Exponential concentration and untrainability in quantum kernel methods. *Nature Communications*, 15(1), 5200. doi:10.1038/s41467-024-49287-w.
