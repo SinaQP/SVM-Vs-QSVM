@@ -1,0 +1,25 @@
+# Corrected fully nested QSVC architecture and C selection
+seeds: [42, 123, 456, 789, 2026]
+outer_test_size: 0.20
+inner_folds: 5
+representations: [2, 4]
+reps: [1, 2, 3]
+entanglement:
+  2: [linear]  # linear == full for the single pair present with two qubits
+  4: [linear, full]
+C: [0.01, 0.1, 1.0, 10.0, 100.0]
+selection_metric: malignant_f1
+positive_label: 0
+tie_tolerance: 1.0e-12
+tie_breaking:
+  - higher_mean_inner_malignant_f1
+  - lower_reps
+  - simpler_entanglement_linear_before_full
+  - smaller_C
+bootstrap:
+  seed: 42
+  n_resamples: 10000
+  alpha: 0.05
+kernel_backend: exact_statevector_gram
+quantum_range: [0.0, pi]
+

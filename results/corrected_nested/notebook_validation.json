@@ -1,0 +1,12 @@
+{
+  "status": "STOPPED_TO_PRESERVE_SCOPE",
+  "execution_location": "isolated temporary repository copy",
+  "workspace_artifacts_modified": false,
+  "started_utc": "2026-09-11T13:07:32.938102+00:00",
+  "elapsed_seconds_before_stop": 353.3334339,
+  "completed_code_cells": 27,
+  "stopped_at_notebook_cell": 46,
+  "stopped_at_source": "quantum_sampler_4 = QMLSampler(shots=None, seed=RANDOM_SEED)",
+  "reason": "The existing main notebook replays historical ComputeUncompute experiments. Continuing would violate the task scope of corrected nested evaluation only. The corrected pipeline itself completed independently and was fully tested.",
+  "error": null
+}

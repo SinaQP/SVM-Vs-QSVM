@@ -31,7 +31,13 @@ def validate_environment():
 def validate_configs():
     print("[2/6] Validating configuration files in configs/...")
     from svm_vs_qsvm.utils import load_config
-    configs = ["base.yaml", "phase9_ablation.yaml", "phase10_scaling.yaml", "phase11_tuning.yaml"]
+    configs = [
+        "base.yaml",
+        "phase9_ablation.yaml",
+        "phase10_scaling.yaml",
+        "phase11_tuning.yaml",
+        "corrected_nested.yaml",
+    ]
     for cfg in configs:
         p = ROOT / "configs" / cfg
         assert p.exists(), f"Missing config: {p}"
@@ -117,8 +123,14 @@ def emit_validation_manifest():
         }
     }
     out_path = ROOT / "results" / "final" / "repository_validation.json"
-    out_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(f"Validation manifest saved to {out_path}")
+    # The Phase 13 manifest is a frozen historical artifact. Avoid rewriting it
+    # when the semantic validation record is already identical.
+    if out_path.exists() and json.loads(out_path.read_text(encoding="utf-8")) == manifest:
+        print(f"Frozen validation manifest already current; preserved {out_path}")
+    else:
+        raise RuntimeError(
+            "Refusing to overwrite frozen results/final/repository_validation.json"
+        )
 
 
 def main():

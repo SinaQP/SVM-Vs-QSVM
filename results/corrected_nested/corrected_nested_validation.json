@@ -1,0 +1,117 @@
+{
+  "status": "PASS",
+  "experiment": "corrected fully nested joint QSVC architecture and C selection",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    2026
+  ],
+  "outer_split": "stratified 80/20; same predefined seeds as historical analysis",
+  "search_space": {
+    "PCA2_2Q": {
+      "reps": [
+        1,
+        2,
+        3
+      ],
+      "entanglement": [
+        "linear"
+      ],
+      "C": [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0
+      ]
+    },
+    "PCA4_4Q": {
+      "reps": [
+        1,
+        2,
+        3
+      ],
+      "entanglement": [
+        "linear",
+        "full"
+      ],
+      "C": [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0
+      ]
+    }
+  },
+  "two_qubit_topology_note": "linear and full contain the identical sole qubit pair; linear is the nonredundant canonical spelling",
+  "preprocessing_policy": "fit StandardScaler, PCA, and MinMaxScaler[0,pi] on each inner-training fold only; refit on complete outer train after selection",
+  "selection_metric": "mean inner-CV malignant-class F1; positive label 0",
+  "tie_breaking": [
+    "higher mean inner F1",
+    "lower reps",
+    "linear before full",
+    "smaller C"
+  ],
+  "selection_frozen_before_outer_evaluation": true,
+  "outer_test_evaluations": 10,
+  "inner_candidate_fold_rows": 1125,
+  "unique_fold_architecture_gram_caches": 225,
+  "predictions_saved": 1140,
+  "classical_comparator_audit": {
+    "status": "PASS",
+    "selection_inputs": "inner-fold malignant F1 within each outer-training partition",
+    "selected_choices": 10,
+    "raw_candidate_fold_rows_verified": 1500,
+    "outer_metrics_used_for_selection": false
+  },
+  "notebook_validation": {
+    "status": "STOPPED_TO_PRESERVE_SCOPE",
+    "execution_location": "isolated temporary repository copy",
+    "workspace_artifacts_modified": false,
+    "started_utc": "2026-09-11T13:07:32.938102+00:00",
+    "elapsed_seconds_before_stop": 353.3334339,
+    "completed_code_cells": 27,
+    "stopped_at_notebook_cell": 46,
+    "stopped_at_source": "quantum_sampler_4 = QMLSampler(shots=None, seed=RANDOM_SEED)",
+    "reason": "The existing main notebook replays historical ComputeUncompute experiments. Continuing would violate the task scope of corrected nested evaluation only. The corrected pipeline itself completed independently and was fully tested.",
+    "error": null
+  },
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.5.2",
+    "pandas": "2.3.2",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.17.1",
+    "qiskit": "2.5.0",
+    "qiskit-machine-learning": "0.9.0",
+    "pyyaml": "6.0.3"
+  },
+  "dataset_sha256": "25e2eb7b7a8745b1bde5ba18bc4969983d2e2f403291ecd5bde4a29ef30c3859",
+  "implementation_sha256": "0bead20a840774cb7fb7621ca8b67840ff4b10ed2861b7d4c99c730919650e8a",
+  "configuration_sha256": "5362ec8688a168096cd276995736d3fec3451e24b614e095b31c332cec0d3c1f",
+  "output_sha256": {
+    "qsvc_inner_search_raw.csv": "8b2a69045eab75cecb02b48166376f0c340119654f0ad1c440d25d4692f934bb",
+    "qsvc_selected_configurations.csv": "97da294f38d934eaaa233e82beb3d9136e0fe823e9c51e943270912e0ba9a93e",
+    "qsvc_outer_test_results.csv": "3bcb6ab5f22b9466de52b5ee591786e9c709ec4d1fbd0316dede6c50707468da",
+    "qsvc_outer_test_predictions.csv": "919e58925ccc01a1bb1adba7480f51210a5326638ac8cfd9714504b7c15e67df",
+    "qsvc_outer_test_summary.csv": "16b538be9d8008f02a95842f1b5a6b53b7a2f6036db410747372176f32755592",
+    "qsvc_selection_frequency.csv": "4bd541727095d419a36f2f2b26a0119ff9d5d4885287c546de047ecb2d0c2e48",
+    "qsvc_selection_bias_audit.md": "e41ef4c20c4d828817ba2a4d538a58a18307eb4c07973d79aaecaa2679c66643",
+    "corrected_vs_historical.csv": "32c2c32aef4f0463e6b829c5b79ff531af98d929b0c72f4e7ee2703a2127ccd9",
+    "corrected_statistical_comparison.csv": "85e4ce360d3a06eeb7433b501a8f4bb825e21b3fd2c496bf3d3383aa90438443",
+    "corrected_nested_report.md": "2bec08b85a61fb29fe91e148d9ce0231d936ebe990c8ee3098b4e0172a66824a",
+    "notebook_validation.json": "d392e97c2821d86885c47feacb62887cd6aef30c384ba0fe7b92b6f689fd973f"
+  },
+  "failed_corrected_runs": 0,
+  "historical_results_or_paper_git_diff": [],
+  "historical_results_modified": false,
+  "limitations": [
+    "n=5 and outer splits overlap, so split-level inference is exploratory",
+    "post hoc reanalysis of a dataset and partitions inspected during exploratory development",
+    "procedural leakage is removed, but study-level adaptivity remains",
+    "exact CPU statevector simulation is not quantum-hardware execution"
+  ]
+}
