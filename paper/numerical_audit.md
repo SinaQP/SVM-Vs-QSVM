@@ -3,8 +3,8 @@
 **Project:** A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification  
 **Artifact Release:** `v1.0.0` (Frozen Canonical Results)  
 **Audit Date:** September 2026  
-**Auditor:** Antigravity Scientific Review Agent  
-**Status:** COMPLETE — 100% NUMERICAL CONSISTENCY VERIFIED
+**Auditor:** Final quality-review pass
+**Status:** COMPLETE — detected discrepancies corrected; no unresolved mismatches in audited reporting
 
 ---
 
@@ -132,10 +132,14 @@ Source: `results/final/final_kernel_comparison.csv` and `results/final/final_fea
 | **4Q Off-Diagonal Mean ± SD** | $0.096085 \pm 0.003162$ | $0.0961 \pm 0.0032$ | **VERIFIED** |
 | **4Q Off-Diagonal Std ± SD** | $0.101488 \pm 0.004626$ | $0.1015 \pm 0.0046$ | **VERIFIED** |
 | **4Q Effective Rank Mean ± SD** | $96.485124 \pm 5.414778$ | $96.49 \pm 5.41$ | **VERIFIED** |
-| **PCA 2 CKA Alignment Mean ± SD** | $0.573183 \pm 0.157833$ | $0.5732 \pm 0.1578$ | **VERIFIED** |
-| **PCA 2 Frobenius Alignment Mean ± SD** | $0.834374 \pm 0.032695$ | $0.8344 \pm 0.0327$ | **VERIFIED** |
-| **PCA 4 CKA Alignment Mean ± SD** | $0.337525 \pm 0.071842$ | $0.3375 \pm 0.0718$ | **VERIFIED** |
-| **PCA 4 Frobenius Alignment Mean ± SD** | $0.716166 \pm 0.011883$ | $0.7162 \pm 0.0119$ | **VERIFIED** |
+| **PCA 2 CKA Alignment Mean ± SD** | $0.573183 \pm 0.154779$ | $0.5732 \pm 0.1548$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 2 Uncentered Frobenius Alignment Mean ± SD** | $0.834374 \pm 0.032039$ | $0.8344 \pm 0.0320$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 4 CKA Alignment Mean ± SD** | $0.337525 \pm 0.070410$ | $0.3375 \pm 0.0704$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 4 Uncentered Frobenius Alignment Mean ± SD** | $0.716166 \pm 0.011739$ | $0.7162 \pm 0.0117$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 2 RBF Effective Rank Mean ± SD** | $6.520275 \pm 4.146100$ | $6.52 \pm 4.15$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 4 RBF Effective Rank Mean ± SD** | $6.969539 \pm 5.007162$ | $6.97 \pm 5.01$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 2 RBF Off-Diagonal Mean ± SD** | $0.489458 \pm 0.236174$ | $0.4895 \pm 0.2362$ | **VERIFIED AFTER CORRECTION** |
+| **PCA 4 RBF Off-Diagonal Mean ± SD** | $0.546526 \pm 0.189197$ | $0.5465 \pm 0.1892$ | **VERIFIED AFTER CORRECTION** |
 
 ---
 
@@ -173,20 +177,26 @@ Source: `results/statistical_tests.csv` ($n=5$ paired outer splits)
 
 Source: `results/final/final_runtime_summary.csv` ($N_{\text{train}}=455, N_{\text{test}}=114$)
 
-| Component | Mean Runtime (s) | SD (s) | Relative Cost | Time Complexity | Memory Complexity | Audit Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :---: |
-| **Linear SVM (PCA 2)** | $0.004834$ | $0.000699$ | $1.0\times$ (ref) | $\mathcal{O}(N_{\text{train}} \cdot d)$ to $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ | $\mathcal{O}(N_{\text{train}} \cdot d)$ | **VERIFIED** |
-| **RBF SVM (PCA 2)** | $0.007220$ | $0.002397$ | $\sim 1.5\times$ | $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ | $\mathcal{O}(N_{\text{train}} \cdot d)$ | **VERIFIED** |
-| **Linear SVM (PCA 4)** | $0.008291$ | $0.006090$ | $\sim 1.7\times$ | $\mathcal{O}(N_{\text{train}} \cdot d)$ to $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ | $\mathcal{O}(N_{\text{train}} \cdot d)$ | **VERIFIED** |
-| **RBF SVM (PCA 4)** | $0.007073$ | $0.001853$ | $\sim 1.5\times$ | $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ | $\mathcal{O}(N_{\text{train}} \cdot d)$ | **VERIFIED** |
-| **QSVC (2Q Statevector)** | $0.225681$ | $0.023179$ | $\sim 47\times$ | $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ | $\mathcal{O}(N_{\text{train}}^2)$ Gram (2.07 MB) | **VERIFIED** |
-| **QSVC (4Q Statevector)** | $0.659871$ | $0.086297$ | $\sim 80\times$ | $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ | $\mathcal{O}(N_{\text{train}}^2)$ Gram (2.07 MB) | **VERIFIED** |
-| **2Q ComputeUncompute** | $120.5$ | $15.2$ | $\sim 25,000\times$ | $\mathcal{O}(N^2)$ circuit executions | $\mathcal{O}(N_{\text{train}}^2)$ Gram | **VERIFIED** |
-| **4Q ComputeUncompute** | $455.0$ | $40.0$ | $\sim 55,000\times$ | $\mathcal{O}(N^2)$ circuit executions | $\mathcal{O}(N_{\text{train}}^2)$ Gram | **VERIFIED** |
+| Component | Mean Runtime (s) | SD (s) | Relative Cost | Scaling/Storage Interpretation | Audit Status |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| **Linear SVM (PCA 2)** | $0.004834$ | $0.000699$ | $1.0\times$ (ref) | LibSVM SVC is data/cache dependent; commonly $\mathcal{O}(dN_{tr}^2)$--$\mathcal{O}(dN_{tr}^3)$ | **VERIFIED** |
+| **RBF SVM (PCA 2)** | $0.007220$ | $0.002397$ | $\sim 1.5\times$ | Same SVC bounds, with pairwise RBF work | **VERIFIED** |
+| **Linear SVM (PCA 4)** | $0.008291$ | $0.006090$ | $\sim 1.7\times$ | LibSVM SVC is data/cache dependent | **VERIFIED** |
+| **RBF SVM (PCA 4)** | $0.007073$ | $0.001853$ | $\sim 1.5\times$ | Same SVC bounds, with pairwise RBF work | **VERIFIED** |
+| **QSVC (2Q Statevector)** | $0.225681$ | $0.023179$ | $\sim 47\times$ | Gram products $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$; train+test arrays 2,071,160 bytes | **VERIFIED AFTER CORRECTION** |
+| **QSVC (4Q Statevector)** | $0.659871$ | $0.086297$ | $\sim 80\times$ | Same form with larger $q$; train+test arrays 2,071,160 bytes | **VERIFIED AFTER CORRECTION** |
+| **2Q ComputeUncompute** | $120.5$ | $15.2$ | $\sim 25,000\times$ | Historical local circuit-pair simulator, not hardware timing | **VERIFIED AFTER CLARIFICATION** |
+| **4Q ComputeUncompute** | $455.0$ | $40.0$ | $\sim 55,000\times$ | Historical local circuit-pair simulator, not hardware timing | **VERIFIED AFTER CLARIFICATION** |
 
 ---
 
-## 8. Summary of Numerical Discrepancies Found
+## 8. Discrepancies Detected and Resolved
 
-**Discrepancies found:** ZERO (0).  
-Every reported quantitative value in the manuscript matches the frozen canonical CSV data within standard decimal rounding rules.
+The final audit identified real reporting errors that the earlier audit had missed:
+
+- Table 4 used incorrect sample standard deviations for CKA and uncentered Frobenius alignment, stale RBF effective-rank dispersions, and stale RBF off-diagonal summaries; the PCA 4 RBF off-diagonal mean was especially material (reported 0.4765, canonical 0.5465).
+- Supplementary Table S1 contained 88 mismatched summary cells, including widespread precision/recall substitutions, stale $N=300$ rows, and $N=455$ rows copied from the tuned canonical comparison instead of the fixed-$C$ sample-size experiment. Both Markdown and LaTeX tables were regenerated from `results/sample_size_scaling_summary.csv` values.
+- Runtime complexity prose treated `SVC(kernel='linear')` as linear-time and described 2.07 MB as training-Gram storage. The corrected text uses data-dependent LibSVM bounds and identifies 2,071,160 bytes as combined training- and test-kernel storage.
+- `docs/results_summary.md` contained stale RBF effective ranks (6.09 and 18.42); these were corrected to 6.52 and 6.97.
+
+After correction, the audited manuscript, LaTeX tables, supplementary Table S1, and supporting summary agree with the frozen CSV sources at the displayed precision. The frozen result files themselves were not modified.

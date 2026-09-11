@@ -8,7 +8,7 @@
 
 ## Data Availability Statement
 
-The empirical benchmarking conducted in this study utilizes the publicly available **Wisconsin Diagnostic Breast Cancer (WDBC)** dataset, originally compiled by Street, Wolberg, and Mangasarian (1993, 1995) at the University of Wisconsin and archived in the UCI Machine Learning Repository (Wolberg et al., 1995). The dataset is openly distributed and accessible via the `scikit-learn` Python library (`sklearn.datasets.load_breast_cancer`). The authors claim no proprietary rights or ownership over the original diagnostic data.
+The empirical benchmarking conducted in this study utilizes the publicly available **Wisconsin Diagnostic Breast Cancer (WDBC)** dataset, originally compiled by Street, Wolberg, and Mangasarian (1993, 1995) at the University of Wisconsin and archived in the UCI Machine Learning Repository (Wolberg et al., 1995). The dataset is openly distributed and accessible via the `scikit-learn` Python library (`sklearn.datasets.load_breast_cancer`). The author claims no proprietary rights or ownership over the original diagnostic data.
 
 All derived data generated during this research—including stratified outer train/test partition indices, inner cross-validation fold assignments, tuned hyperparameter configurations, raw per-fold performance logs, Centered Kernel Alignment (CKA) matrices, effective rank diagnostics, sample-size scaling subsets, and paired statistical difference tables—are fully openly accessible without restriction.
 

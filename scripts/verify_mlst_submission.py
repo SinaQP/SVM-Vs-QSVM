@@ -41,6 +41,11 @@ def verify_numerical_consistency():
     tex_path = os.path.join("paper", "mlst", "manuscript.tex")
     with open(tex_path, "r", encoding="utf-8") as f:
         tex_text = f.read()
+    supplementary_tex_path = os.path.join(
+        "paper", "mlst", "supplementary", "supplementary_material.tex"
+    )
+    with open(supplementary_tex_path, "r", encoding="utf-8") as f:
+        submission_text = tex_text + "\n" + f.read()
 
     # Canonical CSV files
     df_perf = pd.read_csv(os.path.join("results", "final", "final_model_comparison.csv"))
@@ -72,8 +77,8 @@ def verify_numerical_consistency():
         ("Bootstrap CI PCA 4 Low", "+0.0445", ""),
         ("Bootstrap CI PCA 4 High", "+0.1092", ""),
         # CKA and Effective Rank
-        ("CKA PCA 2", "0.5732", "0.1578"),
-        ("CKA PCA 4", "0.3375", "0.0718"),
+        ("CKA PCA 2", "0.5732", "0.1548"),
+        ("CKA PCA 4", "0.3375", "0.0704"),
         ("Effective Rank 2Q", "7.35", "0.21"),
         ("Effective Rank 4Q", "96.49", "5.41"),
         # Off-diagonal similarity
@@ -86,9 +91,13 @@ def verify_numerical_consistency():
     ]
 
     for label, val, std in checks:
-        assert val in tex_text, f"Value {val} for '{label}' not found in manuscript.tex!"
+        assert val in submission_text, (
+            f"Value {val} for '{label}' not found in manuscript or supplement!"
+        )
         if std:
-            assert std in tex_text, f"Std {std} for '{label}' not found in manuscript.tex!"
+            assert std in submission_text, (
+                f"Std {std} for '{label}' not found in manuscript or supplement!"
+            )
         print(f"[OK] Checked {label}: {val} ± {std if std else 'N/A'}")
 
     print("[OK] Numerical Consistency: PASS (all central values match canonical records)")
@@ -97,7 +106,9 @@ def verify_numerical_consistency():
 def verify_file_presence():
     required_files = [
         os.path.join("paper", "mlst", "manuscript.tex"),
+        os.path.join("paper", "mlst", "manuscript.pdf"),
         os.path.join("paper", "mlst", "references.bib"),
+        os.path.join("paper", "mlst", "cover_letter.md"),
         os.path.join("paper", "mlst", "data_availability.md"),
         os.path.join("paper", "mlst", "author_declarations.md"),
         os.path.join("paper", "mlst", "submission_metadata.md"),
@@ -110,6 +121,7 @@ def verify_file_presence():
         os.path.join("paper", "mlst", "figures", "final_runtime_scaling.png"),
         os.path.join("paper", "mlst", "supplementary", "supplementary_material.md"),
         os.path.join("paper", "mlst", "supplementary", "supplementary_material.tex"),
+        os.path.join("paper", "mlst", "supplementary", "supplementary_material.pdf"),
         os.path.join("paper", "mlst", "supplementary", "final_paired_f1_differences.png"),
         os.path.join("paper", "mlst", "supplementary", "final_roc_auc_comparison.png"),
     ]

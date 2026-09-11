@@ -23,7 +23,7 @@ These items represent scientific, theoretical, or statistical inaccuracies that 
 
 * [x] **[BLOCKING-3] Qualify Inferential Statistics and Bootstrap Intervals (Section 14)**
   * *Issue:* Non-parametric bootstrap intervals $[+0.0388, +0.0977]$ must not be presented as evidence of formal statistical significance when the underlying sample consists of only 5 overlapping splits with a minimum Wilcoxon $p = 0.0625$ ($p_{\text{Holm}} = 0.1875$).
-  * *Correction:* Designate bootstrap intervals throughout the text as "exploratory split-level percentile bootstrap intervals." State clearly that the 5 random splits share ~60% of training data and do not constitute independent experimental replicates. Maintain the finding as "consistent descriptive superiority" rather than "statistically significant classical superiority."
+  * *Correction:* Designate bootstrap intervals throughout the text as "exploratory split-level percentile bootstrap intervals." State that pairwise training intersections contain 358--367 observations (about 79.6% of each training set) and do not constitute independent replicates. Maintain the finding as descriptive rather than statistically significant.
   * *Location:* `paper/manuscript.md` (Section 14, lines 310–330; Abstract; Conclusion).
 
 * [x] **[BLOCKING-4] Eliminate Asymptotic Claims Inferred from 2Q→4Q Runtimes (Section 13)**
@@ -64,7 +64,7 @@ These items enhance scholarly rigor, clarity of contribution, and protect agains
 
 * [x] **[IMPORTANT-5] Explicit Discussion of Why Classical SVM Won (Section 15.1)**
   * *Issue:* The discussion should deeply explain the inductive bias match between continuous FNA descriptors and classical RBF kernels.
-  * *Correction:* Expand Section 15.1 to elaborate on the geometry of the WDBC dataset and the optimal inductive bias of RBF kernels.
+  * *Correction:* Describe the strong observed classical performance without asserting that RBF has an optimal inductive bias or that the experiment identified the data-generating geometry.
   * *Location:* `paper/manuscript.md` (Section 15.1).
 
 ---

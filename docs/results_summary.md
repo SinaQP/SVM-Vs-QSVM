@@ -41,9 +41,9 @@ Mean $\pm$ Sample Standard Deviation across the five predefined outer splits (`S
 
 ## 4. Kernel Geometry and Centered Kernel Alignment
 * Classical RBF reference kernel vs Quantum Fidelity kernel:
-  * **PCA 2 (2Q):** Mean CKA = $0.573 \pm 0.158$, Quantum Effective Rank = $7.35$, RBF Effective Rank = $6.09$.
-  * **PCA 4 (4Q):** Mean CKA = $0.338 \pm 0.072$, Quantum Effective Rank = $96.49$, RBF Effective Rank = $18.42$.
-* The 4-qubit quantum kernel departs markedly from classical RBF geometry (low CKA $0.338$), confirming geometric novelty. However, this geometric transformation did not translate to superior classification boundaries.
+  * **PCA 2 (2Q):** Mean CKA = $0.573 \pm 0.155$, Quantum Effective Rank = $7.35$, RBF Effective Rank = $6.52$.
+  * **PCA 4 (4Q):** Mean CKA = $0.338 \pm 0.070$, Quantum Effective Rank = $96.49$, RBF Effective Rank = $6.97$.
+* The 4-qubit comparison has lower mean CKA than the 2-qubit comparison, indicating greater geometric divergence from the selected RBF kernels. This descriptive difference did not translate into superior predictive performance.
 
 ---
 

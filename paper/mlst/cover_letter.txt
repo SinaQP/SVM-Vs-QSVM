@@ -1,39 +1,32 @@
-To:
-The Editors-in-Chief and Editorial Office
-Machine Learning: Science and Technology
-IOP Publishing
-
+To: The Editors, Machine Learning: Science and Technology
 Date: September 2026
-Subject: Submission of Original Research Paper — "A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification"
+Subject: Original Research Paper — A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification
 
-Dear Editor-in-Chief and Editorial Office,
+Dear Editors,
 
-Please find enclosed our manuscript entitled "A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification", which we submit for consideration as an Original Research Paper in Machine Learning: Science and Technology.
+Please consider the manuscript “A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification” for publication as an Original Research Paper in Machine Learning: Science and Technology.
 
-Quantum kernel methods represent an active and rapidly expanding research direction in machine learning. By embedding classical data into quantum state spaces via parameterized quantum circuits, these methods theoretically exploit high-dimensional Hilbert spaces to separate non-linear data distributions. However, empirical demonstrations of practical quantum advantage require strong classical baselines, leakage-free evaluation, robust validation across multiple random splits, and careful scientific interpretation. In the existing literature, empirical evaluations on tabular benchmarks frequently rely on single train/test partitions, omit classical hyperparameter optimization, or inadvertently introduce data leakage through global dimensionality reduction, making it difficult to determine whether reported performance differences reflect genuine quantum capabilities or methodological artifacts.
+Quantum kernels provide a principled way to use quantum state overlaps as similarity measures for classical machine-learning tasks. Their empirical value, however, can only be assessed against carefully selected classical comparators and under evaluation protocols that isolate preprocessing and hyperparameter selection from held-out testing. The submitted study addresses this methodological need through a controlled comparison of linear and radial-basis-function support vector classifiers with quantum support vector classifiers (QSVCs) on the Wisconsin Diagnostic Breast Cancer benchmark.
 
-To address these methodological challenges, this work presents a controlled empirical comparison between classical Support Vector Machine baselines (Linear and Radial Basis Function kernels) and Quantum Support Vector Classifiers (QSVC). Using the Wisconsin Diagnostic Breast Cancer (WDBC) benchmark dataset, input features are projected to two and four dimensions via principal component analysis and encoded through parameterized two- and four-qubit second-order Pauli-Z (ZZ) feature maps evaluated with fidelity-based quantum kernels. The study systematically evaluates five complementary dimensions: predictive classification performance, architectural feature-map sensitivity, sample-size scaling dynamics, kernel similarity geometry, and computational execution cost under exact statevector simulation.
+The experiment uses five predefined stratified 80/20 splits of the 569-sample dataset. Standardization, principal-component reduction, quantum input scaling, and quantum Gram-matrix construction are refitted within the relevant training partitions. Linear and RBF SVM hyperparameters and the QSVC regularization parameter are selected by five-fold inner cross-validation. The quantum kernels use fixed one-repetition, full-entanglement ZZ feature maps at two and four qubits and are evaluated exactly by classical CPU statevector simulation. Complementary analyses examine feature-map architecture, fixed-hyperparameter sample-size behavior, kernel geometry, and measured execution cost.
 
-Under the investigated experimental conditions, our empirical findings demonstrate that properly tuned classical SVM baselines consistently achieved stronger predictive performance than quantum kernel classifiers across all evaluated dimensions. Classical SVMs outperformed QSVC across all five outer test splits in both two- and four-dimensional representations, achieving mean malignant-class F1 scores of 0.934 vs. 0.868 in two dimensions and 0.949 vs. 0.872 in four dimensions. Furthermore, feature-map architectural ablation revealed that deeper quantum circuits exhibited sensitivity and performance degradation, while sample-size scaling showed no small-data quantum advantage. In addition, Centered Kernel Alignment (CKA) confirmed that although the four-qubit quantum kernel produced a similarity geometry distinct from the classical RBF kernel (CKA approx. 0.338), this geometric novelty did not translate into improved classification performance. Importantly, we do not claim that quantum methods are generally inferior or that quantum advantage is impossible; rather, our findings establish an empirical baseline demonstrating that under the investigated experimental conditions, geometric distinction alone does not guarantee superior classification boundaries over standard classical regularization and kernel learning.
+Under these conditions, the inner-selected classical comparator had higher malignant-class F1 on all five matched splits. Mean F1 was 0.934 versus 0.868 in two dimensions and 0.949 versus 0.872 in four dimensions. The two-sided exact Wilcoxon tests yielded raw p-values of 0.0625 and Holm-adjusted p-values of 0.1875. We therefore present the paired results as consistent descriptive evidence, not statistically significant population-level confirmation. The manuscript also discloses that the outer splits overlap and that feature-map architecture selection reused those splits.
 
-The methodological strength of this study centers on rigorous protocol design and reproducibility. The experimental pipeline enforces strict leakage-controlled preprocessing, refitting all standardizers, PCA projections, and quantum Gram matrices strictly inside each training partition. All evaluations are conducted across five predefined, matched random splits with nested five-fold cross-validation for hyperparameter tuning, paired non-parametric statistical analysis, and transparent disclosure of small-sample statistical power bounds. To support verifiable science and open benchmarking, the complete implementation, configurations, test suites, and reproducibility artifacts are publicly available in an open-source repository release at https://github.com/SinaQP/SVM-Vs-QSVM (frozen at release v1.0.0).
+The architecture and geometry analyses add context beyond a model leaderboard. Within the tested four-qubit full-entanglement maps, malignant-class F1 decreased from approximately 0.872 at one repetition to 0.540 at three repetitions. We describe this association conservatively as concentration-like behavior rather than proof of an asymptotic concentration mechanism. Centered kernel alignment with the selected RBF kernels was lower for the four-qubit comparison than for the two-qubit comparison (0.338 versus 0.573), yet the more divergent kernel geometry did not improve predictive performance. Fixed-hyperparameter learning curves likewise showed no small-data QSVC advantage in this setting. Runtime results are explicitly limited to the recorded CPU statevector implementation and are not presented as estimates of physical quantum-hardware performance.
 
-We believe Machine Learning: Science and Technology is the ideal venue for this manuscript. The journal is widely recognized for bridging machine learning methodology, physical sciences, quantum technologies, and reproducible empirical research. Our study directly aligns with MLST's scope by combining machine learning methodology, rigorous empirical benchmarking, quantum machine learning, reproducibility, and biomedical benchmark evaluation. Rather than presenting exaggerated claims of quantum supremacy or novel algorithmic variants tested against default baselines, this paper contributes a careful, standardized baseline that clarifies when and why quantum kernels do—or do not—provide practical classification utility.
+The contribution is not a new quantum algorithm or a universal claim about quantum learning. It is a reproducible negative-result benchmark that combines nested model selection, paired multi-split reporting, feature-map ablation, sample-size analysis, and kernel-geometry diagnostics while making the statistical and experimental limitations visible. We believe this combination is relevant to MLST readers working on quantum machine learning, empirical methodology, and reproducible comparisons of emerging computational technologies.
 
-In accordance with IOP Publishing editorial policies, the author confirms that:
-1. This manuscript is an original work, has not been published previously, and is not currently under consideration for publication elsewhere.
-2. The author approves the final version of the manuscript and agrees to its submission to Machine Learning: Science and Technology.
-3. This research received no external funding.
-4. The author declares no conflict of interest or competing financial interests.
-5. This study used a publicly available benchmark dataset and did not involve the recruitment of human participants or collection of new clinical data.
+The code, frozen result tables, per-split records, configurations, figures, and validation scripts are openly available at https://github.com/SinaQP/SVM-Vs-QSVM, release v1.0.0. The manuscript and supplementary material identify the benchmark as non-clinical and distinguish exact statevector simulation from physical QPU execution.
 
-Thank you for your time, consideration, and editorial assessment of this manuscript.
+I confirm that this manuscript is original, has not been published previously, and is not under consideration elsewhere. I approve the submitted version. This research received no external funding. I declare no conflict of interest. The study used a publicly available benchmark dataset and did not recruit human participants or collect new clinical data.
+
+Thank you for considering this work.
 
 Sincerely,
 
 Sina Qasempour
 Independent Researcher, Iran
-Corresponding Author
+Corresponding author
 Email: qasempoursina@gmail.com
 ORCID: https://orcid.org/0009-0006-8853-6740
 Repository: https://github.com/SinaQP/SVM-Vs-QSVM

@@ -1,82 +1,61 @@
 # Pre-Submission Checklist: Machine Learning: Science and Technology (MLST)
 
-**Manuscript:** *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*  
-**Target Journal:** *Machine Learning: Science and Technology* (IOP Publishing)  
-**Article Type:** Paper (Original Research Paper)  
-**Status Date:** September 2026  
-**Canonical Research Release:** `v1.0.0` (Frozen)
+**Manuscript:** *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*
+**Target journal:** *Machine Learning: Science and Technology* (IOP Publishing)
+**Article type:** Paper (Original Research Paper; author to confirm in the portal)
+**Status date:** September 2026
+**Canonical research release:** `v1.0.0` (frozen)
 
----
+## Status Summary
 
-## Summary of Checklist Status
-
-| Classification | Count | Description |
+| Classification | Count | Meaning |
 | :--- | :---: | :--- |
-| **READY** | 24 | Fully verified, scientifically validated, author attribution confirmed, and formatted in compliance with MLST/IOP standards. |
-| **NEEDS USER INPUT** | 0 | All author, institutional, funding, ethics, and disclosure fields have been provided and verified. |
-| **BLOCKING** | 0 | No blocking scientific, numerical, methodological, or repository issues exist. |
+| **READY** | 27 | Verified from repository evidence, manuscript sources, compiled PDFs, or automated checks. |
+| **NEEDS USER REVIEW** | 3 | Requires the author's judgment or confirmation in the submission portal. |
+| **BLOCKING** | 0 | No unresolved scientific, numerical, methodological, citation, packaging, or build issue. |
 
----
+## Scientific and Methodological Integrity
 
-## 1. Scientific & Methodological Integrity (READY)
+- [x] **READY — Leakage protection:** `StandardScaler`, PCA, quantum `MinMaxScaler`, and Gram matrices are fitted or computed within the relevant training partition.
+- [x] **READY — Endpoint orientation:** malignant label 0 is the predefined positive class for precision, recall, F1, and ROC-AUC.
+- [x] **READY — Comparator fairness:** classical Linear/RBF selection and QSVC regularization use inner cross-validation within each outer training split.
+- [x] **READY — Split reuse disclosure:** reuse of the five outer partitions across phases and architecture selection is disclosed as a limitation; canonical results are descriptive rather than independent confirmatory evidence.
+- [x] **READY — Scaling-study separation:** fixed `C=1`, RBF `gamma='scale'`, and QSVC `reps=1, full` settings are distinguished from the inner-selected canonical comparison.
+- [x] **READY — Paired statistics:** exact two-sided Wilcoxon results, Holm adjustment, paired differences, and 5/5 directional wins match frozen records.
+- [x] **READY — Small-sample limits:** `n=5`, overlapping split dependence, minimum attainable exact two-sided p-value, and exploratory bootstrap intervals are stated.
+- [x] **READY — Quantum scope:** exact CPU statevector simulation, historical local `ComputeUncompute`, and physical-QPU execution are explicitly separated.
+- [x] **READY — Complexity and storage:** QSVC Gram costs, data-dependent LibSVM bounds, runtime scope, and combined train-plus-test kernel storage are correctly qualified.
+- [x] **READY — Claim discipline:** conclusions are bounded to WDBC, PCA 2/4, the evaluated ZZ feature maps, the recorded software stack, and the observed splits; no clinical or generalized quantum-advantage claim is made.
 
-- [x] **Data Leakage Quarantine:** All preprocessing transformers (`StandardScaler`, `PCA`, `MinMaxScaler`) and quantum Gram matrices are refit strictly inside each training split. Outer test partitions ($N=114$) remain completely isolated.
-- [x] **Primary Endpoint Framing:** Malignant-class F1 score (`pos_label=0`) is consistently reported as the primary inferential endpoint.
-- [x] **Secondary Metrics Distinction:** Test Accuracy, Precision, Recall, and ROC-AUC are explicitly reported as descriptive indicators and not claimed as confirmatory test statistics.
-- [x] **Multi-Seed Robustness:** Evaluated across 5 fixed random seeds (`[42, 123, 456, 789, 2026]`) with paired analysis.
-- [x] **Statistical Significance Bounds:** No false claims of statistical significance are made; exact raw Wilcoxon $p = 0.0625$, Holm-adjusted $p = 0.1875$, discrete small-sample power limits ($n=5$), and split overlap dependence are transparently stated.
-- [x] **Exploratory Bootstrap Qualification:** Percentile bootstrap intervals are explicitly labeled as exploratory split-level diagnostics.
-- [x] **Operator Feature Space Formulation:** Mathematical capacity is correctly formulated in the $4^n$-dimensional density-operator feature space ($\mathcal{B}(\mathcal{H}) \cong \mathbb{C}^{2^n \times 2^n}$), not bounded by $2^n$.
-- [x] **Complexity Separation:** Measured CPU wall-clock runtime is strictly separated from quantum Hilbert space dimensions, Gram matrix storage $\mathcal{O}(N^2)$, and general asymptotic complexity. No false claims of exponential scaling laws from two qubit dimensions are asserted.
-- [x] **Hardware Simulation Clarification:** Classical statevector simulation is clearly distinguished from physical quantum hardware execution, accounting for shot noise, gate infidelities, and device queue latencies.
-- [x] **Empirical Negative Scope:** Claims are strictly bounded to the evaluated conditions (WDBC dataset, PCA 2 and 4 dimensions, fixed ZZ feature-map family); potential quantum utility on alternative embeddings or quantum data remains open.
+## Manuscript and Submission Artifacts
 
----
+- [x] **READY — Source synchronization:** `paper/manuscript.md` and `paper/mlst/manuscript.tex` agree on methods, results, figure order, limitations, and conclusions.
+- [x] **READY — Bibliography:** 35 cited keys resolve against 36 bibliography entries; no unresolved manuscript citation keys remain.
+- [x] **READY — Main figures:** five primary figures are present, legible, correctly numbered, and described conservatively.
+- [x] **READY — Supplement:** extended sample-size, complexity, and diagnostic material is synchronized with the frozen CSV files.
+- [x] **READY — Main PDF:** rebuilt successfully; 20 pages visually inspected page by page with no clipping or unresolved references.
+- [x] **READY — Supplementary PDF:** rebuilt successfully; 3 pages visually inspected page by page with no clipping or unresolved references.
+- [x] **READY — Cover letter:** within the 500--800-word target, journal-specific, numerically accurate, and free of unsupported novelty or clinical claims.
+- [x] **READY — Availability statements:** data and code availability text identifies the public WDBC source, repository, release tag, and validation path.
+- [x] **READY — Review records:** numerical, citation, novelty, scientific-review, reviewer-simulation, and paper-notes files reflect the final audit.
 
-## 2. Manuscript Artifacts & Packaging (READY)
+## Author and Administrative Information
 
-- [x] **Generic Manuscript Preserved:** `paper/manuscript.md` remains the uncorrupted, venue-neutral scientific source of truth.
-- [x] **Submission Directory Created:** Standalone `paper/mlst/` directory created with complete submission structure.
-- [x] **LaTeX Source Document:** `paper/mlst/manuscript.tex` created with full article structure, mathematical formulations, confirmed author metadata, and embedded tables/figures.
-- [x] **Bibliography Database:** `paper/mlst/references.bib` created with all 35 verified peer-reviewed/canonical entries and 0 unresolved citation keys.
-- [x] **Main Publication Figures:** 5 primary 300-DPI figures copied to `paper/mlst/figures/`:
-  - `final_f1_comparison.png` (Figure 1: Malignant F1 Comparison)
-  - `final_feature_map_ablation.png` (Figure 2: Feature-Map Ablation Dynamics)
-  - `final_sample_size_scaling.png` (Figure 3: Sample-Size Scaling Dynamics)
-  - `final_kernel_heatmaps.png` (Figure 4: Kernel Alignment Heatmaps)
-  - `final_runtime_scaling.png` (Figure 5: Runtime Scaling Comparison)
-- [x] **Supplementary Material:** Extended scaling and complexity tables, along with diagnostic figures (`final_paired_f1_differences.png`, `final_roc_auc_comparison.png`), compiled in `paper/mlst/supplementary/`.
-- [x] **Data Availability Statement:** Formal IOP Level 2 compliant DAS created in `paper/mlst/data_availability.md` and embedded in `manuscript.tex`.
-- [x] **Code Availability Statement:** Clear statement linking to public GitHub release `v1.0.0` with automated test suites and validation scripts.
+- [x] **READY — Author:** Sina Qasempour; single-author attribution is consistent.
+- [x] **READY — Correspondence:** `qasempoursina@gmail.com` is consistent across submission artifacts.
+- [x] **READY — ORCID:** `0009-0006-8853-6740` is consistent across submission artifacts.
+- [x] **READY — Affiliation:** Independent Researcher, Iran; no unsupported institutional department is claimed.
+- [x] **READY — Declarations:** funding, conflict-of-interest, ethics/biomedical, and CRediT statements are present and internally consistent.
+- [ ] **NEEDS USER REVIEW — Final PDF read-through:** the author should read both rendered PDFs once in their normal PDF viewer and confirm names, equations, tables, captions, and page flow before upload.
+- [ ] **NEEDS USER REVIEW — Portal metadata:** confirm the portal's current article-type label, subject categories, keywords, and any required classification fields.
+- [ ] **NEEDS USER REVIEW — Submission attestations:** confirm originality, author agreement, disclosure, data/code availability, and any journal-specific legal attestations at submission time.
 
----
+## Automated and Repository Validation
 
-## 3. Administrative & Author Attribution (READY)
+- [x] **READY — Unit/regression tests:** 23/23 tests pass in the declared project virtual environment.
+- [x] **READY — Repository validator:** all six stages of `scripts/validate_project.py` pass, including frozen-artifact integrity.
+- [x] **READY — Submission verifier:** file completeness, author metadata, citation resolution, and numerical consistency all pass in `scripts/verify_mlst_submission.py`.
 
-- [x] **Author Identification:**
-  - Author: Sina Qasempour
-  - Affiliation: Independent Researcher, Iran (no university or institutional department affiliation)
-- [x] **Corresponding Author Identification:**
-  - Corresponding Author: Sina Qasempour
-  - Email: `qasempoursina@gmail.com`
-- [x] **ORCID Identifier (Requirement Satisfied):**
-  - Verified ORCID: `https://orcid.org/0009-0006-8853-6740` (`0009-0006-8853-6740`)
-- [x] **Author Contributions (CRediT):**
-  - All 11 CRediT roles assigned to single author Sina Qasempour across all manuscript files
-- [x] **Funding Declaration:**
-  - Confirmed: *"This research received no external funding."*
-- [x] **Conflicts of Interest:**
-  - Confirmed: *"The author declares no conflict of interest."*
-- [x] **Ethics and Biomedical Statement:**
-  - Confirmed: *"This study used a publicly available benchmark dataset and did not involve the recruitment of human participants or collection of new clinical data."* (No artificial IRB exemption claimed)
+## Blocking Issues
 
----
-
-## 4. Submission Blocking Issues (BLOCKING)
-
-* **Current Blocking Issues:** **NONE (0)**.
-* No numerical inconsistencies exist.
-* No data leakage is present.
-* No unverified citations exist.
-* All repository unit tests pass (`23/23`).
-* Empirical research remains frozen at `v1.0.0`.
+**BLOCKING — none.** No experiment was rerun, no canonical result was regenerated, and no submission was performed during this review.

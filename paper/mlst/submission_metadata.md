@@ -3,7 +3,7 @@
 **Journal:** *Machine Learning: Science and Technology* (IOP Publishing)  
 **Publisher:** IOP Publishing  
 **Article Type:** Paper (Original Research Paper)  
-**Submission Status:** Submission Metadata Complete and Verified
+**Submission Status:** Scientifically verified; final author confirmation required before submission
 
 ---
 
@@ -24,9 +24,9 @@
 
 ---
 
-## 2. Abstract (228 words)
+## 2. Abstract
 
-Quantum kernel methods map classical feature vectors into quantum state spaces, theoretically offering expressive representational capacity. However, rigorous empirical comparisons against properly tuned classical baselines under leakage-free evaluation protocols remain sparse. In this work, we conduct a controlled empirical comparison of classical Support Vector Machines (Linear and RBF kernels) and Quantum Support Vector Classifiers (QSVC) on the Wisconsin Diagnostic Breast Cancer benchmark. To operate within current noisy intermediate-scale quantum constraints, input features are projected to two and four dimensions using principal component analysis and encoded via parameterized two- and four-qubit second-order Pauli-Z feature maps. The experimental pipeline enforces strict isolation of training and testing data across five outer random splits, nested five-fold cross-validation for hyperparameter tuning, feature-map architectural ablation, and sample-size scaling. Across all evaluated dimensions, classical SVMs consistently outperform QSVC in malignant-class F1 score (0.934 vs. 0.868 in two dimensions; 0.949 vs. 0.872 in four dimensions) and classification accuracy (0.951 vs. 0.907; 0.963 vs. 0.905), winning on 5/5 outer test splits. Feature-map ablation reveals that QSVC performance degrades sharply with circuit depth, while sample-size scaling demonstrates no small-data quantum advantage. Furthermore, centered kernel alignment confirms that although the four-qubit quantum kernel induces a geometry substantially distinct from classical RBF similarity (CKA ≈ 0.338), this novelty does not translate into superior classification boundaries. While exact statevector simulation incurs substantial computational overhead, five overlapping outer splits limit formal asymptotic statistical inference. Under the evaluated conditions, no quantum advantage is observed.
+Quantum kernels offer flexible similarity measures, but evidence for their practical value depends on controlled comparisons with tuned classical baselines. We compare linear and radial-basis-function support vector classifiers with fixed ZZ-feature-map quantum support vector classifiers (QSVCs) on the Wisconsin Diagnostic Breast Cancer benchmark (569 samples and 30 features), treating malignant label 0 as positive. The design uses five predefined stratified 80/20 splits, fold-local preprocessing, five-fold inner cross-validation for model hyperparameters, exact statevector fidelity kernels after principal-component reduction to two or four dimensions, feature-map ablation, and fixed-hyperparameter sample-size analysis. Mean malignant-class F1 was 0.934 for the inner-selected classical comparator versus 0.868 for QSVC in two dimensions, and 0.949 versus 0.872 in four dimensions; the classical comparator was higher on all five matched splits. The corresponding two-sided exact Wilcoxon tests gave raw $p=0.0625$ and Holm-adjusted $p=0.1875$. Because the outer splits overlap and the feature-map architecture was selected using these same splits, these statistics are descriptive rather than independent confirmation. Within the tested ZZ maps, deeper full-entanglement configurations were associated with lower F1 (0.872 at one repetition and 0.540 at three repetitions in four qubits), and no small-data QSVC advantage was observed. The four-qubit kernel had lower alignment with the classical RBF kernel than the two-qubit kernel (CKA 0.338 versus 0.573), but greater geometric divergence did not improve classification. Timings measure classical CPU statevector simulation, not quantum hardware. Under these experimental conditions, no quantum advantage was observed.
 
 ---
 

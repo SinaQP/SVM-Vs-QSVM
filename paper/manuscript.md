@@ -2,14 +2,14 @@
 
 **Repository:** [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM)  
 **Release:** `v1.0.0` (Frozen Canonical Benchmark)  
-**Target Manuscript Status:** Verified Scientific Working Draft  
+**Target Manuscript Status:** Final Quality-Reviewed Manuscript
 **Primary Endpoint:** Malignant Class F1 Score (`pos_label=0`)  
 
 ---
 
 ## Abstract
 
-Quantum kernel methods map classical feature vectors into quantum state spaces, theoretically offering expressive representational capacity. However, rigorous empirical comparisons against properly tuned classical baselines under leakage-free evaluation protocols remain sparse. In this work, we conduct a controlled empirical comparison of classical Support Vector Machines (Linear and RBF kernels) and Quantum Support Vector Classifiers (QSVC) on the Wisconsin Diagnostic Breast Cancer benchmark. To operate within current noisy intermediate-scale quantum constraints, input features are projected to two and four dimensions using principal component analysis and encoded via parameterized two- and four-qubit second-order Pauli-Z feature maps. The experimental pipeline enforces strict isolation of training and testing data across five outer random splits, nested five-fold cross-validation for hyperparameter tuning, feature-map architectural ablation, and sample-size scaling. Across all evaluated dimensions, classical SVMs consistently outperform QSVC in malignant-class F1 score (0.934 vs. 0.868 in two dimensions; 0.949 vs. 0.872 in four dimensions) and classification accuracy (0.951 vs. 0.907; 0.963 vs. 0.905), winning on 5/5 outer test splits. Feature-map ablation reveals that QSVC performance degrades sharply with circuit depth, while sample-size scaling demonstrates no small-data quantum advantage. Furthermore, centered kernel alignment confirms that although the four-qubit quantum kernel induces a geometry substantially distinct from classical RBF similarity (CKA ≈ 0.338), this novelty does not translate into superior classification boundaries. While exact statevector simulation incurs substantial computational overhead, five overlapping outer splits limit formal asymptotic statistical inference. Under the evaluated conditions, no quantum advantage is observed.
+Quantum kernels offer flexible similarity measures, but evidence for their practical value depends on controlled comparisons with tuned classical baselines. We compare linear and radial-basis-function support vector classifiers with fixed ZZ-feature-map quantum support vector classifiers (QSVCs) on the Wisconsin Diagnostic Breast Cancer benchmark (569 samples and 30 features), treating malignant label 0 as positive. The design uses five predefined stratified 80/20 splits, fold-local preprocessing, five-fold inner cross-validation for model hyperparameters, exact statevector fidelity kernels after principal-component reduction to two or four dimensions, feature-map ablation, and fixed-hyperparameter sample-size analysis. Mean malignant-class F1 was 0.934 for the inner-selected classical comparator versus 0.868 for QSVC in two dimensions, and 0.949 versus 0.872 in four dimensions; the classical comparator was higher on all five matched splits. The corresponding two-sided exact Wilcoxon tests gave raw $p=0.0625$ and Holm-adjusted $p=0.1875$. Because the outer splits overlap and the feature-map architecture was selected using these same splits, these statistics are descriptive rather than independent confirmation. Within the tested ZZ maps, deeper full-entanglement configurations were associated with lower F1 (0.872 at one repetition and 0.540 at three repetitions in four qubits), and no small-data QSVC advantage was observed. The four-qubit kernel had lower alignment with the classical RBF kernel than the two-qubit kernel (CKA 0.338 versus 0.573), but greater geometric divergence did not improve classification. Timings measure classical CPU statevector simulation, not quantum hardware. Under these experimental conditions, no quantum advantage was observed.
 
 **Keywords:** Quantum machine learning, Support Vector Classifier, Quantum kernel methods, ZZ feature map, Wisconsin Diagnostic Breast Cancer, Controlled empirical benchmark.
 
@@ -19,35 +19,33 @@ Quantum kernel methods map classical feature vectors into quantum state spaces, 
 
 Kernel methods in machine learning operate by implicitly mapping input vectors from a classical data space into a higher-dimensional reproducing kernel Hilbert space (RKHS), where non-linear decision boundaries can be identified via linear convex optimization [cortes1995support, scholkopf2002learning]. In recent years, quantum machine learning (QML) has extended this paradigm by encoding classical data vectors into quantum states via parameterized quantum circuits [havlicek2019supervised, schuld2019quantum]. By evaluating quantum state fidelities between pairs of prepared states, a quantum processor can construct a quantum kernel Gram matrix that may be classically intractable to compute, offering a potential path toward quantum advantage in classification tasks [huang2021power, schuld2021supervised].
 
-Despite widespread theoretical enthusiasm, translating quantum kernel formulations into measurable empirical advantages on real-world datasets presents profound methodological challenges [bowles2024better, cerezo2022challenges, leither2026benchmarking]. Many published studies evaluate quantum classifiers on standard tabular medical diagnostic datasets—most notably the Wisconsin Diagnostic Breast Cancer (WDBC) benchmark—under simplified conditions [leither2026benchmarking, azevedo2022quantum, wang2024novel]. Frequently, these demonstrations rely on a single, arbitrary train/test split, omit rigorous classical hyperparameter tuning, report default classical baselines, or inadvertently introduce data leakage by fitting dimensionality reduction techniques on the entire dataset prior to partitioning [bowles2024better, guyon2002gene]. Furthermore, the sensitivity of quantum kernels to circuit depth and entanglement topology is often overlooked, and the substantial computational overhead of evaluating quantum kernels relative to classical optimization is rarely quantified in wall-clock terms.
+Despite this theoretical promise, empirical conclusions in QML are highly sensitive to experimental design, attainable problem scale, and the strength of classical comparators [bowles2024better, cerezo2022challenges, leither2026benchmarking]. Preprocessing before partitioning, evaluation on a single split, and comparison with untuned baselines can all produce misleading rankings [bowles2024better]. Circuit architecture and input scaling also determine the inductive bias of a quantum kernel [hubregtsen2021evaluation, shaydulin2022importance]. These concerns motivate comparisons that isolate preprocessing and model selection from held-out evaluation and that report simulation cost separately from predictive performance.
 
 To address these methodological shortcomings, this study presents an end-to-end controlled empirical benchmark comparing classical SVMs (Linear and Radial Basis Function kernels) against Quantum Support Vector Classifiers (QSVC with parameterized ZZ feature maps). We examine classification performance across two- and four-dimensional representations of the WDBC dataset under a strict nested cross-validation protocol evaluated across five fixed outer random splits. We systematically investigate feature-map depth and entanglement ablation, sample-size scaling dynamics, kernel geometric alignment, and computational execution costs. 
 
-Our central empirical finding is unequivocal: under the evaluated conditions, no quantum advantage was observed for the tested dataset, preprocessing pipeline, qubit scale, and ZZ feature-map family. Rather than framing this outcome as a universal indictment of quantum machine learning, we report this as a valid, reproducible negative result that clarifies the practical boundaries of quantum kernel methods on low-dimensional tabular data.
+Under the evaluated conditions, no quantum advantage was observed for the tested dataset, preprocessing pipeline, qubit scale, and ZZ feature-map family. This scoped negative result does not address other datasets, embeddings, qubit counts, noisy devices, or physical QPU execution; its value lies in the controlled evidence it provides for this commonly used low-dimensional benchmark.
 
 ### 1.1 Summary of Contributions
-To provide an authentic, hype-free methodological baseline for quantum machine learning on tabular data, this work delivers six concrete contributions:
-1. **Leakage-Free Nested Protocol:** Implementation of strict outer test quarantine with fold-specific refitting of all preprocessing transformers (`StandardScaler`, `PCA`, `MinMaxScaler`) and quantum Gram matrices across five outer random splits, eliminating subtle data leakage.
-2. **Multi-Seed Paired Robustness:** Paired split-level evaluation across five matching random seeds (`[42, 123, 456, 789, 2026]`) with exact Wilcoxon signed-rank tests, Holm-Bonferroni multiplicity corrections, and exploratory split-level percentile bootstrap intervals.
-3. **Controlled Feature-Map Ablation (60 Quantum Runs):** Systematic isolation of circuit depth ($\text{reps} \in \{1, 2, 3\}$) and entanglement topology (`linear` vs. `full`) across both 2-qubit and 4-qubit scales, identifying circuit depth as the primary driver of performance collapse in 4 qubits.
-4. **Empirical Sample-Size Scaling Analysis:** Direct empirical testing of the "small-data quantum advantage" conjecture across training subsets ($N_{\text{train}} \in \{50, 100, 200, 300, 455\}$), showing that QSVC experiences its greatest performance deficit in low-sample regimes.
-5. **Operator Feature Space and CKA Geometric Analysis:** Theoretical clarification of the $4^n$-dimensional density-operator feature space and geometric characterization via Centered Kernel Alignment (CKA) and spectral entropy, proving that geometric departure from classical RBF kernels does not yield superior classification boundaries.
-6. **Transparent, Reproducible Negative Benchmark:** A permanently preserved, frozen `v1.0.0` benchmark suite with open-source code, execution manifests, automated test suites, and raw per-fold logs establishing verifiable empirical bounds for NISQ-era classifiers.
+This work makes five contributions:
+1. **Controlled model selection:** Fold-specific refitting of `StandardScaler`, PCA, quantum `MinMaxScaler`, and quantum Gram matrices during inner cross-validation, with deterministic inner-selection rules for linear, RBF, and quantum SVM hyperparameters.
+2. **Paired multi-split evaluation:** Matched evaluation on five predefined seeds (`[42, 123, 456, 789, 2026]`), with exact Wilcoxon statistics, Holm correction, and explicitly exploratory split-level percentile bootstrap intervals.
+3. **Feature-map and sample-size analyses:** Ablation of repetitions and entanglement topology at two and four qubits, together with fixed-hyperparameter learning curves over $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$.
+4. **Kernel-geometry analysis:** A $4^n$ operator-feature-space account of the fidelity kernel, with effective rank and centered kernel alignment used to relate geometry to predictive performance.
+5. **Reproducible negative benchmark:** Frozen results, per-fold selection records, predictions, figures, environment metadata, and validation scripts that make the scoped absence of quantum advantage auditable.
 
 ---
 
 ## 2. Research Questions
 
-To guide this controlled comparative investigation, we establish eight explicit research questions:
+To guide this controlled comparative investigation, we establish seven explicit research questions:
 
 * **RQ1 (Accuracy):** Does the evaluated quantum kernel improve classification accuracy relative to tuned classical SVM baselines?
-* **RQ2 (Diagnostic Metrics):** How do malignant-class F1 score and ROC-AUC compare between classical and quantum kernel machines?
+* **RQ2 (Predictive Metrics):** How do malignant-class F1 score and ROC-AUC compare between classical and quantum kernel machines?
 * **RQ3 (Dimensionality Scaling):** How does QSVC behavior change when expanding from two to four PCA dimensions and corresponding qubits?
-* **RQ4 (Computational Scaling):** How does computational cost change as the qubit count and feature dimension double?
+* **RQ4 (Computational Cost):** What measured CPU overhead does exact statevector kernel evaluation incur, and how should that measurement be distinguished from general scaling and QPU cost?
 * **RQ5 (Quantum Kernel Geometry):** What similarity geometry, off-diagonal distribution, and spectral effective rank are induced by the quantum feature map?
 * **RQ6 (Geometric Alignment):** How substantially does the quantum kernel geometry depart from the classical RBF similarity geometry as measured by Centered Kernel Alignment (CKA)?
-* **RQ7 (Computational Overhead):** What is the exact computational overhead of statevector quantum kernel simulation relative to classical CPU SVM optimization?
-* **RQ8 (Split Stability):** Are the observed empirical rankings stable across multiple independent random train/test partitions?
+* **RQ7 (Split Stability):** Are the observed empirical rankings stable across the five predefined, overlapping random train/test partitions?
 
 ---
 
@@ -64,18 +62,16 @@ $$K(\mathbf{x}, \mathbf{x}') = |\langle \psi(\mathbf{x}) | \psi(\mathbf{x}') \ra
 Schuld demonstrated that supervised quantum classifiers trained with variational parameters are fundamentally linear models in quantum feature spaces, establishing formal equivalence between variational quantum classifiers (VQCs) and quantum kernel machines [schuld2021supervised]. The Second-Order Pauli-Z Expansion (`ZZFeatureMap`) proposed by Havlíček et al. [havlicek2019supervised] encodes features via single-qubit phase gates and entangles qubits using pairwise controlled-phase rotations. This architecture derives its theoretical motivation from instantaneous quantum polynomial (IQP) circuit families, for which classical sampling of the output distribution is conjectured to be intractable under standard complexity assumptions [bremner2016average, suzuki2020analysis]. However, Hubregtsen et al. [hubregtsen2021evaluation] observed that higher circuit entanglement does not correlate monotonically with improved classification accuracy, and alternative architectures such as data re-uploading [perezsalinas2020data] have been proposed to enhance expressivity.
 
 ### 3.3 Quantum Kernel Generalization, Concentration, and Untrainability
-A critical development in quantum machine learning theory is the discovery of **kernel concentration**, an analog to barren plateaus in variational quantum circuits [mcclean2018barren, holmes2022connecting]. Thanasilp, Wang, Cerezo, and Holmes [thanasilp2024exponential] proved that for deep or highly expressive parameterized quantum circuits, the fidelity kernel concentrates exponentially around a constant value as circuit depth or qubit count increases:
-$$\text{Var}_{\mathbf{x}, \mathbf{x}'}\left[ K(\mathbf{x}, \mathbf{x}') \right] \in \mathcal{O}\left(\frac{1}{2^n}\right)$$
-This concentration causes the empirical Gram matrix to approach the identity matrix $\mathbf{I}$, extinguishing the classifier's discriminative capacity and rendering dual optimization ineffective [thanasilp2023subtleties]. Kübler, Buchholz, and Schölkopf [kubler2021inductive] showed that without problem-specific data alignment, quantum kernels exhibit an inductive bias that is frequently unfavorable for classical classification tasks. Furthermore, Shaydulin and Wild [shaydulin2022importance] established that feature scaling acts as an effective bandwidth hyperparameter, where improper coordinate bounds lead to artificial orthogonality or trivial state collapse.
+Quantum-kernel concentration is a recognized scalability concern related to, but distinct from, barren plateaus in variational optimization [mcclean2018barren, holmes2022connecting]. Thanasilp, Wang, Cerezo, and Holmes [thanasilp2024exponential] derived exponential concentration bounds under specified conditions involving embedding expressivity, entanglement, global measurements, or noise. For a fidelity kernel evaluated through a global overlap measurement, sufficiently small off-diagonal values may be indistinguishable with polynomially many shots, yielding an effectively uninformative estimated Gram matrix. These asymptotic results do not by themselves diagnose concentration in a two- or four-qubit exact-kernel experiment. Kübler, Buchholz, and Schölkopf [kubler2021inductive] analyzed the role of inductive bias and data alignment in quantum kernels, while Shaydulin and Wild [shaydulin2022importance] showed that input scaling functions as a kernel-bandwidth hyperparameter.
 
 ### 3.4 Sample Complexity and Quantum Machine Learning on Small Datasets
-A prominent hypothesis in quantum machine learning posits that quantum kernels might exhibit superior sample efficiency in small-data regimes ($N \ll 100$) where classical models risk overfitting [caro2022generalization]. Caro et al. [caro2022generalization] and Banchi et al. [banchi2021generalization] proved rigorous generalization bounds within the quantum Probably Approximately Correct (PAC) framework, showing that quantum models can generalize from limited samples when the generator norms or effective circuit dimensions are constrained. Canatar et al. [canatar2023spectral] analyzed this phenomenon through the spectral decomposition of quantum Gram matrices, proving that eigenvalue decay governs effective model capacity. However, these theoretical upper bounds describe what is learnable in principle; they do not guarantee that quantum kernels will outperform classical regularized baselines on real-world tabular data.
+Generalization bounds show that some quantum models can generalize from limited training data when their effective complexity is controlled [caro2022generalization, banchi2021generalization]. Canatar et al. [canatar2023spectral] related learning behavior to kernel spectra and task-model alignment. Such bounds characterize learnability; they do not imply that a quantum kernel will be more sample-efficient than a tuned classical model on a given classical dataset. We therefore treat small-data performance as an empirical question rather than a presumed quantum advantage.
 
 ### 3.5 Quantum Machine Learning on Biomedical and Oncological Data
-The Wisconsin Diagnostic Breast Cancer (WDBC) dataset [street1993nuclear] has frequently served as an experimental testbed for evaluating emerging quantum classifiers [azevedo2022quantum, wang2024novel]. Wang [wang2024novel] proposed a multi-objective genetic algorithm for feature selection with QSVMs, reporting high accuracies on selected feature subsets. Azevedo, Silva, and Dutra [azevedo2022quantum] evaluated quantum transfer learning on breast cancer images, finding performance on par with classical linear models. More recently, Leither, Lubinski, Kubal, and Johri [leither2026benchmarking] conducted a comprehensive benchmark across diverse oncological datasets using the Red Cedar framework against AutoML classical neural networks, finding **no empirical quantum advantage** across evaluated cancer classification tasks. Notably, many prior studies on WDBC evaluated a single train/test split without nested cross-validation or leakage isolation, making direct performance comparisons methodologically fraught.
+Biomedical QML studies span materially different tasks. Wang [wang2024novel] combined a quantum SVM with multi-objective feature selection on a breast-cancer dataset, whereas Azevedo, Silva, and Dutra [azevedo2022quantum] studied hybrid quantum transfer learning for full-image mammography. Leither, Lubinski, Kubal, and Johri [leither2026benchmarking] subsequently compared quantum and AutoML-optimized classical models across tabular, omics, and spatial oncology datasets and reported no evidence of quantum advantage. Differences in data modality, preprocessing, feature selection, comparator strength, and validation design prevent direct leaderboard-style comparison. The present study instead isolates a reproducible WDBC kernel benchmark with paired splits and explicit model-selection records.
 
 ### 3.6 Empirical Evaluation, Benchmarking Rigor, and Quantum Advantage Claims
-Establishing genuine quantum advantage in machine learning requires navigating stringent theoretical and empirical hurdles [cerezo2022challenges, preskill2018quantum]. Aaronson [aaronson2015read] emphasized that quantum speedup claims frequently rely on input/output caveats, where classical data loading overheads negate computational gains. Tang [tang2019quantum] demonstrated that classical "dequantization" algorithms can match quantum speedups when given comparable randomized access. In a comprehensive critique across hundreds of datasets, Bowles, Ahmed, and Schuld [bowles2024better] revealed that apparent quantum advantages in the literature frequently evaporate when classical baselines are properly tuned and data leakage is eliminated. Rigorous empirical benchmarking demands that quantum algorithms be tested under identical partitioning, leakage-free preprocessing, and multi-seed robustness protocols.
+Claims of quantum advantage require an end-to-end accounting of the learning task, data access, classical comparators, and evaluation protocol [cerezo2022challenges, preskill2018quantum]. Aaronson [aaronson2015read] emphasized input/output caveats in quantum speedup claims, while Tang [tang2019quantum] showed that a recommendation-system speedup could be dequantized under comparable data-access assumptions. Bowles, Ahmed, and Schuld [bowles2024better] evaluated 12 QML models on 160 derived binary datasets and found that experimental design and baseline choice materially affect rankings. These studies motivate identical partitions, train-only preprocessing, tuned classical models, and restrained interpretation at the small scales accessible to simulation.
 
 ---
 
@@ -85,17 +81,17 @@ The empirical evaluation is conducted on the **Wisconsin Diagnostic Breast Cance
 
 * **Sample Size:** $N = 569$ patient observations.
 * **Feature Space:** 30 continuous real-valued features computed from digitized images of fine needle aspirates (FNA) of breast masses, describing characteristics of cell nuclei (e.g., radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, and fractal dimension across mean, standard error, and "worst" measurements).
-* **Target Diagnostic Classes:** Binary classification:
+* **Target Classes:** Binary classification:
   * **Malignant:** 212 samples (37.26%).
   * **Benign:** 357 samples (62.74%).
-* **Positive Class Designation:** In accordance with oncological screening priority, **Malignant (Class 0)** is treated as the primary positive class (`pos_label=0`) across all precision, recall, F1, and ROC-AUC evaluations. Decision threshold rankings and probability scores are oriented strictly toward detecting malignancy.
+* **Positive Class Designation:** **Malignant (Class 0)** is treated as the predefined positive class (`pos_label=0`) across all precision, recall, F1, and ROC-AUC evaluations. Decision scores are oriented consistently to that label.
 * **Methodological Scope Disclaimer:** This investigation is strictly designed as a methodological machine-learning benchmark evaluating kernel representations. It does **not** constitute a clinical validation study, and the resulting models are not intended for medical diagnostic decision-making.
 
 ---
 
 ## 5. Experimental Protocol and Leakage Prevention
 
-To ensure absolute methodological integrity and eliminate data leakage, the experimental architecture employs an isolated outer split design with nested inner cross-validation across five fixed random seeds: `SEEDS = [42, 123, 456, 789, 2026]` [bowles2024better].
+The experimental architecture uses five predefined outer splits with nested inner cross-validation: `SEEDS = [42, 123, 456, 789, 2026]` [bowles2024better].
 
 ```text
                                  [ Raw Dataset: N=569 ]
@@ -123,13 +119,15 @@ To ensure absolute methodological integrity and eliminate data leakage, the expe
          ▼                                                                           │
 [ Out-of-Sample Transform & Evaluation ] ───────────────────────────────────────────►┘
 • Preprocessing applied via .transform()
-• Outer Test evaluated exactly ONCE per seed
+• Outer Test evaluated only after within-phase fitting and selection
 ```
 
 ### 5.1 Partitioning Protocol
 1. **Outer Split:** An 80/20 stratified partition divides the 569 samples into 455 training observations and 114 test observations. Outer test partitions remain completely quarantined during all preprocessing fitting and hyperparameter selection.
 2. **Inner Cross-Validation:** Within each outer training set ($N=455$), a 5-fold stratified cross-validation is performed (364 training, 91 validation per fold).
 3. **Leakage Protection:** `StandardScaler`, `PCA`, and quantum `MinMaxScaler` are fitted exclusively on the training split of the respective partition [pedregosa2011scikit]. They are applied to validation and test partitions strictly via `transform()`. In the inner tuning phase, transformers and quantum Gram matrices are independently recomputed inside each fold.
+
+The same five outer partitions were reused across the exploratory feature-map ablation, sample-size analysis, and final tuned comparison. Thus, train/test separation was preserved within each evaluation, but the final comparison is not an independent confirmation of the architecture choice. This reuse is treated as a limitation rather than described as a fully nested selection of the feature map.
 
 ### 5.2 Dimensionality Reduction
 Due to qubit scalability constraints in current quantum simulators and NISQ devices [preskill2018quantum], the 30 standardized features are compressed using Principal Component Analysis (PCA):
@@ -145,6 +143,8 @@ Classical benchmarks utilize the standard LibSVM implementation via scikit-learn
 1. **Linear SVM (`SVC(kernel='linear')`):** Linear decision hyperplane optimized over regularization parameter $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$ [cortes1995support].
 2. **Radial Basis Function (RBF) SVM (`SVC(kernel='rbf')`):** Non-linear Gaussian kernel $K(\mathbf{x}, \mathbf{x}') = \exp(-\gamma \|\mathbf{x} - \mathbf{x}'\|^2)$ optimized over $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$ and $\gamma \in \{\text{'scale'}, \text{'auto'}, 0.01, 0.1, 1.0\}$ [scholkopf2002learning, guyon2002gene].
 3. **Inner-Selected Classical Comparator:** To prevent selective reporting bias, the classical model family (Linear vs. RBF) and hyperparameter configuration achieving the highest mean inner-CV malignant F1 score is designated as the canonical classical comparator for that outer split [bowles2024better]. Ties are resolved deterministically by favoring smaller $C$, followed by Linear over RBF.
+
+Accuracy is reported for overall classification. Precision, recall, and F1 use malignant label 0 as the positive class. ROC-AUC is computed from decision scores negated so that larger scores indicate malignancy. Means and sample standard deviations summarize the five outer splits; only malignant-class F1 belongs to the predefined inferential family.
 
 ---
 
@@ -167,7 +167,7 @@ $$\dim \mathcal{B}(\mathcal{H}) = (2^n)^2 = 4^n$$
 (or $4^n - 1$ for the subspace of traceless Hermitian operators). Consequently, the maximum algebraic rank of the fidelity Gram matrix is $\min(N, 4^n)$—scaling up to $16$ for $n=2$ qubits ($4^2 = 16$) and up to $256$ for $n=4$ qubits ($4^4 = 256$)—rather than being bounded by the statevector dimension $2^n$.
 
 ### 7.3 Statevector Simulation Engine
-To establish an exact, noise-free theoretical upper bound on classification performance, kernel matrices are evaluated via exact statevector linear algebra on classical CPUs:
+To evaluate the ideal, noise-free kernel defined by the selected circuits, kernel matrices are computed by exact statevector linear algebra on classical CPUs:
 $$\mathbf{K} = |\mathbf{\Psi} \mathbf{\Psi}^\dagger|^2$$
 where $\mathbf{\Psi} \in \mathbb{C}^{N \times 2^n}$ represents the matrix of statevectors. Gram matrix diagonals are explicitly enforced to $K_{i,i} = 1.0$, and numerical symmetry and positive semi-definiteness ($eigvals \ge -10^{-10}$) are verified. 
 
@@ -179,13 +179,17 @@ Based on controlled architectural ablation (Section 8), the canonical QSVC confi
 * **Four-Qubit (4Q):** PCA components $= 4$, qubits $= 4$, $\text{reps}=1$, $\text{entanglement}=\text{'full'}$.
 * Regularization parameter $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$ is tuned via inner cross-validation.
 
+The `reps=1`, full-entanglement architecture was chosen from the Phase 9 outer-split ablation. Only $C$ was subsequently selected within the inner folds. Because the architecture choice used the same five outer partitions later summarized in the canonical comparison, the final results remain descriptive and potentially optimistic for that selected quantum configuration.
+
 ---
 
 ## 8. Quantum Feature-Map Ablation Study
 
 To understand the sensitivity of quantum kernel representations to circuit depth and entanglement topology, we conducted an exhaustive 60-run ablation experiment across circuit repetitions ($\text{reps} \in \{1, 2, 3\}$), entanglement topologies ($\text{'linear'}$ vs. $\text{'full'}$), and qubit dimensions ($q \in \{2, 4\}$) across all five outer splits [hubregtsen2021evaluation].
 
-![Figure 2: Feature-Map Ablation Dynamics](figures/final_feature_map_ablation.png)
+![Figure 1: Feature-Map Ablation Dynamics](figures/final_feature_map_ablation.png)
+
+*Figure 1. Outer-test malignant-class F1 across repetitions and entanglement settings. The figure shows associations within the evaluated grid; it does not identify a causal effect of circuit depth.*
 
 ### Key Empirical Findings:
 1. **Two-Qubit Regimes:** In 2Q, linear and full entanglement are algebraically identical because only a single qubit pair $(0,1)$ exists. As circuit depth increases, outer-test malignant F1 degrades monotonically:
@@ -201,18 +205,18 @@ To understand the sensitivity of quantum kernel representations to circuit depth
    * $\text{reps}=3, \text{Full}$: $\text{F1} = 0.5403 \pm 0.0523$, Effective Rank $= 137.43 \pm 2.83$
 
 ### Conservative Methodological Interpretation:
-The severe degradation observed in historical 4Q baselines was strongly associated with deeper circuit configurations ($\text{reps} \ge 2$) in full entanglement. Reducing depth to $\text{reps}=1$ substantially restored 4Q performance from $0.6816$ to $0.8721$. We refrain from asserting that circuit depth alone caused model collapse; rather, deeper feature-map configurations across the 256-dimensional operator feature space were strongly associated with degraded predictive performance and excessive dimensional dispersion, displaying empirical characteristics consistent with phenomena analyzed in quantum kernel concentration literature [thanasilp2024exponential, holmes2022connecting]. Full tabulated ablation results are documented in [Table 2](tables/table2_feature_map_ablation.md).
+Within the tested 4Q full-entanglement configurations, greater repetition count was associated with lower F1 and broader effective-rank diagnostics. The design does not isolate depth from all other representation effects, and two qubit counts cannot establish an asymptotic concentration law. We therefore describe the pattern as concentration-like rather than as proof that depth caused a model collapse [thanasilp2024exponential, holmes2022connecting]. Full tabulated ablation results are documented in [Table 2](tables/table2_feature_map_ablation.md).
 
 ---
 
 ## 9. Sample-Size Scaling Dynamics
 
-To test the hypothesis that quantum kernels provide an inductive bias advantage in small-sample regimes [caro2022generalization, banchi2021generalization], we evaluated model performance across nested training subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing strictly refit on each subset and evaluated on fixed held-out test sets ($N_{\text{test}}=114$).
+To test whether the evaluated QSVC showed an empirical advantage in small-sample regimes, we compared models across nested training subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing refit on each subset and evaluation on fixed outer test sets ($N_{\text{test}}=114$). This learning-curve analysis held hyperparameters fixed at $C=1$ for all models, used `gamma='scale'` for RBF SVM, and used `reps=1`, full entanglement for QSVC; it is distinct from the nested hyperparameter-tuned canonical comparison.
 
-![Figure 3: Sample-Size Scaling Dynamics](figures/final_sample_size_scaling.png)
+![Figure 2: Sample-Size Scaling Dynamics](figures/final_sample_size_scaling.png)
 
 ### Key Observations:
-* **Absence of Small-Data Quantum Advantage:** At $N_{\text{train}} = 50$, classical models retained robust diagnostic discrimination:
+* **Absence of Small-Data Quantum Advantage:** At $N_{\text{train}} = 50$, classical models retained strong benchmark performance:
   * Classical Linear SVM (PCA 2): $\text{F1} = 0.9157 \pm 0.0402$, $\text{Accuracy} = 0.9333 \pm 0.0354$
   * Classical Linear SVM (PCA 4): $\text{F1} = 0.9128 \pm 0.0395$, $\text{Accuracy} = 0.9316 \pm 0.0353$
   * QSVC (2Q): $\text{F1} = 0.7398 \pm 0.0531$ (performance deficit: $-0.1759$)
@@ -223,9 +227,11 @@ To test the hypothesis that quantum kernels provide an inductive bias advantage 
 
 ## 10. Canonical Predictive Results
 
-Final canonical performance metrics across the five frozen outer test splits are summarized in Table 1 and visualized in Figure 1.
+Final canonical performance metrics across the five frozen outer test splits are summarized in Table 1 and visualized in Figure 3.
 
-![Figure 1: Final Malignant F1 Score Comparison](figures/final_f1_comparison.png)
+![Figure 3: Final Malignant F1 Score Comparison](figures/final_f1_comparison.png)
+
+*Figure 3. Mean outer-test malignant F1 with sample-standard-deviation error bars for the inner-selected classical comparator and canonical QSVC. The classical comparator had higher F1 on all five matched splits in both representations.*
 
 ### Table 1: Canonical Outer-Test Performance Summary ($n=5$ Splits)
 
@@ -244,7 +250,7 @@ Final canonical performance metrics across the five frozen outer test splits are
 
 ### Performance Synthesis:
 1. **Primary Endpoint (Malignant F1):** In the 2-dimensional representation, the Classical Comparator achieved a Malignant F1 of $0.9339 \pm 0.0068$, outperforming QSVC 2Q ($0.8678 \pm 0.0388$). In the 4-dimensional representation, the Classical Comparator achieved an F1 of $0.9493 \pm 0.0227$ (with Linear SVM reaching $0.9565 \pm 0.0143$), while QSVC 4Q attained $0.8721 \pm 0.0556$.
-2. **Secondary Descriptive Endpoints:** Across all secondary metrics (Test Accuracy, Precision, Recall, and ROC-AUC), classical models demonstrated higher descriptive performance. In PCA 2, classical accuracy reached $0.9509 \pm 0.0048$ vs. $0.9070 \pm 0.0237$ for QSVC 2Q, with classical recall showing higher sensitivity for malignancy ($0.9429$ vs. $0.8381$). In PCA 4, classical accuracy reached $0.9632 \pm 0.0157$ vs. $0.9053 \pm 0.0423$ for QSVC 4Q. Classical ROC-AUC exceeded $0.986$ (PCA 2) and $0.994$ (PCA 4), whereas QSVC reached $0.9644$ (2Q) and $0.9581$ (4Q). In accordance with our pre-registered statistical protocol, these secondary metrics are reported as descriptive comparative indicators and were not subjected to formal hypothesis testing.
+2. **Secondary Descriptive Endpoints:** Across all secondary metrics (Test Accuracy, Precision, Recall, and ROC-AUC), classical models demonstrated higher descriptive performance. In PCA 2, classical accuracy reached $0.9509 \pm 0.0048$ vs. $0.9070 \pm 0.0237$ for QSVC 2Q, with classical recall showing higher sensitivity for malignancy ($0.9429$ vs. $0.8381$). In PCA 4, classical accuracy reached $0.9632 \pm 0.0157$ vs. $0.9053 \pm 0.0423$ for QSVC 4Q. Classical ROC-AUC exceeded $0.986$ (PCA 2) and $0.994$ (PCA 4), whereas QSVC reached $0.9644$ (2Q) and $0.9581$ (4Q). Under the predefined statistical protocol, these secondary metrics are descriptive and were not subjected to formal hypothesis testing.
 
 ---
 
@@ -269,13 +275,13 @@ where $\lambda_i$ denote the non-negative eigenvalues of the normalized Gram mat
 ### Mathematical Interpretation and Operator Dimensionality:
 A vital theoretical distinction must be maintained between the statevector Hilbert dimension $2^n$ (4 for 2Q, 16 for 4Q) and the linear operator feature space $\mathcal{B}(\mathcal{H})$ whose dimension scales up to $4^n$ (16 for 2Q, 256 for 4Q) [schuld2019quantum, schuld2021supervised]. Because the fidelity kernel evaluates the Hilbert-Schmidt inner product of density operators $K(\mathbf{x}_i, \mathbf{x}_j) = \text{Tr}[\rho(\mathbf{x}_i)\rho(\mathbf{x}_j)]$, the linear capacity of the kernel Gram matrix is bounded by $4^n$ rather than $2^n$.
 
-In the 2-qubit space ($4^2 = 16$ operator dimensions), statevectors maintain moderate pairwise overlap (mean similarity $0.3244 \pm 0.0071$) with an effective rank of $7.35 \pm 0.21$, indicating that data representations occupy roughly half of the available operator capacity. In the 4-qubit space ($4^4 = 256$ operator dimensions), state representations become dispersed across a vastly expanded operator manifold: average off-diagonal fidelity drops to $0.0961 \pm 0.0032$, while effective rank expands to $96.49 \pm 5.41$. This substantial dispersion across the 256-dimensional operator feature space exhibits characteristics consistent with phenomena analyzed in quantum kernel concentration literature [thanasilp2024exponential, holmes2022connecting]. We treat effective rank strictly as a descriptive diagnostic of spectral Shannon entropy in the density-operator feature space, avoiding causal claims regarding classifier untrainability.
+For the 2-qubit kernel, mean off-diagonal fidelity was $0.3244 \pm 0.0071$ and effective rank was $7.35 \pm 0.21$; for the 4-qubit kernel, the corresponding values were $0.0961 \pm 0.0032$ and $96.49 \pm 5.41$. Effective rank summarizes the entropy and evenness of the empirical Gram spectrum; it is not a count of occupied physical states. The lower off-diagonal similarities and broader spectrum in 4Q are concentration-like geometric behavior, but two qubit counts cannot establish an asymptotic concentration law or a causal explanation for predictive performance [thanasilp2024exponential].
 
 ---
 
 ## 12. Classical RBF vs. Quantum Kernel Alignment
 
-To evaluate whether the quantum feature map creates a representation fundamentally different from classical kernels, we computed the **Centered Kernel Alignment (CKA)** between the quantum Gram matrix $\mathbf{K}$ and the seed-specific tuned classical RBF reference matrix $\mathbf{L}$ [cristianini2000introduction, cortes1995support]:
+To quantify similarity between the quantum and classical kernel geometries, we computed **centered kernel alignment (CKA)** between the quantum Gram matrix $\mathbf{K}$ and the seed-specific tuned classical RBF reference matrix $\mathbf{L}$ [cortes2012centered]:
 
 $$\text{CKA}(\mathbf{K}, \mathbf{L}) = \frac{\langle \mathbf{K}_c, \mathbf{L}_c \rangle_F}{\|\mathbf{K}_c\|_F \|\mathbf{L}_c\|_F}, \quad \mathbf{K}_c = \mathbf{H}\mathbf{K}\mathbf{H}$$
 
@@ -283,12 +289,14 @@ where $\mathbf{H} = \mathbf{I} - \frac{1}{N}\mathbf{1}\mathbf{1}^T$ is the empir
 
 ![Figure 4: Classical RBF vs Quantum Kernel Heatmaps](figures/final_kernel_heatmaps.png)
 
+*Figure 4. The first 50 training samples from outer seed 42 are displayed for the seed-specific tuned RBF and canonical quantum kernels at each representation. CKA summaries reported below use the complete 455-sample training matrices across all five outer splits; the image is illustrative rather than the object of the aggregate calculation.*
+
 ### Alignment Results:
-* **PCA 2 / 2Q:** Mean CKA $= \mathbf{0.5732 \pm 0.1578}$ (Frobenius Alignment $= 0.8344 \pm 0.0327$). The 2-qubit quantum kernel shares moderate-to-high structural similarity with classical RBF geometry.
-* **PCA 4 / 4Q:** Mean CKA $= \mathbf{0.3375 \pm 0.0718}$ (Frobenius Alignment $= 0.7162 \pm 0.0119$). The 4-qubit quantum kernel departs markedly from classical RBF geometry.
+* **PCA 2 / 2Q:** Mean CKA $= \mathbf{0.5732 \pm 0.1548}$ (uncentered Frobenius alignment $= 0.8344 \pm 0.0320$).
+* **PCA 4 / 4Q:** Mean CKA $= \mathbf{0.3375 \pm 0.0704}$ (uncentered Frobenius alignment $= 0.7162 \pm 0.0117$).
 
 ### Scientific Rationale:
-The low CKA in 4Q ($0.3375 \pm 0.0718$) confirms that the four-qubit ZZ feature map induces a distinct similarity metric that departs substantially from classical RBF geometry. Crucially, this lower alignment indicates a *more distinct kernel geometry*, not a *superior quantum representation*. As established in statistical learning and kernel theory [huang2021power, kubler2021inductive], geometric divergence in feature space is a necessary, but entirely insufficient, condition for classification advantage. If the induced quantum similarity metric does not reflect the natural cluster geometry of the target concept, geometric novelty does not translate into superior classification boundaries. Detailed per-seed alignments are provided in [Table 4](tables/table4_kernel_geometry_cka.md).
+The lower mean CKA in 4Q indicates greater geometric divergence from the tuned classical RBF kernels than in 2Q; it does not identify a better representation. In this experiment, the more divergent 4Q geometry did not translate into improved predictive performance. CKA is a descriptive similarity measure, and no threshold was used to classify kernels as equivalent or fundamentally different. Detailed per-seed alignments are provided in [Table 4](tables/table4_kernel_geometry_cka.md).
 
 ---
 
@@ -300,24 +308,24 @@ A comprehensive comparison requires evaluating computational complexity and wall
 
 ### Table 6: Execution Time and Complexity Summary
 
-| Pipeline Component | Platform / Implementation | Qubits | Mean Runtime (s) | Relative Cost | Time Complexity | Memory Complexity |
+| Pipeline Component | Platform / Implementation | Qubits | Mean Total Pipeline Runtime (s) | Relative Cost | General Scaling Note | Stored Kernel Arrays |
 | :--- | :--- | :---: | :---: | :---: | :--- | :--- |
-| Linear SVM (PCA 2) | Classical CPU LibSVM | 0 | **0.0048 ± 0.0007** | $1.0\times$ | $\mathcal{O}(N \cdot d)$ | $\mathcal{O}(N \cdot d)$ |
-| RBF SVM (PCA 2) | Classical CPU LibSVM | 0 | **0.0072 ± 0.0024** | $1.5\times$ | $\mathcal{O}(N^2 \cdot d)$ | $\mathcal{O}(N \cdot d)$ |
-| Linear SVM (PCA 4) | Classical CPU LibSVM | 0 | **0.0083 ± 0.0061** | $1.7\times$ | $\mathcal{O}(N \cdot d)$ | $\mathcal{O}(N \cdot d)$ |
-| RBF SVM (PCA 4) | Classical CPU LibSVM | 0 | **0.0071 ± 0.0019** | $1.5\times$ | $\mathcal{O}(N^2 \cdot d)$ | $\mathcal{O}(N \cdot d)$ |
-| QSVC (2Q Statevector) | Vectorized CPU Linear Algebra | 2 | **0.2257 ± 0.0232** | $\sim 47\times$ | $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ | $\mathcal{O}(N^2)$ Gram (2.07 MB) |
-| QSVC (4Q Statevector) | Vectorized CPU Linear Algebra | 4 | **0.6599 ± 0.0863** | $\sim 80\times$ | $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ | $\mathcal{O}(N^2)$ Gram (2.07 MB) |
-| *2Q ComputeUncompute* | *Pairwise Circuit Sampler* | 2 | *120.5 ± 15.2* | $\sim 25,000\times$ | $\mathcal{O}(N^2)$ circuit evaluations | $\mathcal{O}(N^2)$ Gram |
-| *4Q ComputeUncompute* | *Pairwise Circuit Sampler* | 4 | *455.0 ± 40.0* | $\sim 55,000\times$ | $\mathcal{O}(N^2)$ circuit evaluations | $\mathcal{O}(N^2)$ Gram |
+| Linear SVM (PCA 2) | Classical CPU LibSVM | 0 | **0.0048 ± 0.0007** | $1.0\times$ | LibSVM SVC training is data- and cache-dependent; commonly between $\mathcal{O}(dN_{tr}^2)$ and $\mathcal{O}(dN_{tr}^3)$ | None |
+| RBF SVM (PCA 2) | Classical CPU LibSVM | 0 | **0.0072 ± 0.0024** | $1.5\times$ | Same SVC bounds; RBF kernel construction adds pairwise feature-distance work | None |
+| Linear SVM (PCA 4) | Classical CPU LibSVM | 0 | **0.0083 ± 0.0061** | $1.7\times$ | LibSVM SVC training is data- and cache-dependent | None |
+| RBF SVM (PCA 4) | Classical CPU LibSVM | 0 | **0.0071 ± 0.0019** | $1.5\times$ | Same SVC bounds; RBF kernel construction adds pairwise feature-distance work | None |
+| QSVC (2Q Statevector) | Vectorized CPU Linear Algebra | 2 | **0.2257 ± 0.0232** | $\sim 47\times$ | State dimension $2^q$; Gram products scale as $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$, followed by precomputed-kernel SVC | Train plus test kernels: 2,071,160 bytes |
+| QSVC (4Q Statevector) | Vectorized CPU Linear Algebra | 4 | **0.6599 ± 0.0863** | $\sim 80\times$ | State dimension $2^q$; same operation-count form with larger $q$ | Train plus test kernels: 2,071,160 bytes |
+| *2Q ComputeUncompute* | *Historical local circuit-pair sampler* | 2 | *120.5 ± 15.2* | $\sim 25{,}000\times$ | $\mathcal{O}(N_{tr}^2+N_{te}N_{tr})$ local circuit-pair evaluations | Train plus test Gram arrays |
+| *4Q ComputeUncompute* | *Historical local circuit-pair sampler* | 4 | *455.0 ± 40.0* | $\sim 55{,}000\times$ | $\mathcal{O}(N_{tr}^2+N_{te}N_{tr})$ local circuit-pair evaluations | Train plus test Gram arrays |
 
 *Note: Source data from `results/final/final_runtime_summary.csv`. Timings are kept strictly unpooled between exact statevector simulation and historical circuit-pair sampling. See [Table 6](tables/table6_runtime_complexity.md).*
 
 ### Computational Observations:
-1. **CPU LibSVM Efficiency:** Classical SVM models trained via LibSVM fit and predict within $0.005$ to $0.008$ seconds per outer split, benefiting from highly optimized C-level Sequential Minimal Optimization routines.
+1. **Measured Runtime Scope:** The reported `total_runtime` includes preprocessing, classifier fitting, and prediction; for QSVC it additionally includes exact statevector generation and train/test Gram products. Inner-search time and kernel-diagnostic time are excluded.
 2. **Statevector Simulation Overhead:** Vectorized exact statevector simulation required $0.2257 \pm 0.0232$ seconds for 2Q and $0.6599 \pm 0.0863$ seconds for 4Q on standard x86_64 architecture—representing a $\sim 45\times$ to $80\times$ increase in wall-clock time relative to classical CPU SVM.
-3. **Complexity Separation and Scaling Caveat:** We strictly separate algorithmic complexity from empirical runtime measurements. Classical SVM optimization scales between $\mathcal{O}(N_{\text{train}} \cdot d)$ and $\mathcal{O}(N_{\text{train}}^2 \cdot d)$ with memory footprint $\mathcal{O}(N_{\text{train}} \cdot d)$, whereas precomputed quantum kernel evaluation requires $\mathcal{O}(N \cdot 2^q + N^2 \cdot 2^q)$ operations for statevector generation and Gram matrix calculation, plus $\mathcal{O}(N^2)$ memory storage ($2.07$ MB for $N=455$). While measured statevector runtime increased by a factor of $\sim 2.9\times$ between 2Q and 4Q (compatible with increased linear algebra operations across $2^2=4$ to $2^4=16$ dimensions), we caution that two empirical qubit dimensions cannot establish an asymptotic exponential scaling law.
-4. **Physical Hardware Reality:** We reiterate that classical statevector simulation does not equal physical QPU execution [aaronson2015read]. Physical QPUs would require executing $\mathcal{O}(N^2)$ circuit repetitions with thousands of measurement shots per pair, introducing device queueing latencies, gate errors, and measurement shot noise. Historical circuit-pair sampling (`ComputeUncompute`) required $120.5$s (2Q) and $455.0$s (4Q), demonstrating the massive wall-clock overhead of shot-based kernel evaluation.
+3. **Complexity Separation and Scaling Caveat:** The operation count for the vectorized Gram products grows with $2^q$, but state preparation also depends on circuit structure and the SVC stage remains data-dependent. The measured $\sim 2.9\times$ increase from 2Q to 4Q is an implementation-specific observation from two points, not evidence of an asymptotic law. The 2,071,160-byte figure is the measured combined storage of the float64 training and test kernel arrays, not the training Gram matrix alone.
+4. **Simulation and Hardware:** Statevector timing is not QPU timing [aaronson2015read]. Physical execution would add compilation, queueing, repeated measurement, noise, and mitigation costs whose values depend on the device and accuracy target. The historical `ComputeUncompute` timings are measurements from a local pairwise simulator and are reported separately; they are neither physical-hardware timings nor evidence about a fixed shot budget.
 
 ---
 
@@ -339,32 +347,32 @@ To rigorously evaluate performance differences while accounting for split variab
 1. **Directional Stability:** Across all five evaluated outer seeds, the Classical Comparator achieved higher malignant F1 scores than QSVC without a single exception (5/5 wins for both PCA 2 and PCA 4).
 2. **Exploratory Bootstrap Intervals:** Non-parametric bootstrap percentile intervals (10,000 resamples over the five observed split differences) fall strictly above zero: $[+0.0388, +0.0977]$ for PCA 2 and $[+0.0445, +0.1092]$ for PCA 4. We explicitly qualify these intervals as exploratory diagnostics over five dependent split-level observations, rather than confirmatory bounds over independent sample cohorts.
 3. **Small-Sample Power Bound:** Because $n=5$, the minimum achievable two-sided exact Wilcoxon $p$-value when all differences share the same sign is $2 \times (1/2)^5 = 0.0625$ (which adjusts to $0.1875$ under Holm-Bonferroni correction). Therefore, these tests cannot reject the null hypothesis at the conventional $\alpha = 0.05$ significance threshold.
-4. **Sample Overlap Dependence:** The five outer 80/20 train/test splits share underlying observations (each pair of training sets overlaps by ~60%), violating the independent observation assumption of standard statistical tests.
+4. **Sample Overlap Dependence:** The five outer 80/20 train/test splits reuse observations. Pairwise training-set intersections contain 358--367 samples (mean 362.2), about 79.6% of each 455-sample training set; pairwise test intersections contain 17--26 samples. The split-level outcomes are therefore not independent experimental replicates, so the Wilcoxon and bootstrap calculations are exploratory.
 5. **Framing:** Consequently, we refrain from claiming "statistically significant classical superiority" in a formal asymptotic sense. We report these findings as highly consistent descriptive evidence of classical advantage under the evaluated experimental constraints.
 
 ---
 
 ## 15. Discussion
 
-### 15.1 Why Classical Models Outperform QSVC on WDBC
-The Wisconsin Diagnostic Breast Cancer dataset consists of continuous morphometric descriptors derived from digitized cell nuclei. These features exhibit substantial linear and low-order polynomial correlations with malignancy [street1993nuclear]. Classical linear and Gaussian RBF kernels possess an optimal inductive bias for such continuous distributions, efficiently identifying class-separating hyperplanes without mapping into excessively fragmented representations [guyon2002gene, scholkopf2002learning]. The smooth, localized Gaussian kernel geometry naturally matches the cluster structure of malignant versus benign nuclei.
+### 15.1 Classical Performance on WDBC
+The WDBC variables are continuous morphometric descriptors derived from digitized cell nuclei [street1993nuclear]. Strong performance from both linear and RBF SVMs after two- or four-component PCA is consistent with decision structure that these classical kernels can represent effectively. The experiment did not directly identify the data-generating geometry, however, so it cannot establish that either classical kernel is optimal or attribute the performance gap to a single mechanism.
 
 ### 15.2 Sensitivity of the Quantum Feature Map
-Our ablation experiments demonstrate that QSVC performance is acutely sensitive to circuit depth. In four qubits, increasing `reps` from 1 to 3 in full entanglement caused malignant F1 score to plunge from $0.872$ to $0.540$. This sensitivity underscores a major practical obstacle in quantum machine learning: without problem-specific physical structure, generic quantum feature maps risk scattering classical data vectors across the 256-dimensional operator feature space where class coherence is lost [hubregtsen2021evaluation]. The observed drop in similarity and expansion of effective rank mirror the behavioral predictions of quantum kernel concentration theory [thanasilp2024exponential].
+QSVC performance varied substantially across the tested feature maps. In four qubits with full entanglement, increasing `reps` from 1 to 3 was observed alongside a decrease in malignant F1 from $0.872$ to $0.540$, lower off-diagonal similarity variation, and higher effective rank. This joint pattern is consistent with concentration-like geometry discussed in the literature [thanasilp2024exponential], but the ablation does not establish depth as the sole cause or demonstrate asymptotic concentration.
 
 ### 15.3 Geometric Novelty vs. Utility
-Centered Kernel Alignment revealed that the four-qubit quantum kernel departed substantially from classical RBF geometry ($\text{CKA} = 0.3375 \pm 0.0718$). However, this geometric transformation did not yield superior classification boundaries. This result reinforces theoretical caveats [huang2021power, kubler2021inductive]: constructing a non-classical kernel geometry is relatively straightforward; constructing a quantum geometry that aligns with the true data-generating distribution is exceptionally challenging. Lower alignment indicates distinctness, not superiority.
+Centered kernel alignment was lower for the four-qubit comparison ($\text{CKA} = 0.3375 \pm 0.0704$) than for the two-qubit comparison ($0.5732 \pm 0.1548$). Yet the 4Q QSVC did not improve predictive performance. Lower alignment indicates greater geometric divergence from the selected RBF kernels, not a better quantum representation; task-relevant alignment, rather than distinctness alone, is what matters for prediction [huang2021power, kubler2021inductive].
 
 ### 15.4 Sample Efficiency Findings
-Contrary to conjectures that quantum kernels might offer sample-efficiency advantages on small datasets [caro2022generalization], QSVC suffered severe performance loss at $N_{\text{train}}=50$ (F1 $\approx 0.499$ in 4Q, with recall dropping to $0.4095$). Classical models demonstrated far superior data efficiency, maintaining high diagnostic accuracy ($>0.91$ F1) even with minimal training data. This divergence highlights the distinction between theoretical PAC learnability bounds (which establish what is learnable in principle under bounded generator norms) and practical empirical performance on non-quantum tabular distributions.
+No small-data advantage was observed for QSVC in this experimental setting. At $N_{\text{train}}=50$, 4Q QSVC achieved F1 $\approx 0.499$ and malignant recall $0.4095$, whereas the two fixed-$C$ linear SVM curves remained above $0.91$ F1. This result is specific to the tested subsets and models. It illustrates why theoretical generalization bounds, which concern learnability under stated complexity assumptions, should not be interpreted as guarantees of comparative advantage on classical tabular data [caro2022generalization].
 
 ### 15.5 Computational Trade-Offs
-Exact statevector simulation required orders of magnitude more computational time than classical LibSVM. When factoring in the $\mathcal{O}(N^2)$ memory scaling of precomputed Gram matrices and the hardware overhead of shot noise on physical QPUs [preskill2018quantum, aaronson2015read], quantum kernel machines face severe computational hurdles before achieving practical competitiveness with classical methods.
+In the measured CPU implementation, exact statevector QSVC pipelines took roughly 47--80 times as long as the corresponding linear-SVM reference pipelines. This comparison concerns a small exact simulator and includes kernel construction; it does not estimate QPU runtime. Physical devices would introduce different costs and errors, so no hardware speed conclusion follows [preskill2018quantum, aaronson2015read].
 
 ### 15.6 What Can and Cannot Be Concluded About Quantum Advantage
 To avoid over-generalizing our negative result, we explicitly delineate the scientific scope of our findings:
 * **What is Ruled Out:** For the Wisconsin Diagnostic Breast Cancer dataset, evaluated under PCA compression to 2 and 4 dimensions using standard fixed Second-Order Pauli-Z expansion (`ZZFeatureMap`), QSVC offers no empirical advantage over properly tuned classical Linear or RBF SVMs in predictive accuracy, malignant F1, sample efficiency, or computational cost.
-* **What Remains Open:** These findings do not rule out quantum advantages for: (a) alternative quantum feature maps (such as data re-uploading or trainable kernels optimized via kernel target alignment), (b) projected quantum kernels designed to avoid concentration [huang2021power], (c) higher-dimensional problems where classical simulation is impossible ($q \ge 40$), or (d) data generated by inherently quantum physical processes where classical kernels lack a natural representation.
+* **What Remains Open:** These findings do not rule out different outcomes for: (a) alternative or trainable quantum feature maps, (b) projected quantum kernels designed to mitigate concentration [huang2021power], (c) qubit counts beyond the tractable range of the exact simulator and resources used here, or (d) inherently quantum data for which classical representation is itself costly.
 
 ---
 
@@ -374,14 +382,16 @@ To maintain scientific rigor, we explicitly enumerate the methodological limitat
 
 1. **Single Tabular Dataset:** The benchmark is evaluated solely on the WDBC dataset ($N=569$). Findings cannot be generalized to image, sequence, graph, or inherently quantum data [cerezo2022challenges].
 2. **Dimensionality Compression:** Input features were compressed via PCA to 2 and 4 dimensions to accommodate NISQ simulation scale, discarding $36.5\%$ and $20.6\%$ of feature variance, respectively.
-3. **Restricted Qubit Scale:** Evaluation was limited to 2 and 4 qubits; regimes where classical simulation becomes intractable ($q \ge 40$) were not evaluated [preskill2018quantum].
+3. **Restricted Qubit Scale:** Evaluation was limited to 2 and 4 qubits. The study therefore does not probe regimes beyond the tractable range of the exact simulator and resources used here.
 4. **Single Feature-Map Family:** Only the standard Second-Order Pauli-Z Expansion (`ZZFeatureMap`) was evaluated. Alternative quantum embeddings (e.g., data re-uploading [perezsalinas2020data], covariant kernels, or trainable quantum kernels) might yield different results.
 5. **Re-use of Outer Splits:** The architectural selection ($\text{reps}=1, \text{full}$) made in Phase 9 was informed by the same five outer splits used in Phase 11 nested evaluation, limiting the confirmatory independence of final statistical tests.
 6. **Sample Overlap:** The five outer cross-validation splits share training data, violating sample independence assumptions [bowles2024better].
 7. **Limited Statistical Sample:** An outer sample size of $n=5$ limits statistical power, establishing a mathematical lower bound of $p=0.0625$ on the Wilcoxon signed-rank test.
-8. **Noiseless Simulation:** Results reflect ideal statevector linear algebra. Physical hardware noise, gate errors, and measurement shot noise were not modeled and would likely further degrade QSVC performance.
+8. **Noiseless Simulation:** Results reflect ideal statevector linear algebra. Physical hardware noise, gate errors, and measurement shot noise were not modeled and could change both performance and runtime.
 9. **No Physical QPU Execution:** Wall-clock runtimes reflect CPU statevector simulation and do not measure physical quantum hardware execution.
-10. **Non-Clinical Context:** This study is a methodological machine-learning experiment and does not represent clinical diagnostic validation.
+10. **No External Validation:** No independent dataset or external cohort was evaluated.
+11. **Runtime Generalizability:** Timings are implementation- and hardware-specific; the frozen timing artifacts identify an x86_64 CPU environment but do not preserve a complete hardware profile.
+12. **Non-Clinical Context:** This study is a methodological machine-learning experiment and does not represent clinical diagnostic validation.
 
 ---
 
@@ -391,9 +401,9 @@ This study conducted a controlled, leakage-free empirical comparison of Classica
 
 1. Tuned classical SVM baselines consistently achieved higher descriptive predictive accuracy and malignant F1 scores than QSVC (Classical F1 $\approx 0.934$ vs. QSVC $\approx 0.868$ in 2Q; Classical F1 $\approx 0.949$ vs. QSVC $\approx 0.872$ in 4Q).
 2. Classical models outperformed QSVC across all five outer cross-validation splits without exception (5/5 wins in both 2D and 4D).
-3. QSVC demonstrated acute sensitivity to circuit depth, with performance collapsing under deeper feature maps across the 256-dimensional operator feature space.
+3. QSVC performance was strongly associated with feature-map configuration; deeper full-entanglement maps were observed alongside lower F1 in the evaluated 4Q grid.
 4. QSVC exhibited no small-data sample efficiency advantage, showing its greatest performance deficit at $N=50$.
-5. Although the 4-qubit quantum kernel generated a geometry substantially distinct from classical RBF similarity ($\text{CKA} = 0.3375 \pm 0.0718$), this geometric novelty did not improve classification boundaries.
+5. The 4-qubit quantum kernel diverged more from classical RBF geometry than the 2-qubit kernel ($\text{CKA} = 0.3375 \pm 0.0704$ versus $0.5732 \pm 0.1548$), but this greater divergence did not improve classification.
 
 **Central Conclusion:** Under the evaluated experimental conditions, no quantum advantage was observed.
 
@@ -411,22 +421,10 @@ Future investigations should extend this controlled protocol to:
 In accordance with open science practices, all experimental code, environment configurations, executed Jupyter notebook narrative, canonical results tables, publication figures, and automated validation suites are permanently preserved in the project's `v1.0.0` GitHub release:  
 `https://github.com/SinaQP/SVM-Vs-QSVM`
 
-The underlying Wisconsin Diagnostic Breast Cancer dataset is open-access and accessible via scikit-learn. The repository authors claim no proprietary ownership of the dataset. The complete benchmark suite can be validated end-to-end via the included script:
+The underlying Wisconsin Diagnostic Breast Cancer dataset is open-access and accessible via scikit-learn. The repository author claims no proprietary ownership of the dataset. The complete benchmark suite can be validated end-to-end via the included script:
 ```bash
 python scripts/validate_project.py
 ```
-
----
-
-## Proposed Alternative Titles
-
-In addition to the working title, we propose the following non-sensational alternative titles:
-
-1. *Empirical Evaluation of Quantum and Classical Kernel Support Vector Machines on Diagnostic Breast Cancer Data*
-2. *Benchmarking Classical vs. Quantum Kernel Classifiers Under Leakage-Free Cross-Validation*
-3. *Investigating Quantum Kernel Geometry and Classification Performance: A Controlled Benchmark on the WDBC Dataset*
-4. *On the Empirical Performance of Quantum Kernel Support Vector Classifiers in Low-Dimensional Tabular Regimes*
-5. *Controlled Comparison of Classical and Quantum Support Vector Machines: An Empirical Case Study*
 
 ---
 
@@ -466,4 +464,5 @@ In addition to the working title, we propose the following non-sensational alter
 32. [tang2019quantum] Tang, E. (2019). A quantum-inspired classical algorithm for recommendation systems. In *Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing (STOC 2019)*, 217–228. doi:10.1145/3313276.3316310.
 33. [thanasilp2023subtleties] Thanasilp, S., Wang, S., Nghiem, N. A., Coles, P., & Cerezo, M. (2023). Subtleties in the trainability of quantum machine learning models. *Quantum Science and Technology*, 8(3), 035014. doi:10.1088/2058-9565/acd569.
 34. [thanasilp2024exponential] Thanasilp, S., Wang, S., Cerezo, M., & Holmes, Z. (2024). Exponential concentration and untrainability in quantum kernel methods. *Nature Communications*, 15(1), 5200. doi:10.1038/s41467-024-49287-w.
-35. [wang2024novel] Wang, H. (2024). A novel feature selection method based on quantum support vector machine. *Physica Scripta*, 99(5), 055225. doi:10.1088/1402-4896/ad36ef.
+35. [wang2024novel] Wang, H. (2024). A novel feature selection method based on quantum support vector machine. *Physica Scripta*, 99(5), 056006. doi:10.1088/1402-4896/ad36ef.
+36. [cortes2012centered] Cortes, C., Mohri, M., & Rostamizadeh, A. (2012). Algorithms for learning kernels based on centered alignment. *Journal of Machine Learning Research*, 13(28), 795--828.

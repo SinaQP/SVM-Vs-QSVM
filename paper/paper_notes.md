@@ -20,16 +20,16 @@ The literature review resolved all 8 structured placeholders across 35 authentic
    - However, Hubregtsen et al. (2021) demonstrated that higher entanglement capacity does not correlate monotonically with classification accuracy. Data re-uploading (Pérez-Salinas et al., 2020) offers an alternative paradigm, but standard NISQ benchmarks typically rely on ZZ maps.
 
 3. **Kernel Concentration & Untrainability:**
-   - Thanasilp, Wang, Cerezo, Holmes (2024, *Nature Communications*) proved that as circuit depth or qubit count increases, parameterized quantum kernels suffer from **exponential kernel concentration**, causing off-diagonal overlaps to concentrate around constant values and the Gram matrix to collapse toward identity.
+   - Thanasilp, Wang, Cerezo, Holmes (2024, *Nature Communications*) derive exponential concentration bounds under specified expressivity, entanglement, global-measurement, and noise conditions. Those asymptotic results do not diagnose this 2Q/4Q experiment by themselves.
    - Kübler et al. (2021) analyzed the inductive bias of quantum kernels, showing that un-tuned quantum feature maps frequently fail to align with the data label distribution. Shaydulin & Wild (2022) established that input scaling directly governs the effective quantum kernel bandwidth.
 
 4. **Small Datasets & Sample Efficiency:**
    - Theoretical generalization bounds (Caro et al., 2022; Banchi et al., 2021) prove that quantum models can generalize from small samples under bounded generator norms, leading to widespread conjectures of "small-data quantum advantage."
-   - However, our empirical sample-size scaling ($N \in [50, 455]$) directly demonstrated that QSVC suffered severe performance loss at $N=50$ (F1 drops to $\approx 0.499$ in 4Q), while Classical Linear SVM retained strong diagnostic accuracy (F1 $\approx 0.913$). This provides critical empirical evidence that theoretical PAC bounds do not automatically translate into empirical sample efficiency on real tabular datasets.
+   - In the fixed-hyperparameter sample-size analysis ($N \in [50, 455]$), 4Q QSVC obtained F1 $\approx 0.499$ at $N=50$, while the corresponding linear SVM obtained F1 $\approx 0.913$. This illustrates that theoretical generalization bounds do not guarantee comparative advantage on this tabular dataset.
 
 5. **Biomedical QML & Prior Work on WDBC:**
    - Leither, Lubinski, Kubal, Johri (2026, arXiv:2608.11373) evaluated QML models against AutoML classical baselines across oncological datasets and found **no evidence of quantum advantage**.
-   - Specific prior studies applying QSVM to the WDBC dataset (Wang, 2024; Azevedo et al., 2022; Chaudhry et al., 2024) frequently evaluated single train/test splits, reported classical RBF accuracies in the 93%–96% range, and found that quantum models achieve comparable or slightly lower performance on simulators (88%–92%). Our multi-seed, leakage-free benchmark confirms and formalizes this boundary.
+   - Prior breast-cancer QML studies are heterogeneous: Wang (2024) studies QSVM feature selection, while Azevedo et al. (2022) studies full-field mammograms. Their results should not be combined into a WDBC leaderboard or treated as directly comparable to this protocol.
 
 6. **Benchmarking Methodology & Classical Baselines:**
    - Bowles, Ahmed, Schuld (2024, arXiv:2403.07059) systematically demonstrated that inadequate classical baselines, arbitrary single splits, and data leakage pervade published QML literature, creating false impressions of quantum advantage.
@@ -45,7 +45,7 @@ The literature review supports the distinct empirical and methodological contrib
 2. **Multi-Seed Stability:** We evaluate 5 predefined outer seeds (`[42, 123, 456, 789, 2026]`), providing paired split-level confidence intervals and demonstrating that classical superiority is directionally stable (5/5 wins).
 3. **Controlled Feature-Map Ablation (60 Quantum Runs):** We systematically isolate the effect of circuit repetitions (`reps` $\in \{1, 2, 3\}$) and entanglement (`linear` vs. `full`), demonstrating that shallower architectures are essential to avoid performance collapse in 4 qubits.
 4. **Sample-Size Scaling Analysis ($N=50$ to $455$):** We empirically test the "small-data quantum advantage" conjecture across 5 training subsets, documenting that QSVC experiences its greatest performance deficit in low-data regimes.
-5. **Geometric Dissection via CKA and Spectral Entropy:** We measure Centered Kernel Alignment and effective rank, proving that while 4Q quantum kernels depart substantially from RBF geometry ($\text{CKA} \approx 0.338$), geometric novelty does not translate into superior classification.
+5. **Geometric Description via CKA and Spectral Entropy:** We measure centered kernel alignment and effective rank, observing lower alignment for the 4Q comparison ($\text{CKA} \approx 0.338$) without improved prediction.
 6. **Transparent Negative Quantum Advantage Result:** We present a rigorous, reproducible negative finding, avoiding hype and providing realistic bounds for NISQ-era tabular machine learning.
 
 ---
@@ -85,5 +85,5 @@ To ensure absolute scientific accuracy and avoid reviewer rejection:
 | :--- | :--- |
 | **"Why evaluate only 2 and 4 qubits?"** | Cite Preskill (2018) and Peters et al. (2021): NISQ tabular applications operating on compressed feature spaces are the dominant paradigm in current biomedical QML literature. We demonstrate that in this regime, QSVC fails to match simple linear baselines. |
 | **"Could an optimized or trained feature map win?"** | Cite Kübler et al. (2021) and Shaydulin & Wild (2022): Generic fixed feature maps lack problem alignment. We acknowledge that kernel target alignment (KTA) or projected quantum kernels (Huang et al., 2021) represent critical future directions. |
-| **"Why is statevector simulation used instead of physical hardware?"** | Statevector simulation provides an exact, noiseless mathematical upper bound. Physical hardware noise (gate errors, decoherence, measurement shot noise) would further degrade QSVC performance. |
+| **"Why is statevector simulation used instead of physical hardware?"** | Statevector simulation exactly evaluates the specified noiseless feature map and isolates its geometry. It is not QPU execution, and this study does not infer the direction or magnitude of hardware effects. |
 | **"Is the small sample of 5 splits statistically sufficient?"** | Cite Bowles et al. (2024): 5-seed nested CV is substantially more rigorous than the single-split protocols common in the literature. We transparently report exact $p$-values and bootstrap CIs without overstating formal significance. |

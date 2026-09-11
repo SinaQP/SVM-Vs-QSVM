@@ -4,14 +4,14 @@ Geometric comparison of training Gram matrices ($N=455$) between seed-specific t
 
 ### Summary Statistics (Mean ± SD across 5 outer splits)
 
-| Representation / Qubits | Centered Kernel Alignment (CKA) | Frobenius Alignment | Classical RBF Effective Rank | Quantum Kernel Effective Rank | Classical RBF Off-Diagonal Mean | Quantum Kernel Off-Diagonal Mean | Classical RBF Off-Diagonal Std | Quantum Kernel Off-Diagonal Std |
+| Representation / Qubits | Centered Kernel Alignment (CKA) | Uncentered Frobenius Alignment | Classical RBF Effective Rank | Quantum Kernel Effective Rank | Classical RBF Off-Diagonal Mean | Quantum Kernel Off-Diagonal Mean | Classical RBF Off-Diagonal Std | Quantum Kernel Off-Diagonal Std |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **PCA 2 / 2Q** | **0.5732 ± 0.1578** | **0.8344 ± 0.0327** | 6.52 ± 3.86 | **7.35 ± 0.21** | 0.4895 ± 0.2396 | **0.3244 ± 0.0071** | 0.2816 ± 0.0504 | **0.2908 ± 0.0039** |
-| **PCA 4 / 4Q** | **0.3375 ± 0.0718** | **0.7162 ± 0.0119** | 6.97 ± 5.06 | **96.49 ± 5.41** | 0.4765 ± 0.1901 | **0.0961 ± 0.0032** | 0.2512 ± 0.0298 | **0.1015 ± 0.0046** |
+| **PCA 2 / 2Q** | **0.5732 ± 0.1548** | **0.8344 ± 0.0320** | 6.52 ± 4.15 | **7.35 ± 0.21** | 0.4895 ± 0.2362 | **0.3244 ± 0.0071** | 0.2856 ± 0.0505 | **0.2908 ± 0.0039** |
+| **PCA 4 / 4Q** | **0.3375 ± 0.0704** | **0.7162 ± 0.0117** | 6.97 ± 5.01 | **96.49 ± 5.41** | 0.5465 ± 0.1892 | **0.0961 ± 0.0032** | 0.2512 ± 0.0288 | **0.1015 ± 0.0046** |
 
 ### Per-Seed Detailed Measurements
 
-| Outer Seed | PCA Dims | Qubits | Selected RBF $\gamma$ | CKA Alignment | Frobenius Alignment | Classical RBF Effective Rank | Quantum Kernel Effective Rank | Quantum Off-Diag Mean | Quantum Off-Diag Std |
+| Outer Seed | PCA Dims | Qubits | Selected RBF $\gamma$ | CKA Alignment | Uncentered Frobenius Alignment | Classical RBF Effective Rank | Quantum Kernel Effective Rank | Quantum Off-Diag Mean | Quantum Off-Diag Std |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | 42 | 2 | 2 | 0.100 | 0.7130 | 0.8580 | 10.57 | 7.47 | 0.3180 | 0.2925 |
 | 123 | 2 | 2 | 0.100 | 0.7029 | 0.8579 | 10.74 | 7.26 | 0.3282 | 0.2923 |

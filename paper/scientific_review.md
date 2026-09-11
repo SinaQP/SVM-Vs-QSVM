@@ -37,7 +37,7 @@ However, from the perspective of an expert reviewer in quantum information, kern
 * **Problem:** Presenting bootstrap confidence intervals $[+0.0388, +0.0977]$ alongside a Wilcoxon test with $p=0.0625$ ($p_{\text{Holm}} = 0.1875$) risks misleading readers into believing classical superiority is formally statistically significant.
 * **Scientific Flaw:**
   1. $n=5$ outer splits has a mathematical floor of $p = 2 \times (0.5)^5 = 0.0625$ for a two-sided exact Wilcoxon test. No test with $n=5$ can reach $\alpha = 0.05$.
-  2. The 5 outer splits share ~60% of their training instances with one another. They are dependent, overlapping splits, not independent experimental trials.
+  2. Pairwise training-set intersections contain 358--367 observations (mean 362.2), about 79.6% of each 455-sample training set. They are dependent, overlapping splits, not independent experimental trials.
   3. The bootstrap resampling was conducted across only five observed paired differences. Resampling 10,000 times from 5 numbers does not generate new statistical power.
 * **Required Revision:** Explicitly label bootstrap intervals as "exploratory split-level percentile bootstrap intervals." State clearly that the five random splits are not independent experimental replicates. Maintain the conclusion as "consistent descriptive empirical evidence" rather than "formal statistical significance."
 
@@ -69,7 +69,7 @@ However, from the perspective of an expert reviewer in quantum information, kern
 | **Sample Efficiency** | QSVC demonstrates no small-data quantum advantage at $N_{\text{train}}=50$, suffering severe performance drops. | **SUPPORTED** | Supported by scaling data: 4Q F1 collapses to $0.4994 \pm 0.2110$ at $N=50$ while classical Linear SVM maintains $0.9128 \pm 0.0395$. |
 | **Generalization** | Theoretical PAC bounds do not guarantee empirical advantage on tabular data. | **SUPPORTED** | Well-contextualized against Caro et al. (2022) and Banchi et al. (2021). |
 | **Expressivity** | Deeper circuits in 4Q full entanglement disperse statevectors excessively, reducing F1 to $0.540$. | **SUPPORTED** | Supported by 60-run feature-map ablation data. |
-| **Computational Complexity** | Statevector simulation is ~45x–80x slower than classical SVM on CPU; physical QPUs face quadratic shot overhead. | **SUPPORTED WITH QUALIFICATION** | Supported for measured wall-clock runtime. Must not claim that 2Q→4Q timing proves exponential scaling. |
+| **Computational Complexity** | Statevector simulation is ~45x–80x slower than classical SVM in the recorded CPU implementation. | **SUPPORTED WITH QUALIFICATION** | Supported for measured wall-clock runtime only. It does not estimate QPU execution or prove exponential scaling. |
 | **Statistical Significance** | Observed F1 differences are statistically significant. | **TOO STRONG / UNSUPPORTED** | Rephrase: Wilcoxon $p=0.0625$ ($p_{\text{Holm}}=0.1875$) cannot reject $H_0$ at $\alpha=0.05$. State as consistent descriptive superiority. |
 | **Clinical Relevance** | Results demonstrate diagnostic efficacy for breast cancer. | **TOO STRONG / UNSUPPORTED** | Refocus strictly as a methodological ML benchmark; disclaim clinical diagnostic utility. |
 
@@ -77,6 +77,6 @@ However, from the perspective of an expert reviewer in quantum information, kern
 
 ## 5. Peer Review Verdict
 
-- **Scientific Substance:** The underlying empirical benchmarking is rigorous, reproducible, and of high methodological quality.
-- **Scientific Revisions Required:** Moderate textual revisions to address the operator feature space definition, conservative concentration wording, statistical bootstrap qualification, complexity caveats, and non-clinical framing.
-- **Outcome:** Proceed to revise `paper/manuscript.md` to resolve all identified concerns.
+- **Scientific Substance:** The frozen experiment supports a useful, reproducible case study when its scope is stated precisely.
+- **Final Resolution:** The manuscript now defines the $4^n$ operator feature space, limits concentration language to conditional/descriptive interpretation, reports exact overlap, discloses cross-phase split reuse, distinguishes fixed-hyperparameter learning curves from tuned canonical results, corrects runtime scope, and maintains non-clinical framing.
+- **Outcome:** No unresolved Stage A scientific-consistency blocker remains; submission packaging and independent human author review are still required.
