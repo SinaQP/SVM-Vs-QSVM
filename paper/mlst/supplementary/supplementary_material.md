@@ -10,6 +10,8 @@
 
 For each predefined outer seed, the authoritative QSVC procedure used five-fold stratified inner cross-validation confined to the 455-sample outer-training set. `StandardScaler`, PCA, `MinMaxScaler([0, π])`, statevectors, and training/validation Gram matrices were recomputed within every inner fold. The joint grid was `reps ∈ {1,2,3}` and $C\in\{0.01,0.1,1,10,100\}$; 4Q additionally searched `linear` and `full` entanglement. For 2Q, the two topology labels are algebraically equivalent because there is only one qubit pair, so `linear` is the single canonical representative. Selection maximized mean inner-fold malignant-class F1; ties favored lower `reps`, then `linear`, then smaller $C$. The chosen configuration was frozen before full outer-train refitting and one outer-test evaluation.
 
+### Table S1: Per-Seed Corrected Nested QSVC Selections
+
 | Outer seed | Representation | Selected reps | Selected topology | Selected $C$ |
 | :---: | :---: | :---: | :---: | :---: |
 | 42 | PCA 2 / 2Q | 1 | linear | 100 |
@@ -27,7 +29,7 @@ Across the ten representation/seed selections, `reps=1` was selected 10/10 times
 
 Models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing pipelines (`StandardScaler`, `PCA`, `MinMaxScaler`) independently refit on each subset and evaluated on fixed outer test partitions ($N_{\text{test}}=114$). All learning curves use fixed classifier settings: $C=1$ for every SVC, `gamma='scale'` for RBF, and `reps=1`, full entanglement for QSVC. They are separate from the authoritative nested-selected comparison.
 
-### Table S1: Complete Sample-Size Scaling Results ($n=5$ Splits, Mean ± SD)
+### Table S2: Complete Sample-Size Scaling Results ($n=5$ Splits, Mean ± SD)
 
 | $N_{\text{train}}$ | Model Architecture | Family | Representation | Qubits | Accuracy | Precision | Recall | Malignant F1 | ROC-AUC | Runtime (s) |
 | :---: | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -68,7 +70,7 @@ Models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300,
 
 `total_runtime` includes preprocessing, classifier fitting, and prediction; QSVC additionally includes exact statevector generation and both training and test Gram products. Inner-search and kernel-diagnostic time are excluded.
 
-### Table S2: Execution Time, Computational Complexity, and Storage Footprint
+### Table S3: Execution Time, Computational Complexity, and Storage Footprint
 
 | Pipeline Stage / Model Architecture | Platform / Implementation | Qubits | Mean Runtime (s) | Runtime Std (s) | Relative Cost | Time Complexity | Memory Complexity |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- | :--- |

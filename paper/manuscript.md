@@ -218,7 +218,7 @@ To test whether the evaluated QSVC showed an empirical advantage in small-sample
   * Classical Linear SVM (PCA 4): $\text{F1} = 0.9128 \pm 0.0395$, $\text{Accuracy} = 0.9316 \pm 0.0353$
   * QSVC (2Q): $\text{F1} = 0.7398 \pm 0.0531$ (performance deficit: $-0.1759$)
   * QSVC (4Q): $\text{F1} = 0.4994 \pm 0.2110$ (performance deficit: $-0.4134$, with recall collapsing to $0.4095$)
-* **Sample-Size Behavior:** QSVC performance generally improved as training size increased. The 4Q sequence increased at every tested size, whereas 2Q peaked at $N=300$ and then declined slightly from $0.8807$ to $0.8726$ at $N=455$. Classical SVMs retained a substantial lead at every evaluated sample size. Complete scaling metrics are provided in [Table 3](tables/table3_sample_size_scaling.md).
+* **Sample-Size Behavior:** QSVC performance generally improved as training size increased. The 4Q sequence increased at every tested size, whereas 2Q peaked at $N=300$ and then declined slightly from $0.8807$ to $0.8726$ at $N=455$. Classical SVMs retained a substantial lead at every evaluated sample size. Complete scaling metrics are provided in [Table 3](tables/table3_sample_size_scaling.md). Full tabular scaling values are documented in Supplementary Table S2.
 
 ---
 
@@ -322,7 +322,7 @@ A comprehensive comparison requires evaluating computational complexity and wall
 1. **Measured Runtime Scope:** The reported `total_runtime` includes preprocessing, classifier fitting, and prediction; for QSVC it additionally includes exact statevector generation and train/test Gram products. Inner-search time and kernel-diagnostic time are excluded.
 2. **Statevector Simulation Overhead:** In the corrected nested outer evaluations, vectorized exact statevector simulation required $0.2181 \pm 0.0096$ seconds for 2Q and $0.5846 \pm 0.0257$ seconds for 4Q on standard x86_64 architecture—approximately $45\times$ and $71\times$ the corresponding linear-SVM timings.
 3. **Complexity Separation and Scaling Caveat:** The operation count for the vectorized Gram products grows with $2^q$, but state preparation also depends on circuit structure and the SVC stage remains data-dependent. The measured $\sim 2.7\times$ increase from 2Q to 4Q is an implementation-specific observation from two points, not evidence of an asymptotic law. The 2,071,160-byte figure is the measured combined storage of the float64 training and test kernel arrays, not the training Gram matrix alone.
-4. **Simulation and Hardware:** Statevector timing is not QPU timing [aaronson2015read]. Physical execution would add compilation, queueing, repeated measurement, noise, and mitigation costs whose values depend on the device and accuracy target. The historical `ComputeUncompute` timings are measurements from a local pairwise simulator and are reported separately; they are neither physical-hardware timings nor evidence about a fixed shot budget.
+4. **Simulation and Hardware:** Statevector timing is not QPU timing [aaronson2015read]. Physical execution would add compilation, queueing, repeated measurement, noise, and mitigation costs whose values depend on the device and accuracy target. The historical `ComputeUncompute` timings are measurements from a local pairwise simulator and are reported separately; they are neither physical-hardware timings nor evidence about a fixed shot budget. Complete profiling is provided in Supplementary Table S3.
 
 ---
 

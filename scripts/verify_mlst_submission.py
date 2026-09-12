@@ -86,6 +86,63 @@ def verify_sample_size_language(text: str, sample_summary: pd.DataFrame) -> list
     return sequence
 
 
+def supplementary_table_mapping(supplementary_text: str) -> dict[str, str]:
+    """Derive semantic supplementary-table numbers from LaTeX caption order."""
+    table_blocks = re.findall(
+        r"\\begin\{table\}.*?\\end\{table\}",
+        supplementary_text,
+        flags=re.DOTALL,
+    )
+    mapping = {}
+    for number, block in enumerate(table_blocks, start=1):
+        caption_match = re.search(r"\\caption\{([^{}]+)\}", block, flags=re.DOTALL)
+        assert caption_match, f"Supplementary table S{number} has no simple caption"
+        caption = re.sub(r"\s+", " ", caption_match.group(1)).strip().lower()
+        if "per-seed corrected nested qsvc selections" in caption:
+            semantic = "selection"
+        elif "sample-size scaling results" in caption:
+            semantic = "sample_size"
+        elif "execution time" in caption and "computational complexity" in caption:
+            semantic = "runtime"
+        else:
+            continue
+        assert semantic not in mapping, f"Duplicate supplementary {semantic} table"
+        mapping[semantic] = f"S{number}"
+
+    expected_semantics = {"selection", "sample_size", "runtime"}
+    assert set(mapping) == expected_semantics, (
+        "Could not derive all required supplementary table semantics from captions: "
+        f"found {mapping}"
+    )
+    return mapping
+
+
+def verify_supplementary_table_references(
+    manuscript_text: str, supplementary_text: str
+) -> dict[str, str]:
+    """Require semantic main-text references to match supplementary caption order."""
+    mapping = supplementary_table_mapping(supplementary_text)
+    normalized = re.sub(r"\s+", " ", manuscript_text.replace("~", " "))
+    reference_patterns = {
+        "sample_size": (
+            r"(?:sample-size|tabular scaling|scaling (?:values|results|metrics))"
+            r"[^.]{0,500}?Supplementary Table S(\d+)"
+        ),
+        "runtime": (
+            r"(?:runtime|profiling)"
+            r"[^.]{0,500}?Supplementary Table S(\d+)"
+        ),
+    }
+    for semantic, pattern in reference_patterns.items():
+        referenced = {f"S{number}" for number in re.findall(pattern, normalized, re.I)}
+        assert referenced, f"No semantic supplementary {semantic} table reference found"
+        assert referenced == {mapping[semantic]}, (
+            f"Main manuscript {semantic} discussion references {sorted(referenced)}, "
+            f"but supplementary caption order maps it to {mapping[semantic]}"
+        )
+    return mapping
+
+
 def verify_citations():
     tex_path = os.path.join("paper", "mlst", "manuscript.tex")
     bib_path = os.path.join("paper", "mlst", "references.bib")
@@ -264,6 +321,29 @@ def verify_methodological_language():
     print("[OK] Methodological Language: PASS")
 
 
+def verify_cross_references():
+    supplementary_path = os.path.join(
+        "paper", "mlst", "supplementary", "supplementary_material.tex"
+    )
+    with open(supplementary_path, "r", encoding="utf-8") as f:
+        supplementary_text = f.read()
+
+    for manuscript_path in (
+        os.path.join("paper", "mlst", "manuscript.tex"),
+        os.path.join("paper", "manuscript.md"),
+    ):
+        with open(manuscript_path, "r", encoding="utf-8") as f:
+            manuscript_text = f.read()
+        mapping = verify_supplementary_table_references(
+            manuscript_text, supplementary_text
+        )
+        print(
+            f"[OK] Supplementary Table References in {manuscript_path}: PASS "
+            f"(selection={mapping['selection']}, sample-size={mapping['sample_size']}, "
+            f"runtime={mapping['runtime']})"
+        )
+
+
 def verify_file_presence():
     required_files = [
         os.path.join("paper", "mlst", "manuscript.tex"),
@@ -334,4 +414,5 @@ if __name__ == "__main__":
     verify_citations()
     verify_numerical_consistency()
     verify_methodological_language()
+    verify_cross_references()
     print("--- All Verification Steps Passed Successfully ---")

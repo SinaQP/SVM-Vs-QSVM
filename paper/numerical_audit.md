@@ -201,8 +201,8 @@ Sources: classical and historical timings from `results/final/final_runtime_summ
 The final audit identified real reporting errors that the earlier audit had missed:
 
 - Table 4 used incorrect sample standard deviations for CKA and uncentered Frobenius alignment, stale RBF effective-rank dispersions, and stale RBF off-diagonal summaries; the PCA 4 RBF off-diagonal mean was especially material (reported 0.4765, canonical 0.5465).
-- Supplementary Table S1 contained 88 mismatched summary cells, including widespread precision/recall substitutions, stale $N=300$ rows, and $N=455$ rows copied from the tuned canonical comparison instead of the fixed-$C$ sample-size experiment. Both Markdown and LaTeX tables were regenerated from `results/sample_size_scaling_summary.csv` values.
+- Supplementary Table S2 contained 88 mismatched summary cells, including widespread precision/recall substitutions, stale $N=300$ rows, and $N=455$ rows copied from the tuned canonical comparison instead of the fixed-$C$ sample-size experiment. Both Markdown and LaTeX tables were regenerated from `results/sample_size_scaling_summary.csv` values.
 - Runtime complexity prose treated `SVC(kernel='linear')` as linear-time and described 2.07 MB as training-Gram storage. The corrected text uses data-dependent LibSVM bounds and identifies 2,071,160 bytes as combined training- and test-kernel storage.
 - `docs/results_summary.md` contained stale RBF effective ranks (6.09 and 18.42); these were corrected to 6.52 and 6.97.
 
-After correction, the audited manuscript, LaTeX tables, supplementary Table S1, and supporting summary agree with the frozen CSV sources at the displayed precision. The frozen result files themselves were not modified.
+After correction, the audited manuscript, LaTeX tables, supplementary Table S2, and supporting summary agree with the frozen CSV sources at the displayed precision. The frozen result files themselves were not modified.

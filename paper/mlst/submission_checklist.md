@@ -10,7 +10,7 @@
 
 | Classification | Count | Meaning |
 | :--- | :---: | :--- |
-| **READY** | 29 | Verified from repository evidence, manuscript sources, compiled PDFs, or automated checks. |
+| **READY** | 30 | Verified from repository evidence, manuscript sources, compiled PDFs, or automated checks. |
 | **NEEDS USER REVIEW** | 3 | Requires the author's judgment or confirmation in the submission portal. |
 | **BLOCKING** | 0 | No unresolved scientific, numerical, methodological, citation, disclosure, packaging, or build issue. |
 
@@ -36,6 +36,7 @@ The counts above are derived from the checked items below. The zero-blocker stat
 - [x] **READY — Bibliography:** 35 cited keys resolve against 35 bibliography entries; no unresolved or unused manuscript citation keys remain.
 - [x] **READY — Main figures:** five primary figures are present, legible, correctly numbered, and described conservatively.
 - [x] **READY — Supplement:** extended sample-size, complexity, and diagnostic material is synchronized with the frozen CSV files.
+- [x] **READY — Main ↔ supplement table references:** semantic cross-reference verification confirms that the main sample-size discussion points to Supplementary Table S2 and runtime profiling points to Supplementary Table S3, matching the compiled S1/S2/S3 table order.
 - [x] **READY — Main PDF:** rebuilt at a 12-point base size under current IOP article-format guidance; all 23 pages were visually inspected with readable text and tables, no clipping, and no unresolved references.
 - [x] **READY — Supplementary PDF:** rebuilt at a 12-point base size; all 7 pages were visually inspected, with dense tables moved to dedicated landscape pages for readability and no clipping or unresolved references.
 - [x] **READY — Cover letter:** within the 500--800-word target, journal-specific, numerically accurate, and free of unsupported novelty or clinical claims.
@@ -56,9 +57,9 @@ The counts above are derived from the checked items below. The zero-blocker stat
 
 ## Automated and Repository Validation
 
-- [x] **READY — Unit/regression tests:** 33/33 tests pass in the declared project virtual environment, including four focused reporting-consistency regressions.
+- [x] **READY — Unit/regression tests:** 38/38 tests pass in the declared project virtual environment, including nine focused reporting- and cross-reference-consistency regressions.
 - [x] **READY — Repository validator:** all six stages of `scripts/validate_project.py` pass, including frozen-artifact integrity.
-- [x] **READY — Submission verifier:** file completeness, author metadata, citation resolution, numerical consistency, authoritative runtime-ratio derivation, and non-monotonic 2Q sample-size consistency all pass in `scripts/verify_mlst_submission.py`.
+- [x] **READY — Submission verifier:** file completeness, author metadata, citation resolution, numerical consistency, authoritative runtime-ratio derivation, non-monotonic 2Q sample-size consistency, and semantic main-to-supplement table-reference mapping all pass in `scripts/verify_mlst_submission.py`.
 
 ## Blocking Issues
 

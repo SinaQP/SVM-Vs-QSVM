@@ -1,5 +1,6 @@
 """Regression protection for audited MLST reporting inconsistencies."""
 
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -8,10 +9,28 @@ import pytest
 from scripts.verify_mlst_submission import (
     verify_runtime_ratio_language,
     verify_sample_size_language,
+    verify_supplementary_table_references,
 )
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+SUPPLEMENTARY_TABLES = r"""
+\begin{table}
+\caption{Per-seed corrected nested QSVC selections.}
+\end{table}
+\begin{table}
+\caption{Complete Sample-Size Scaling Results across 5 Outer Splits.}
+\end{table}
+\begin{table}
+\caption{Execution Time, Computational Complexity, and Storage Footprint.}
+\end{table}
+"""
+
+CORRECT_REFERENCES = """
+Full tabular scaling values are documented in Supplementary Table S2.
+Complete runtime profiling is provided in Supplementary Table S3.
+"""
 
 
 def _runtime_artifacts() -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -56,3 +75,44 @@ def test_corrected_non_monotonic_sample_size_prose_passes():
     )
     sequence = verify_sample_size_language(text, _sample_artifact())
     assert sequence[-1] < sequence[-2]
+
+
+def test_correct_sample_size_to_s2_reference_passes():
+    mapping = verify_supplementary_table_references(
+        CORRECT_REFERENCES, SUPPLEMENTARY_TABLES
+    )
+    assert mapping["sample_size"] == "S2"
+
+
+def test_incorrect_sample_size_to_s1_reference_fails():
+    text = CORRECT_REFERENCES.replace(
+        "tabular scaling values are documented in Supplementary Table S2",
+        "tabular scaling values are documented in Supplementary Table S1",
+    )
+    with pytest.raises(AssertionError, match="sample_size discussion references"):
+        verify_supplementary_table_references(text, SUPPLEMENTARY_TABLES)
+
+
+def test_correct_runtime_to_s3_reference_passes():
+    mapping = verify_supplementary_table_references(
+        CORRECT_REFERENCES, SUPPLEMENTARY_TABLES
+    )
+    assert mapping["runtime"] == "S3"
+
+
+def test_incorrect_runtime_to_s2_reference_fails():
+    text = CORRECT_REFERENCES.replace(
+        "runtime profiling is provided in Supplementary Table S3",
+        "runtime profiling is provided in Supplementary Table S2",
+    )
+    with pytest.raises(AssertionError, match="runtime discussion references"):
+        verify_supplementary_table_references(text, SUPPLEMENTARY_TABLES)
+
+
+def test_changed_supplementary_table_order_is_detected():
+    tables = re.findall(
+        r"\\begin\{table\}.*?\\end\{table\}", SUPPLEMENTARY_TABLES, re.DOTALL
+    )
+    reordered = "\n".join((tables[1], tables[0], tables[2]))
+    with pytest.raises(AssertionError, match="sample_size discussion references"):
+        verify_supplementary_table_references(CORRECT_REFERENCES, reordered)

@@ -7,11 +7,12 @@ Prepared 12 September 2026. This document supplies factual provenance for a diff
 - **Validated package baseline before targeted remediation:** `3d1ac55277ed01e907ff577f78b36b291393a4ab`
 - **Methodology correction commit:** `f4c8418` — `fix(methodology): fully nest QSVC architecture and C selection`
 - **Manuscript remediation commit:** `4dca177798739227d5c2b22e3a0ddcd2922a7729` — `docs(paper): remediate manuscript after nested QSVC correction`
-- **Targeted residual-reporting remediation:** `HEAD` — `docs(paper): correct residual reporting and MLST submission inconsistencies`
+- **Targeted residual-reporting remediation:** `1b53e2f0f54947fa31cced8a5a978bd74af8490a` — `docs(paper): correct residual reporting and MLST submission inconsistencies`
+- **Final table-cross-reference remediation:** `HEAD` — `docs(paper): fix supplementary table cross-references`
 - **Historical release:** `v1.0.0`
 - **Proposed corrected release:** `v1.1.0` (not tagged or created)
 
-Because a commit cannot embed its own hash, `HEAD` above identifies the targeted remediation commit containing this handoff; an auditor should run `git rev-parse HEAD` and verify the stated commit message. The earlier hashes remain the scientific and manuscript provenance chain.
+Because a commit cannot embed its own hash, `HEAD` above identifies the final table-cross-reference remediation commit containing this handoff; an auditor should run `git rev-parse HEAD` and verify the stated commit message. The earlier hashes remain the scientific and manuscript provenance chain.
 
 ## Targeted residual corrections
 
@@ -21,6 +22,7 @@ Because a commit cannot embed its own hash, `HEAD` above identifies the targeted
 - Updated both reviewer PDFs to a 12-point base size under current official IOP formatting guidance. Dense supplementary tables now use dedicated landscape pages.
 - Recorded Benchmark as the intended MLST article type under the journal's current definition, subject to portal availability and editorial classification.
 - Added artifact-backed verifier checks and four regression tests for the two audited reporting-error classes.
+- Corrected the main manuscript's sample-size reference from Supplementary Table S1 to S2 and runtime reference from S2 to S3 in both source formats; synchronized the supplementary Markdown headings with the compiled S1/S2/S3 order; and added semantic caption-order verification with five regression tests, including reordered-table detection.
 
 ## Authority map
 
@@ -41,13 +43,13 @@ Because a commit cannot embed its own hash, `HEAD` above identifies the targeted
 - **AI disclosure audit:** `paper/ai_disclosure_audit.md`
 - **Primary disclosure location:** Acknowledgments in the main manuscript; mirrored in the Markdown source and author declarations, with concise submission metadata.
 
-Both PDFs were rebuilt with Tectonic at a 12-point base size and inspected page by page. No clipping, unresolved references, duplicate disclosure, underfull/overfull box warnings, or unreadable tables were found. The main PDF contains the author name Sina Qasempour, affiliation Independent Researcher, Iran, email `qasempoursina@gmail.com`, and ORCID `0009-0006-8853-6740`.
+Both PDFs were rebuilt with Tectonic at a 12-point base size and inspected page by page. The main PDF visibly points the sample-size discussion to Supplementary Table S2 and runtime profiling to Supplementary Table S3; the supplement visibly retains Table S1 for selections, S2 for sample-size scaling, and S3 for runtime profiling. No clipping, unresolved references, duplicate disclosure, underfull/overfull box warnings, or unreadable tables were found. The main PDF contains the author name Sina Qasempour, affiliation Independent Researcher, Iran, email `qasempoursina@gmail.com`, and ORCID `0009-0006-8853-6740`.
 
 ## Validation results
 
-- **Full test suite:** PASS — 33/33 tests (`33 passed in 28.67s`) using `.venv/Scripts/python.exe`, Python 3.12.14.
-- **Repository validation:** PASS — `python scripts/validate_project.py`; all six stages passed, its embedded suite passed 33/33, and the frozen validation manifest was preserved.
-- **MLST verification:** PASS — `python scripts/verify_mlst_submission.py`; file completeness, author metadata, citations (35 cited/35 stored, none unresolved or unused), corrected numerical authority, methodological language, authoritative runtime ratios, and non-monotonic sample-size wording checks passed.
+- **Full test suite:** PASS — 38/38 tests (`38 passed in 8.28s`) using `.venv/Scripts/python.exe`, Python 3.12.14.
+- **Repository validation:** PASS — `python scripts/validate_project.py`; all six stages passed, its embedded suite passed 38/38, and the frozen validation manifest was preserved.
+- **MLST verification:** PASS — `python scripts/verify_mlst_submission.py`; file completeness, author metadata, citations (35 cited/35 stored, none unresolved or unused), corrected numerical authority, methodological language, authoritative runtime ratios, non-monotonic sample-size wording, and semantic caption-order-based main-to-supplement table references passed.
 - **Corrected nested stored-artifact validation:** PASS — 11/11 recorded output hashes matched; 1,125 inner candidate/fold rows, 10 selected configurations/outer evaluations, and 1,140 predictions were present; implementation and configuration hashes matched; zero failed corrected runs.
 - **Method controls covered by tests/manifest:** outer-test inputs cannot enter selection, all selections are frozen before outer evaluation, preprocessing is refitted on each inner-training fold, the 2Q grid is nonredundant, and deterministic tie-breaking is enforced.
 - **Final numerical consistency:** PASS — 0 discrepancies.
@@ -77,4 +79,4 @@ The author-confirmed tools are OpenAI Codex (GPT-5.6 Sol) and Google Antigravity
 
 ## Scope boundary
 
-No new scientific experiment was run during targeted remediation. Historical `v1.0.0` artifacts remain preserved. No push, tag, GitHub release, archival upload, journal submission, or APC action has been performed. The appropriate next state is **READY FOR FINAL READ-ONLY RE-AUDIT**; the independent auditor must reach its own conclusions.
+No new scientific experiment was run during targeted remediation. Historical `v1.0.0` artifacts remain preserved. No push, tag, GitHub release, archival upload, journal submission, or APC action has been performed. The appropriate next state is **READY FOR NARROW FINAL READ-ONLY VERIFICATION**; the independent auditor must reach its own conclusions.
