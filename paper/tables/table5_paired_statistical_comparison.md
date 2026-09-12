@@ -12,10 +12,10 @@ Inferential evaluation across matching outer test splits ($n=5$). Pairwise diffe
 
 | Seed | Classical PCA2 F1 | QSVC PCA2 F1 | Paired Diff (PCA2) | Classical PCA4 F1 | QSVC PCA4 F1 | Paired Diff (PCA4) | QSVC PCA2 F1 | QSVC PCA4 F1 | Paired Diff (QSVC 2Q - 4Q) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 42 | 0.9398 | 0.8701 | +0.0696 | 0.9639 | 0.8753 | +0.0886 | 0.8701 | 0.8753 | -0.0052 |
-| 123 | 0.9412 | 0.8714 | +0.0698 | 0.9647 | 0.8354 | +0.1293 | 0.8714 | 0.8354 | +0.0360 |
-| 456 | 0.9250 | 0.9024 | +0.0226 | 0.9136 | 0.8158 | +0.0978 | 0.9024 | 0.8158 | +0.0866 |
-| 789 | 0.9333 | 0.8000 | +0.1333 | 0.9302 | 0.9091 | +0.0211 | 0.8000 | 0.9091 | -0.1091 |
-| 2026 | 0.9302 | 0.8947 | +0.0355 | 0.9737 | 0.9247 | +0.0490 | 0.8947 | 0.9247 | -0.0300 |
+| 42 | 0.9302 | 0.8916 | +0.0387 | 0.9512 | 0.9070 | +0.0442 | 0.8916 | 0.9070 | -0.0154 |
+| 123 | 0.9412 | 0.9176 | +0.0235 | 0.9767 | 0.9524 | +0.0244 | 0.9176 | 0.9524 | -0.0347 |
+| 456 | 0.9268 | 0.8533 | +0.0735 | 0.9136 | 0.8250 | +0.0886 | 0.8533 | 0.8250 | +0.0283 |
+| 789 | 0.9412 | 0.8158 | +0.1254 | 0.9512 | 0.8462 | +0.1051 | 0.8158 | 0.8462 | -0.0304 |
+| 2026 | 0.9302 | 0.8605 | +0.0698 | 0.9535 | 0.8298 | +0.1237 | 0.8605 | 0.8298 | +0.0307 |
 
-*Note: Source data from `results/final/final_statistical_comparison.csv`. The exact Wilcoxon test for $n=5$ observations has a discrete lower bound of $p = 1/2^4 = 0.0625$ when all differences share the same sign. Overlapping 80/20 train/test partitions share data, introducing covariance across splits.*
+*Note: Source data from `results/corrected_nested/corrected_statistical_comparison.csv`, `results/corrected_nested/qsvc_outer_test_results.csv`, and the inner-selected classical rows in `results/tuned_outer_test_results.csv`. The exact Wilcoxon test for $n=5$ observations has a discrete lower bound of $p = 1/2^4 = 0.0625$ when all differences share the same sign. Overlapping 80/20 train/test partitions share data, introducing covariance across splits.*

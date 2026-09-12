@@ -1,6 +1,6 @@
 # Table 4: Kernel Geometry and Centered Kernel Alignment (CKA) Analysis
 
-Geometric comparison of training Gram matrices ($N=455$) between seed-specific tuned Classical RBF kernels and Canonical Quantum Fidelity Kernels ($\text{reps}=1, \text{full}$) across the five outer splits.
+Exploratory geometric comparison of training Gram matrices ($N=455$) between seed-specific tuned classical RBF kernels and fixed-map quantum fidelity kernels ($\text{reps}=1$, full entanglement) across the five outer splits. This contextual analysis did not select the authoritative final QSVC configurations.
 
 ### Summary Statistics (Mean ± SD across 5 outer splits)
 

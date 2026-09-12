@@ -14,7 +14,7 @@ This project investigates whether quantum kernel methods provide an empirical pe
 ## 2. Partitioning Protocol and Data Isolation
 To ensure methodological integrity and prevent data leakage:
 1. **Outer Splits:** Five fixed random seeds (`SEEDS = [42, 123, 456, 789, 2026]`) generate stratified 80/20 train/test partitions (455 training samples, 114 test samples per split).
-2. **Quarantine:** Outer test sets are strictly quarantined during all preprocessing fitting and hyperparameter selection. Outer-test labels, predictions, or metrics are never used to choose models or hyperparameter values.
+2. **Authoritative selection quarantine:** In the corrected final procedure, outer test sets are strictly quarantined during all preprocessing fitting, feature-map architecture selection, and hyperparameter selection. Outer-test labels, predictions, or metrics are never inputs to the corrected selection algorithm.
 3. **Inner Cross-Validation:** Within each outer split, a 5-fold stratified cross-validation is performed exclusively on the 455 training samples.
 
 ---
@@ -45,7 +45,10 @@ Classical models use standard LibSVM implementations via scikit-learn:
   $$K_{i,j} = |\langle \psi(\mathbf{x}_i) | \psi(\mathbf{x}_j) \rangle|^2$$
 * **Simulation Engine:** Exact statevector inner products via vectorized matrix multiplication $\mathbf{K} = |\mathbf{\Psi} \mathbf{\Psi}^\dagger|^2$. Gram diagonal is explicitly set to $K_{i,i} = 1.0$ on training matrices.
 * **Simulation vs Hardware:** All simulations use exact, noiseless statevector linear algebra. This avoids shot noise and decoherence, establishing theoretical upper-bound performance for the evaluated feature-map family on classical CPUs.
-* **Classifier:** Scikit-learn `SVC(kernel='precomputed')` wrapped via `QSVC`, with regularization parameter $C \in \{0.01, 0.1, 1.0, 10.0, 100.0\}$ chosen via inner CV.
+* **Classifier:** Scikit-learn `SVC(kernel='precomputed')` wrapped via `QSVC`.
+* **Corrected joint inner search:** For every outer seed, five-fold inner CV jointly searches `reps ∈ {1,2,3}` and $C \in \{0.01,0.1,1.0,10.0,100.0\}$. The 4Q grid also searches `linear` and `full` entanglement. In 2Q those topology labels contain the same sole qubit pair, so `linear` is the nonredundant representative. Selection maximizes mean inner-fold malignant F1; ties prefer lower repetitions, then `linear`, then smaller $C$.
+* **Freeze and evaluate:** The selected configuration is frozen, preprocessing and the kernel are refitted on the complete outer-training partition, and the outer test is evaluated once.
+* **Historical distinction:** Phase 9 used outer-test behavior for exploratory architecture ablation. It remains useful for sensitivity analysis but is not the final selection source. Although the corrected algorithm is outer-test-isolated, reuse of the dataset and partition set means the study remains post hoc rather than independent confirmatory validation.
 
 ---
 

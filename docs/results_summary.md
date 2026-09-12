@@ -1,12 +1,12 @@
 # Research Results Summary
 
-Canonical experimental results from Phase 12 synthesis for **Classical SVM vs Quantum Kernel SVM for Breast Cancer Classification**.
+Corrected authoritative QSVC results and frozen historical contextual analyses for **Classical SVM vs Quantum Kernel SVM for Breast Cancer Classification**. Final QSVC selection, predictions, metrics, and paired comparisons come from `results/corrected_nested/`; `results/final/` preserves classical summaries and exploratory Phase 9--12 analyses.
 
 For the exhaustive 19-section research report, see [results/final/final_research_report.md](../results/final/final_research_report.md).
 
 ---
 
-## 1. Canonical Model Performance
+## 1. Authoritative Model Performance
 Mean $\pm$ Sample Standard Deviation across the five predefined outer splits (`SEEDS = [42, 123, 456, 789, 2026]`):
 
 | Model | PCA Dims | Qubits | Kernel / Feature Map | Accuracy | Malignant F1 | ROC-AUC | Runtime (s) |
@@ -14,20 +14,20 @@ Mean $\pm$ Sample Standard Deviation across the five predefined outer splits (`S
 | **Classical SVM (Comparator)** | **2** | **0** | **Linear / RBF (Inner Selected)** | **0.9509 ± 0.0048** | **0.9339 ± 0.0068** | **0.9866 ± 0.0074** | **0.0060 ± 0.0016** |
 | Tuned Linear SVM | 2 | 0 | Linear ($C \in \{0.1, 1.0\}$) | 0.9509 ± 0.0078 | 0.9341 ± 0.0093 | 0.9894 ± 0.0030 | 0.0048 ± 0.0007 |
 | Tuned RBF SVM | 2 | 0 | RBF ($C \in \{10, 100\}, \gamma$) | 0.9456 ± 0.0096 | 0.9263 ± 0.0133 | 0.9810 ± 0.0119 | 0.0072 ± 0.0024 |
-| **Tuned QSVC (Canonical)** | **2** | **2** | **ZZ Map (reps=1, full, $C$)** | **0.9070 ± 0.0237** | **0.8678 ± 0.0388** | **0.9644 ± 0.0244** | **0.2257 ± 0.0232** |
+| **Nested-selected QSVC** | **2** | **2** | **ZZ Map (reps=1, linear-equivalent, seed-specific $C$)** | **0.9070 ± 0.0237** | **0.8678 ± 0.0388** | **0.9644 ± 0.0244** | **0.2181 ± 0.0096** |
 | **Classical SVM (Comparator)** | **4** | **0** | **Linear / RBF (Inner Selected)** | **0.9632 ± 0.0157** | **0.9493 ± 0.0227** | **0.9941 ± 0.0039** | **0.0075 ± 0.0040** |
 | Tuned Linear SVM | 4 | 0 | Linear ($C \in \{0.01, 0.1, 1.0, 100\}$) | 0.9684 ± 0.0100 | 0.9565 ± 0.0143 | 0.9952 ± 0.0029 | 0.0083 ± 0.0061 |
 | Tuned RBF SVM | 4 | 0 | RBF ($C \in \{10, 100\}, \gamma$) | 0.9561 ± 0.0139 | 0.9401 ± 0.0198 | 0.9935 ± 0.0045 | 0.0071 ± 0.0019 |
-| **Tuned QSVC (Canonical)** | **4** | **4** | **ZZ Map (reps=1, full, $C=1.0$)** | **0.9053 ± 0.0423** | **0.8721 ± 0.0556** | **0.9581 ± 0.0227** | **0.6599 ± 0.0863** |
+| **Nested-selected QSVC** | **4** | **4** | **ZZ Map (reps=1, full, $C=1.0$)** | **0.9053 ± 0.0423** | **0.8721 ± 0.0556** | **0.9581 ± 0.0227** | **0.5846 ± 0.0257** |
 
 ---
 
 ## 2. Feature-Map Ablation Dynamics (Phase 9)
-* **Depth Sensitivity:** In 4-qubit QSVC, deeper circuits severe degrade classification:
+* **Exploratory depth sensitivity:** In the historical 4-qubit ablation, deeper circuits were associated with lower classification performance:
   * `reps=1, full`: $\text{F1} = 0.8721 \pm 0.0556$, Effective Rank = 96.49
   * `reps=2, full`: $\text{F1} = 0.6816 \pm 0.0590$, Effective Rank = 123.66
   * `reps=3, full`: $\text{F1} = 0.5403 \pm 0.0523$, Effective Rank = 137.43
-* **Conservative Interpretation:** The poor historical 4Q baseline result was strongly associated with the `reps=2, full` feature-map configuration. Reducing depth to `reps=1` substantially restored performance, indicating that circuit depth and over-parameterization in the 16-dimensional Hilbert space were major contributors to performance loss.
+* **Conservative interpretation:** The design does not isolate depth from all other representation effects, so it does not establish a causal depth effect or asymptotic concentration law. This ablation did not select the authoritative final architecture.
 
 ---
 

@@ -3,7 +3,7 @@
 **Manuscript:** *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*  
 **Target Journal:** *Machine Learning: Science and Technology* (IOP Publishing)  
 **Article Type:** Paper (Original Research Paper)  
-**Status:** Final quality review complete; technically ready pending the author confirmations listed in `submission_checklist.md`
+**Status:** Remediation complete and ready for independent read-only audit; not ready for submission
 
 ---
 

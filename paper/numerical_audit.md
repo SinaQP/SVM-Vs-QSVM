@@ -1,5 +1,11 @@
 # Comprehensive Numerical Integrity Audit
 
+## Authority update after nested QSVC correction
+
+Historical exploratory sources under `results/final/` remain authoritative for classical baselines, Phase 9 feature-map ablation, sample-size curves, geometry, and historical timing records. They are not the final QSVC-selection source. For final QSVC metrics, selections, predictions, corrected-run timings, and paired statistical comparisons, `results/corrected_nested/` is authoritative. The corrected and historical aggregate QSVC predictive values are numerically identical, but final labels and provenance now refer to nested-selected models.
+
+Corrected sources checked: `qsvc_outer_test_results.csv`, `qsvc_outer_test_summary.csv`, `qsvc_selected_configurations.csv`, `corrected_statistical_comparison.csv`, and `corrected_vs_historical.csv`. Result: **0 numerical discrepancies** at raw or displayed precision.
+
 **Project:** A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification  
 **Artifact Release:** `v1.0.0` (Frozen Canonical Results)  
 **Audit Date:** September 2026  
@@ -45,7 +51,7 @@ Source: `results/final/final_model_comparison.csv` ($n=5$ outer splits, outer te
 | | Recall Mean ± SD | $0.928571 \pm 0.023810$ | $0.9286 \pm 0.0238$ | **VERIFIED** |
 | | Malignant F1 Mean ± SD | $0.926314 \pm 0.013286$ | $0.9263 \pm 0.0133$ | **VERIFIED** |
 | | ROC-AUC Mean ± SD | $0.980952 \pm 0.011860$ | $0.9810 \pm 0.0119$ | **VERIFIED** |
-| **Canonical QSVC (PCA 2 / 2Q)** | Accuracy Mean ± SD | $0.907018 \pm 0.023700$ | $0.9070 \pm 0.0237$ | **VERIFIED** |
+| **Nested-selected QSVC (PCA 2 / 2Q)** | Accuracy Mean ± SD | $0.907018 \pm 0.023700$ | $0.9070 \pm 0.0237$ | **VERIFIED — corrected source** |
 | | Precision Mean ± SD | $0.906357 \pm 0.045663$ | $0.9064 \pm 0.0457$ | **VERIFIED** |
 | | Recall Mean ± SD | $0.838095 \pm 0.083163$ | $0.8381 \pm 0.0832$ | **VERIFIED** |
 | | Malignant F1 Mean ± SD | $0.867760 \pm 0.038787$ | $0.8678 \pm 0.0388$ | **VERIFIED** |
@@ -65,7 +71,7 @@ Source: `results/final/final_model_comparison.csv` ($n=5$ outer splits, outer te
 | | Recall Mean ± SD | $0.938095 \pm 0.039841$ | $0.9381 \pm 0.0398$ | **VERIFIED** |
 | | Malignant F1 Mean ± SD | $0.940121 \pm 0.019819$ | $0.9401 \pm 0.0198$ | **VERIFIED** |
 | | ROC-AUC Mean ± SD | $0.993452 \pm 0.004506$ | $0.9935 \pm 0.0045$ | **VERIFIED** |
-| **Canonical QSVC (PCA 4 / 4Q)** | Accuracy Mean ± SD | $0.905263 \pm 0.042251$ | $0.9053 \pm 0.0423$ | **VERIFIED** |
+| **Nested-selected QSVC (PCA 4 / 4Q)** | Accuracy Mean ± SD | $0.905263 \pm 0.042251$ | $0.9053 \pm 0.0423$ | **VERIFIED — corrected source** |
 | | Precision Mean ± SD | $0.874766 \pm 0.076683$ | $0.8748 \pm 0.0767$ | **VERIFIED** |
 | | Recall Mean ± SD | $0.876190 \pm 0.083163$ | $0.8762 \pm 0.0832$ | **VERIFIED** |
 | | Malignant F1 Mean ± SD | $0.872060 \pm 0.055550$ | $0.8721 \pm 0.0556$ | **VERIFIED** |
@@ -89,7 +95,7 @@ Source: `results/final/final_feature_map_summary.csv` ($60$ total ablation runs,
 | | Effective Rank Mean ± SD | $5.904226 \pm 0.395374$ | $5.90 \pm 0.40$ | **VERIFIED** |
 | **4Q, reps=1, linear** | Malignant F1 Mean ± SD | $0.795732 \pm 0.068777$ | $0.7957 \pm 0.0688$ | **VERIFIED** |
 | | Effective Rank Mean ± SD | $70.286501 \pm 4.938000$ | $70.29 \pm 4.94$ | **VERIFIED** |
-| **4Q, reps=1, full (Canonical)** | Malignant F1 Mean ± SD | $0.872060 \pm 0.055550$ | $0.8721 \pm 0.0556$ | **VERIFIED** |
+| **4Q, reps=1, full (exploratory ablation)** | Malignant F1 Mean ± SD | $0.872060 \pm 0.055550$ | $0.8721 \pm 0.0556$ | **VERIFIED** |
 | | Effective Rank Mean ± SD | $96.485124 \pm 5.414778$ | $96.49 \pm 5.41$ | **VERIFIED** |
 | **4Q, reps=2, linear** | Malignant F1 Mean ± SD | $0.719187 \pm 0.085854$ | $0.7192 \pm 0.0859$ | **VERIFIED** |
 | | Effective Rank Mean ± SD | $95.796867 \pm 5.394444$ | $95.80 \pm 5.39$ | **VERIFIED** |
@@ -145,7 +151,7 @@ Source: `results/final/final_kernel_comparison.csv` and `results/final/final_fea
 
 ## 6. Inferential Statistical Test Verification (Section 14 & Table 5)
 
-Source: `results/statistical_tests.csv` ($n=5$ paired outer splits)
+Source: `results/corrected_nested/corrected_statistical_comparison.csv` ($n=5$ paired, overlapping outer splits)
 
 | Test Comparison | Metric | Canonical Raw Value | Manuscript Value | Audit Status |
 | :--- | :--- | :--- | :--- | :---: |
@@ -175,7 +181,7 @@ Source: `results/statistical_tests.csv` ($n=5$ paired outer splits)
 
 ## 7. Computational Execution Cost and Complexity Verification (Section 13 & Table 6)
 
-Source: `results/final/final_runtime_summary.csv` ($N_{\text{train}}=455, N_{\text{test}}=114$)
+Sources: classical and historical timings from `results/final/final_runtime_summary.csv`; corrected final QSVC timings from `results/corrected_nested/qsvc_outer_test_summary.csv` ($N_{\text{train}}=455, N_{\text{test}}=114$)
 
 | Component | Mean Runtime (s) | SD (s) | Relative Cost | Scaling/Storage Interpretation | Audit Status |
 | :--- | :--- | :--- | :--- | :--- | :---: |
@@ -183,8 +189,8 @@ Source: `results/final/final_runtime_summary.csv` ($N_{\text{train}}=455, N_{\te
 | **RBF SVM (PCA 2)** | $0.007220$ | $0.002397$ | $\sim 1.5\times$ | Same SVC bounds, with pairwise RBF work | **VERIFIED** |
 | **Linear SVM (PCA 4)** | $0.008291$ | $0.006090$ | $\sim 1.7\times$ | LibSVM SVC is data/cache dependent | **VERIFIED** |
 | **RBF SVM (PCA 4)** | $0.007073$ | $0.001853$ | $\sim 1.5\times$ | Same SVC bounds, with pairwise RBF work | **VERIFIED** |
-| **QSVC (2Q Statevector)** | $0.225681$ | $0.023179$ | $\sim 47\times$ | Gram products $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$; train+test arrays 2,071,160 bytes | **VERIFIED AFTER CORRECTION** |
-| **QSVC (4Q Statevector)** | $0.659871$ | $0.086297$ | $\sim 80\times$ | Same form with larger $q$; train+test arrays 2,071,160 bytes | **VERIFIED AFTER CORRECTION** |
+| **QSVC (2Q Statevector; corrected run)** | $0.218069$ | $0.009571$ | $\sim 45\times$ vs. linear | Gram products $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$; train+test arrays 2,071,160 bytes | **VERIFIED — CORRECTED SOURCE** |
+| **QSVC (4Q Statevector; corrected run)** | $0.584645$ | $0.025656$ | $\sim 71\times$ vs. linear | Same form with larger $q$; train+test arrays 2,071,160 bytes | **VERIFIED — CORRECTED SOURCE** |
 | **2Q ComputeUncompute** | $120.5$ | $15.2$ | $\sim 25,000\times$ | Historical local circuit-pair simulator, not hardware timing | **VERIFIED AFTER CLARIFICATION** |
 | **4Q ComputeUncompute** | $455.0$ | $40.0$ | $\sim 55,000\times$ | Historical local circuit-pair simulator, not hardware timing | **VERIFIED AFTER CLARIFICATION** |
 

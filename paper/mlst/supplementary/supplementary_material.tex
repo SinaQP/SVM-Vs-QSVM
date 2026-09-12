@@ -25,16 +25,40 @@
 
 \maketitle
 
-\noindent\textbf{Permanent Repository Tag:} \texttt{v1.0.0} (\url{https://github.com/SinaQP/SVM-Vs-QSVM})\\
+\noindent\textbf{Provenance:} historical release \texttt{v1.0.0}; corrected checkpoint \texttt{f4c8418}\\
+\noindent\textbf{Repository:} \url{https://github.com/SinaQP/SVM-Vs-QSVM}\\
 \noindent\textbf{Primary Endpoint:} Malignant Class F1 Score (\texttt{pos\_label=0})
 
 \bigskip
 \hrule
 \bigskip
 
+\section*{Supplementary Section S0: Corrected Nested QSVC Selection}
+
+For each predefined outer seed, the authoritative QSVC procedure used five-fold stratified inner cross-validation confined to the 455-sample outer-training set. \texttt{StandardScaler}, PCA, \texttt{MinMaxScaler([0,$\pi$])}, statevectors, and training/validation Gram matrices were recomputed within every inner fold. The joint grid was $\text{reps}\in\{1,2,3\}$ and $C\in\{0.01,0.1,1,10,100\}$; 4Q additionally searched linear and full entanglement. For 2Q, the topology labels are algebraically equivalent because there is only one qubit pair, so linear is the single canonical representative. Selection maximized mean inner-fold malignant-class F1; ties favored lower repetitions, then linear, then smaller $C$. The chosen configuration was frozen before full outer-train refitting and one outer-test evaluation.
+
+\begin{table}[htbp]
+\centering
+\caption{Per-seed corrected nested QSVC selections.}
+\begin{tabular}{ccccc}
+\toprule
+Outer seed & Representation & Reps & Topology & $C$ \\
+\midrule
+42 & PCA 2 / 2Q & 1 & linear & 100 \\
+123 & PCA 2 / 2Q & 1 & linear & 100 \\
+456 & PCA 2 / 2Q & 1 & linear & 1 \\
+789 & PCA 2 / 2Q & 1 & linear & 10 \\
+2026 & PCA 2 / 2Q & 1 & linear & 10 \\
+42, 123, 456, 789, 2026 & PCA 4 / 4Q & 1 & full & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across the ten representation/seed selections, one repetition was selected 10/10 times; two and three repetitions were each selected 0/10 times. In 4Q, full was selected 5/5 times and linear 0/5 times. This nested search is the source of the final QSVC models. The separate outer-test ablation remains an exploratory sensitivity analysis and did not choose these configurations.
+
 \section*{Supplementary Section S1: Extended Sample-Size Scaling Evaluation}
 
-Models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing pipelines (\texttt{StandardScaler}, \texttt{PCA}, \texttt{MinMaxScaler}) independently refit on each subset and evaluated on fixed outer test partitions ($N_{\text{test}}=114$). All learning curves use fixed classifier settings: $C=1$ for every SVC, \texttt{gamma='scale'} for RBF, and \texttt{reps}=1 with full entanglement for QSVC. They are separate from the inner-selected canonical comparison.
+Models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing pipelines (\texttt{StandardScaler}, \texttt{PCA}, \texttt{MinMaxScaler}) independently refit on each subset and evaluated on fixed outer test partitions ($N_{\text{test}}=114$). All learning curves use fixed classifier settings: $C=1$ for every SVC, \texttt{gamma='scale'} for RBF, and \texttt{reps}=1 with full entanglement for QSVC. They are separate from the authoritative nested-selected comparison.
 
 \begin{table}[htbp]
 \centering
@@ -109,8 +133,8 @@ Linear SVM (PCA 2) & CPU LibSVM & 0 & $0.0048 \pm 0.0007$ & $1.0\times$ (Ref) & 
 RBF SVM (PCA 2) & CPU LibSVM & 0 & $0.0072 \pm 0.0024$ & $1.5\times$ & Same SVC bounds; pairwise RBF work & Data/cache dependent \\
 Linear SVM (PCA 4) & CPU LibSVM & 0 & $0.0083 \pm 0.0061$ & $1.7\times$ & $\mathcal{O}(dN_{tr}^2)$--$\mathcal{O}(dN_{tr}^3)$, data dependent & Data/cache dependent \\
 RBF SVM (PCA 4) & CPU LibSVM & 0 & $0.0071 \pm 0.0019$ & $1.5\times$ & Same SVC bounds; pairwise RBF work & Data/cache dependent \\
-QSVC (2Q Statevector) & Vectorized CPU & 2 & $0.2257 \pm 0.0232$ & $\sim 47\times$ & $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$ plus SVC & Train+test kernels: 2,071,160 B \\
-QSVC (4Q Statevector) & Vectorized CPU & 4 & $0.6599 \pm 0.0863$ & $\sim 80\times$ & Same form with larger $q$ plus SVC & Train+test kernels: 2,071,160 B \\
+QSVC (2Q Statevector) & Vectorized CPU & 2 & $0.2181 \pm 0.0096$ & $\sim 45\times$ & $\mathcal{O}((N_{tr}^2+N_{te}N_{tr})2^q)$ plus SVC & Train+test kernels: 2,071,160 B \\
+QSVC (4Q Statevector) & Vectorized CPU & 4 & $0.5846 \pm 0.0257$ & $\sim 71\times$ & Same form with larger $q$ plus SVC & Train+test kernels: 2,071,160 B \\
 \midrule
 \textit{Historical 2Q ComputeUncompute} & Local circuit-pair sampler & 2 & $120.5 \pm 15.2$ & $\sim 25,000\times$ & $\mathcal{O}(N_{tr}^2+N_{te}N_{tr})$ pairs & Train+test Gram arrays \\
 \textit{Historical 4Q ComputeUncompute} & Local circuit-pair sampler & 4 & $455.0 \pm 40.0$ & $\sim 55,000\times$ & $\mathcal{O}(N_{tr}^2+N_{te}N_{tr})$ pairs & Train+test Gram arrays \\

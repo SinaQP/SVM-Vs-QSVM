@@ -1,5 +1,8 @@
 # Simulated Peer Review Reports
 
+> [!NOTE]
+> **HISTORICAL REVIEW ARTIFACT — SUPERSEDED ON THE ARCHITECTURE-SELECTION POINT.** The concern below that Phase 9 outer-test ablation selected the final feature map motivated the correction. The authoritative pipeline at checkpoint `f4c8418` now jointly selects QSVC architecture and $C$ within each outer-training partition. This simulation is retained as provenance, not as a description of the corrected method.
+
 > [!IMPORTANT]
 > **INTERNAL SIMULATION — NOT ACTUAL PEER REVIEW**
 > This document records an internal reviewer simulation conducted by the research team for quality auditing and stress-testing. It does not represent actual external peer review by any scholarly journal or conference, and the manuscript has not been externally reviewed or accepted.

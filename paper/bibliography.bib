@@ -6,10 +6,10 @@
 
 @comment{--- SECTION 1: DATASET AND CLASSICAL SVM FOUNDATIONS ---}
 
-@article{street1993nuclear,
+@inproceedings{street1993nuclear,
   author    = {W. Nick Street and William H. Wolberg and Olvi L. Mangasarian},
   title     = {Nuclear feature extraction for breast tumor diagnosis},
-  journal   = {IS\&T/SPIE 1993 International Symposium on Electronic Imaging: Science and Technology},
+  booktitle = {Biomedical Image Processing and Biomedical Visualization},
   volume    = {1905},
   pages     = {861--870},
   year      = {1993},
@@ -52,7 +52,7 @@
   title     = {Gene Selection for Cancer Classification using Support Vector Machines},
   journal   = {Machine Learning},
   volume    = {46},
-  number    = {1},
+  number    = {1--3},
   pages     = {389--422},
   year      = {2002},
   publisher = {Springer},
@@ -106,16 +106,15 @@
   doi       = {10.1103/PhysRevLett.122.040504}
 }
 
-@article{schuld2021supervised,
+@misc{schuld2021supervised,
   author    = {Maria Schuld},
   title     = {Supervised quantum machine learning models are kernel methods},
-  journal   = {PRX Quantum},
-  volume    = {2},
-  number    = {4},
-  pages     = {040315},
   year      = {2021},
-  publisher = {American Physical Society},
-  doi       = {10.1103/PRXQuantum.2.040315}
+  eprint    = {2101.11020},
+  archivePrefix = {arXiv},
+  primaryClass = {quant-ph},
+  doi       = {10.48550/arXiv.2101.11020},
+  url       = {https://arxiv.org/abs/2101.11020}
 }
 
 @article{huang2021power,
@@ -158,7 +157,7 @@
 
 @article{bremner2016average,
   author    = {Michael J. Bremner and Ashley Montanaro and Dan J. Shepherd},
-  title     = {Average-Case Complexity Versus Additive and Multiplicative Approximations for Quantum Supremacy},
+  title     = {Average-Case Complexity Versus Approximate Simulation of Commuting Quantum Computations},
   journal   = {Physical Review Letters},
   volume    = {117},
   number    = {8},
@@ -180,7 +179,7 @@
 }
 
 @article{hubregtsen2021evaluation,
-  author    = {Thomas Hubregtsen and Josef Pichlmayr and Patrick Stecher and Koen Bertels},
+  author    = {Thomas Hubregtsen and Josef Pichlmeier and Patrick Stecher and Koen Bertels},
   title     = {Evaluation of parameterized quantum circuits: on the relation between classification accuracy, expressibility, and entangling capability},
   journal   = {Quantum Machine Intelligence},
   volume    = {3},
@@ -205,18 +204,20 @@
   doi       = {10.1038/s41534-021-00498-9}
 }
 
-@misc{qiskit2023,
-  author    = {{Qiskit contributors}},
-  title     = {Qiskit: An Open-source Framework for Quantum Computing},
-  year      = {2023},
-  doi       = {10.5281/zenodo.2573505}
+@misc{qiskit2026,
+  author    = {{Qiskit Development Team}},
+  title     = {Qiskit 2.5.0},
+  year      = {2026},
+  howpublished = {Computer software},
+  url       = {https://pypi.org/project/qiskit/2.5.0/},
+  note      = {Version 2.5.0, released 2 July 2026}
 }
 
 @comment{--- SECTION 5: KERNEL CONCENTRATION, BARREN PLATEAUS, AND BANDWIDTH ---}
 
 @article{thanasilp2024exponential,
   author    = {Supanut Thanasilp and Samson Wang and Marco Cerezo and Zo{\"e} Holmes},
-  title     = {Exponential concentration and untrainability in quantum kernel methods},
+  title     = {Exponential concentration in quantum kernel methods},
   journal   = {Nature Communications},
   volume    = {15},
   number    = {1},
@@ -227,15 +228,17 @@
 }
 
 @article{thanasilp2023subtleties,
-  author    = {Supanut Thanasilp and Shengyu Wang and Nhat Anh Nghiem and Patrick Coles and Marco Cerezo},
+  author    = {Supanut Thanasilp and Samson Wang and Nhat Anh Nghiem and Patrick J. Coles and Marco Cerezo},
   title     = {Subtleties in the trainability of quantum machine learning models},
-  journal   = {Quantum Science and Technology},
-  volume    = {8},
-  number    = {3},
-  pages     = {035014},
+  journal   = {Quantum Machine Intelligence},
+  volume    = {5},
+  number    = {1},
+  pages     = {21},
   year      = {2023},
-  publisher = {IOP Publishing},
-  doi       = {10.1088/2058-9565/acd569}
+  publisher = {Springer},
+  doi       = {10.1007/s42484-023-00103-6},
+  eprint    = {2110.14753},
+  archivePrefix = {arXiv}
 }
 
 @inproceedings{kubler2021inductive,
@@ -261,7 +264,7 @@
 
 @article{holmes2022connecting,
   author    = {Zo{\"e} Holmes and Kunal Sharma and M. Cerezo and Patrick J. Coles},
-  title     = {Connecting Ansatz Expressibility to Gradient Vanishing in Variational Quantum Algorithms},
+  title     = {Connecting Ansatz Expressibility to Gradient Magnitudes and Barren Plateaus},
   journal   = {PRX Quantum},
   volume    = {3},
   number    = {1},
@@ -300,25 +303,25 @@
 @article{banchi2021generalization,
   author    = {Leonardo Banchi and Jason Pereira and Stefano Pirandola},
   title     = {Generalization in Quantum Machine Learning: A Quantum Information Standpoint},
-  journal   = {Physical Review Letters},
-  volume    = {127},
-  number    = {19},
-  pages     = {190501},
+  journal   = {PRX Quantum},
+  volume    = {2},
+  number    = {4},
+  pages     = {040321},
   year      = {2021},
   publisher = {American Physical Society},
-  doi       = {10.1103/PhysRevLett.127.190501}
+  doi       = {10.1103/PRXQuantum.2.040321}
 }
 
-@article{canatar2023spectral,
-  author    = {Abdulkadir Canatar and Evan Peters and Cengiz Pehlevan and Stefan M. Wild and Romain Rish},
-  title     = {Spectral Bias and Task-Model Alignment in Quantum Machine Learning},
-  journal   = {PRX Quantum},
-  volume    = {4},
-  number    = {2},
-  pages     = {020340},
-  year      = {2023},
-  publisher = {American Physical Society},
-  doi       = {10.1103/PRXQuantum.4.020340}
+@article{canatar2021spectral,
+  author    = {Abdulkadir Canatar and Blake Bordelon and Cengiz Pehlevan},
+  title     = {Spectral bias and task-model alignment explain generalization in kernel regression and infinitely wide neural networks},
+  journal   = {Nature Communications},
+  volume    = {12},
+  number    = {1},
+  pages     = {2914},
+  year      = {2021},
+  publisher = {Nature Publishing Group},
+  doi       = {10.1038/s41467-021-23103-1}
 }
 
 @comment{--- SECTION 7: BIOMEDICAL AND ONCOLOGICAL QML ---}

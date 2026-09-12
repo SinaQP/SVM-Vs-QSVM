@@ -20,6 +20,14 @@ results/phase11_notebook_execution.json
 
 # Reproduction scratch outputs (protects canonical results)
 results/reproduced/
+tmp/
+
+# LaTeX build intermediates (compiled PDFs remain tracked)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
 
 # Local IDE and editor configurations
 .vscode/

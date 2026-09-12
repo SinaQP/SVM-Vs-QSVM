@@ -69,7 +69,7 @@
   * Raw benchmark data, processed partitions, and experimental outputs must be made accessible in a publicly available repository or via standard archival repositories.
 * **Implementation in this Study:**
   * The study relies exclusively on the publicly accessible Wisconsin Diagnostic Breast Cancer (WDBC) benchmark dataset originating from the UCI Machine Learning Repository / Wolberg et al. (1995) and distributed through `scikit-learn`.
-  * All derived experiment tables, fold partitions, metrics, and generated figures are publicly preserved in the project repository frozen at release `v1.0.0`.
+  * Historical derived experiment tables, partitions, metrics, and figures are preserved in release `v1.0.0`; corrected nested-selection records and outputs are tracked at commit `f4c8418` and planned for archival release `v1.1.0` before submission.
 
 ---
 
@@ -77,7 +77,7 @@
 * **Policy:** IOP strongly encourages the sharing of code, scripts, and software artifacts essential for reproducing published results.
 * **Implementation in this Study:**
   * A formal **Code Availability Statement** is included.
-  * Full source code (`src/svm_vs_qsvm`), execution pipeline scripts (`scripts/`), tests (`tests/`), and execution logs are tracked in the public git repository and tagged at `v1.0.0`.
+  * Historical source, scripts, tests, and logs remain tagged at `v1.0.0`; the corrected nested implementation, expanded tests, and remediated manuscript are planned for `v1.1.0`.
 
 ---
 

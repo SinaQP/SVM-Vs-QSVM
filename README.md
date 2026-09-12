@@ -3,9 +3,9 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Validation: PASS](https://img.shields.io/badge/Validation-PASS-brightgreen.svg)](results/final/repository_validation.json)
-[![Tests: 23/23 Passing](https://img.shields.io/badge/Tests-23%2F23%20Passing-success.svg)](tests/)
+[![Tests: 29/29 Passing](https://img.shields.io/badge/Tests-29%2F29%20Passing-success.svg)](tests/)
 
-A controlled, leakage-free empirical benchmark evaluating whether Quantum Support Vector Classifiers (QSVC with parameterized ZZ feature maps) provide an advantage over tuned Classical Support Vector Machines (Linear and RBF kernels) on the Wisconsin Diagnostic Breast Cancer dataset.
+A controlled empirical benchmark evaluating whether Quantum Support Vector Classifiers (QSVCs with parameterized ZZ feature maps) provide an advantage over tuned classical Support Vector Machines (linear and RBF kernels) on the Wisconsin Diagnostic Breast Cancer dataset. Final QSVC architecture and $C$ selection are fully nested within each outer-training partition; the study remains a post hoc analysis of a dataset and split set examined during exploratory development.
 
 ---
 
@@ -28,10 +28,10 @@ Support Vector Classifiers mapped into quantum Hilbert spaces via non-linear fea
   * **PCA 2:** Classical F1 $\approx 0.934$ vs QSVC F1 $\approx 0.868$ (Paired Difference: $+0.0662$).
   * **PCA 4:** Classical F1 $\approx 0.949$ (Linear: $0.9565$) vs QSVC F1 $\approx 0.872$ (Paired Difference: $+0.0772$).
   * Classical models achieved higher scores on all 5 observed outer splits (5/5 wins).
-* **Depth Sensitivity:** Within the evaluated feature-map grid, the shallow `reps=1, full` configurations outperformed deeper settings. The associated kernel diagnostics are concentration-like, but this design does not establish a causal depth effect or an asymptotic concentration law.
+* **Nested Selection and Exploratory Sensitivity:** Corrected inner-only selection chose `reps=1` for every seed, the single canonical `linear` topology for 2Q (algebraically equivalent to `full`), and `full` for 4Q. The separate historical ablation remains exploratory; its concentration-like diagnostics do not establish a causal depth effect or asymptotic concentration law.
 * **No Small-Data Advantage:** At $N=50$ training samples, Classical Linear SVM retained high diagnostic accuracy (F1 $\approx 0.915$), whereas QSVC suffered severe performance degradation (F1 $\approx 0.740$ for 2Q; F1 $\approx 0.499$ for 4Q).
 * **Geometric Novelty vs Utility:** Centered Kernel Alignment (CKA) confirmed that 4-qubit quantum kernel geometry departed substantially from classical RBF geometry (CKA $\approx 0.338$). However, this geometric transformation did not translate to superior classification boundaries.
-* **Computational Cost:** In the recorded CPU environment, exact statevector QSVC runtimes were 0.226 s (2Q) and 0.660 s (4Q), compared with 0.0048--0.0083 s for the individual classical models. These measurements are implementation- and hardware-specific and are not physical-QPU timings.
+* **Computational Cost:** In the corrected nested run on the recorded CPU environment, exact-statevector QSVC runtimes were 0.218 s (2Q) and 0.585 s (4Q), compared with 0.0048--0.0083 s for the individual classical models. These measurements are implementation- and hardware-specific and are not physical-QPU timings.
 
 ---
 
@@ -57,13 +57,13 @@ Mean $\pm$ Sample Standard Deviation across 5 frozen outer splits (`SEEDS = [42,
 | **Classical SVM (Comparator)** | **2** | **0** | **Linear / RBF (Inner Selected)** | **0.9509 ± 0.0048** | **0.9257 ± 0.0172** | **0.9429 ± 0.0213** | **0.9339 ± 0.0068** | **0.9866 ± 0.0074** | **0.0060 ± 0.0016** |
 | Tuned Linear SVM | 2 | 0 | Linear ($C \in \{0.1, 1.0\}$) | 0.9509 ± 0.0078 | 0.9266 ± 0.0318 | 0.9429 ± 0.0213 | 0.9341 ± 0.0093 | 0.9894 ± 0.0030 | 0.0048 ± 0.0007 |
 | Tuned RBF SVM | 2 | 0 | RBF ($C \in \{10, 100\}, \gamma$) | 0.9456 ± 0.0096 | 0.9245 ± 0.0182 | 0.9286 ± 0.0238 | 0.9263 ± 0.0133 | 0.9810 ± 0.0119 | 0.0072 ± 0.0024 |
-| **Tuned QSVC (Canonical)** | **2** | **2** | **ZZ Map (reps=1, full, $C$)** | **0.9070 ± 0.0237** | **0.9064 ± 0.0457** | **0.8381 ± 0.0832** | **0.8678 ± 0.0388** | **0.9644 ± 0.0244** | **0.2257 ± 0.0232** |
+| **Nested-selected QSVC** | **2** | **2** | **ZZ Map (reps=1, linear-equivalent, seed-specific $C$)** | **0.9070 ± 0.0237** | **0.9064 ± 0.0457** | **0.8381 ± 0.0832** | **0.8678 ± 0.0388** | **0.9644 ± 0.0244** | **0.2181 ± 0.0096** |
 | **Classical SVM (Comparator)** | **4** | **0** | **Linear / RBF (Inner Selected)** | **0.9632 ± 0.0157** | **0.9570 ± 0.0184** | **0.9429 ± 0.0464** | **0.9493 ± 0.0227** | **0.9941 ± 0.0039** | **0.0075 ± 0.0040** |
 | Tuned Linear SVM | 4 | 0 | Linear ($C \in \{0.01, 0.1, 1.0, 100\}$) | 0.9684 ± 0.0100 | 0.9671 ± 0.0255 | 0.9476 ± 0.0391 | 0.9565 ± 0.0143 | 0.9952 ± 0.0029 | 0.0083 ± 0.0061 |
 | Tuned RBF SVM | 4 | 0 | RBF ($C \in \{10, 100\}, \gamma$) | 0.9561 ± 0.0139 | 0.9434 ± 0.0244 | 0.9381 ± 0.0398 | 0.9401 ± 0.0198 | 0.9935 ± 0.0045 | 0.0071 ± 0.0019 |
-| **Tuned QSVC (Canonical)** | **4** | **4** | **ZZ Map (reps=1, full, $C=1.0$)** | **0.9053 ± 0.0423** | **0.8748 ± 0.0767** | **0.8762 ± 0.0832** | **0.8721 ± 0.0556** | **0.9581 ± 0.0227** | **0.6599 ± 0.0863** |
+| **Nested-selected QSVC** | **4** | **4** | **ZZ Map (reps=1, full, $C=1.0$)** | **0.9053 ± 0.0423** | **0.8748 ± 0.0767** | **0.8762 ± 0.0832** | **0.8721 ± 0.0556** | **0.9581 ± 0.0227** | **0.5846 ± 0.0257** |
 
-*Note: Malignant label 0 is positive for precision, recall, F1, and ROC-AUC. Classical comparator selected via 5-fold inner CV per seed.*
+*Note: Malignant label 0 is positive for precision, recall, F1, and ROC-AUC. Classical comparator and QSVC architecture/$C$ are selected via five-fold inner CV per outer seed. Final QSVC metrics come from `results/corrected_nested/`; historical exploratory results remain in `results/final/`.*
 
 ---
 
@@ -118,7 +118,7 @@ SVM-Vs-QSVM/
 │   ├── validate_project.py             # One-command full repository validation
 │   └── reproduce_final.py              # Lightweight fast modern reproduction script
 │
-├── tests/                              # Automated test suite (23 passing tests)
+├── tests/                              # Automated test suite (29 passing tests)
 │   ├── conftest.py                     # Root test path configuration
 │   ├── test_preprocessing.py           # Preprocessing leakage isolation tests
 │   ├── test_quantum_kernel.py          # Gram matrix symmetry, PSD, and CKA properties
@@ -204,8 +204,9 @@ Final synthesis:                 COMPLETE
 Repository packaging:            COMPLETE
 Physical QPU validation:         NOT PERFORMED
 Independent dataset validation:  NOT PERFORMED
-Paper manuscript:                FINAL QUALITY REVIEW COMPLETE
-MLST submission package:        TECHNICALLY READY; AUTHOR CONFIRMATION PENDING
+Paper manuscript:                REMEDIATED AFTER NESTED-SELECTION CORRECTION
+MLST submission package:        READY FOR INDEPENDENT READ-ONLY AUDIT
+Proposed archival release:      v1.1.0 (NOT YET CREATED)
 ```
 
 ---

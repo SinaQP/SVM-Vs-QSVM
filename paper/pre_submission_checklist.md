@@ -44,7 +44,7 @@ These items enhance scholarly rigor, clarity of contribution, and protect agains
 
 * [x] **[IMPORTANT-1] Add Explicit "1.1 Summary of Contributions" to Introduction (Section 1)**
   * *Issue:* The Introduction currently ends with broad statements without an enumerated summary of contributions.
-  * *Correction:* Add a structured subsection clearly itemizing the 6 core methodological and empirical contributions (leakage-free nested protocol, multi-seed paired robustness, feature-map ablation, sample-size scaling, operator space CKA analysis, and transparent negative result).
+  * *Correction:* Add a structured subsection itemizing the core contributions (fully nested model selection, multi-seed paired robustness, exploratory feature-map ablation, sample-size scaling, operator-space CKA analysis, and transparent negative result).
   * *Location:* `paper/manuscript.md` (Section 1.1).
 
 * [x] **[IMPORTANT-2] Clarify Centered Kernel Alignment (CKA) Interpretation (Section 12)**

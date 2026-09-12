@@ -47,12 +47,48 @@ def verify_numerical_consistency():
     with open(supplementary_tex_path, "r", encoding="utf-8") as f:
         submission_text = tex_text + "\n" + f.read()
 
-    # Canonical CSV files
+    # Historical sources remain authoritative for classical, ablation, geometry,
+    # and historical runtime results. Corrected nested outputs are authoritative
+    # for final QSVC metrics, corrected-run timings, and paired comparisons.
     df_perf = pd.read_csv(os.path.join("results", "final", "final_model_comparison.csv"))
-    df_stat = pd.read_csv(os.path.join("results", "final", "final_statistical_comparison.csv"))
     df_ablation = pd.read_csv(os.path.join("results", "final", "final_feature_map_summary.csv"))
     df_geom = pd.read_csv(os.path.join("results", "final", "final_kernel_comparison.csv"))
     df_runtime = pd.read_csv(os.path.join("results", "final", "final_runtime_summary.csv"))
+    corrected_dir = os.path.join("results", "corrected_nested")
+    df_qsvc = pd.read_csv(os.path.join(corrected_dir, "qsvc_outer_test_results.csv"))
+    df_qsvc_summary = pd.read_csv(os.path.join(corrected_dir, "qsvc_outer_test_summary.csv"))
+    df_stat = pd.read_csv(os.path.join(corrected_dir, "corrected_statistical_comparison.csv"))
+    df_selected = pd.read_csv(os.path.join(corrected_dir, "qsvc_selected_configurations.csv"))
+
+    assert len(df_qsvc) == 10 and set(df_qsvc["pca_components"]) == {2, 4}
+    assert set(df_qsvc["selection_status"]) == {"FROZEN_BEFORE_OUTER_EVALUATION"}
+    assert len(df_selected) == 10
+
+    for pca in (2, 4):
+        row = df_qsvc_summary.loc[df_qsvc_summary["pca_components"] == pca].iloc[0]
+        for metric in ("accuracy", "precision", "recall", "f1", "roc_auc"):
+            mean_token = f'{row[f"{metric}_mean"]:.4f}'
+            sd_token = f'{row[f"{metric}_sd"]:.4f}'
+            assert mean_token in submission_text, (
+                f"Corrected QSVC PCA {pca} {metric} mean {mean_token} is stale/missing"
+            )
+            assert sd_token in submission_text, (
+                f"Corrected QSVC PCA {pca} {metric} SD {sd_token} is stale/missing"
+            )
+
+    for _, row in df_stat.iloc[:2].iterrows():
+        tokens = (
+            f'{row["mean_paired_f1_difference"]:+.4f}',
+            f'{row["median_paired_f1_difference"]:+.4f}',
+            f'{row["p_raw"]:.4f}',
+            f'{row["p_holm"]:.4f}',
+            f'{row["bootstrap_ci_low"]:+.4f}',
+            f'{row["bootstrap_ci_high"]:+.4f}',
+        )
+        for token in tokens:
+            assert token in submission_text, (
+                f"Corrected paired-statistic token {token} is stale/missing for {row['comparison']}"
+            )
 
     # Key numerical benchmarks to verify in tex_text
     checks = [
@@ -86,8 +122,8 @@ def verify_numerical_consistency():
         ("Off-diagonal 4Q Mean", "0.0961", "0.0032"),
         # Runtimes
         ("Linear SVM PCA 2 Runtime", "0.0048", "0.0007"),
-        ("QSVC 2Q Runtime", "0.2257", "0.0232"),
-        ("QSVC 4Q Runtime", "0.6599", "0.0863"),
+        ("QSVC 2Q Runtime", "0.2181", "0.0096"),
+        ("QSVC 4Q Runtime", "0.5846", "0.0257"),
     ]
 
     for label, val, std in checks:
@@ -100,7 +136,34 @@ def verify_numerical_consistency():
             )
         print(f"[OK] Checked {label}: {val} ± {std if std else 'N/A'}")
 
-    print("[OK] Numerical Consistency: PASS (all central values match canonical records)")
+    print("[OK] Numerical Consistency: PASS (final QSVC/statistics match corrected_nested)")
+
+
+def verify_methodological_language():
+    files = [
+        os.path.join("paper", "mlst", "manuscript.tex"),
+        os.path.join("paper", "mlst", "cover_letter.md"),
+        os.path.join("paper", "mlst", "supplementary", "supplementary_material.tex"),
+    ]
+    text = "\n".join(open(path, encoding="utf-8").read() for path in files)
+    stale_phrases = [
+        "leakage-free",
+        "architecture selection reused those splits",
+        "Based on controlled architectural ablation",
+        "Full (Canonical)",
+        "independent confirmation",
+    ]
+    for phrase in stale_phrases:
+        assert phrase.lower() not in text.lower(), f"Stale methodological wording: {phrase}"
+    required = [
+        "Authoritative Nested QSVC Selection",
+        "jointly searches",
+        "Study-level adaptivity",
+        "exploratory sensitivity analysis",
+    ]
+    for phrase in required:
+        assert phrase.lower() in text.lower(), f"Required corrected wording missing: {phrase}"
+    print("[OK] Methodological Language: PASS")
 
 
 def verify_file_presence():
@@ -172,4 +235,5 @@ if __name__ == "__main__":
     verify_author_metadata()
     verify_citations()
     verify_numerical_consistency()
+    verify_methodological_language()
     print("--- All Verification Steps Passed Successfully ---")

@@ -10,12 +10,14 @@
 
 The empirical benchmarking conducted in this study utilizes the publicly available **Wisconsin Diagnostic Breast Cancer (WDBC)** dataset, originally compiled by Street, Wolberg, and Mangasarian (1993, 1995) at the University of Wisconsin and archived in the UCI Machine Learning Repository (Wolberg et al., 1995). The dataset is openly distributed and accessible via the `scikit-learn` Python library (`sklearn.datasets.load_breast_cancer`). The author claims no proprietary rights or ownership over the original diagnostic data.
 
-All derived data generated during this research—including stratified outer train/test partition indices, inner cross-validation fold assignments, tuned hyperparameter configurations, raw per-fold performance logs, Centered Kernel Alignment (CKA) matrices, effective rank diagnostics, sample-size scaling subsets, and paired statistical difference tables—are fully openly accessible without restriction.
+The public GitHub repository contains the derived tables and records used in the manuscript, including historical split-level model results, tuning/ablation/scaling summaries, kernel-geometry summaries, final figures, corrected nested inner-search records, selected configurations, outer-test predictions and metrics, paired statistical comparisons, and validation manifests. Full Gram matrices are not deposited; the repository provides their aggregate diagnostics and illustrative heatmaps.
 
-These artifacts are permanently archived in the project's public GitHub repository release **`v1.0.0`**:
+Historical artifacts remain preserved in release **`v1.0.0`**. The corrected nested-selection artifacts are recorded at commit `f4c8418` and will be included in the proposed **`v1.1.0`** archival release before submission:
 * **Repository URL:** [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM)
-* **Release Tag:** `v1.0.0`
-* **Canonical Data Directory:** `results/` and `results/final/`
-* **Data Format:** Comma-Separated Values (CSV) and serialized NumPy archives.
+* **Historical Release:** `v1.0.0`
+* **Proposed Corrected Release:** `v1.1.0` (not yet created)
+* **Historical Directories:** `results/` and `results/final/`
+* **Authoritative Corrected QSVC Directory:** `results/corrected_nested/`
+* **Data Format:** CSV, JSON, Markdown, and PNG.
 
 No private, proprietary, or clinical patient-identifying data were generated or analyzed in this study.
