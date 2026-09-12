@@ -2,7 +2,7 @@
 
 **Manuscript:** *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*  
 **Target Journal:** *Machine Learning: Science and Technology* (IOP Publishing)  
-**Article Type:** Paper (Original Research Paper)  
+**Intended Article Type:** Benchmark (subject to editor and submission-portal classification)
 **Status:** Remediation complete and ready for independent read-only audit; not ready for submission
 
 ---
@@ -13,7 +13,7 @@
 paper/mlst/
 ├── manuscript.tex              # Main LaTeX manuscript prepared for MLST
 ├── manuscript.pdf              # Compiled submission PDF (text, tables, figures embedded)
-├── references.bib              # 36-entry BibTeX database; 35 cited keys, 0 unresolved keys
+├── references.bib              # 35-entry BibTeX database; 35 cited keys, 0 unresolved or unused keys
 ├── cover_letter.md             # Journal-specific cover letter
 ├── cover_letter.txt            # Plain-text cover-letter copy
 ├── cover_letter_notes.md       # Cover-letter claim and framing notes
@@ -57,6 +57,10 @@ pdflatex manuscript.tex
 
 ### Overleaf Submission:
 Upload the entire contents of `paper/mlst/` (including `figures/` and `references.bib`) as a new project on Overleaf.
+
+## Current IOP guidance used
+
+The reviewer-format source uses 12-point body text in line with IOP's current request for a reasonable font size of at least 12 point: https://publishingsupport.iopscience.iop.org/questions/article-format/. MLST's current article-type page defines Benchmarks as comparative performance studies conducted on a consistent problem or dataset; this package therefore records Benchmark as the intended type, subject to editorial and portal classification: https://publishingsupport.iopscience.iop.org/journals/machine-learning-science-and-technology/about-machine-learning-science-technology/.
 
 ---
 

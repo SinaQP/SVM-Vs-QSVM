@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
@@ -6,6 +6,7 @@
 \usepackage{tabularx}
 \usepackage{geometry}
 \geometry{margin=1in}
+\usepackage{pdflscape}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -56,16 +57,18 @@ Outer seed & Representation & Reps & Topology & $C$ \\
 
 Across the ten representation/seed selections, one repetition was selected 10/10 times; two and three repetitions were each selected 0/10 times. In 4Q, full was selected 5/5 times and linear 0/5 times. This nested search is the source of the final QSVC models. The separate outer-test ablation remains an exploratory sensitivity analysis and did not choose these configurations.
 
-\section*{Supplementary Section S1: Extended Sample-Size Scaling Evaluation}
+\section*{Supplementary Section S1:\\Extended Sample-Size Scaling Evaluation}
 
 Models were trained on nested subsets $N_{\text{train}} \in \{50, 100, 200, 300, 455\}$ with preprocessing pipelines (\texttt{StandardScaler}, \texttt{PCA}, \texttt{MinMaxScaler}) independently refit on each subset and evaluated on fixed outer test partitions ($N_{\text{test}}=114$). All learning curves use fixed classifier settings: $C=1$ for every SVC, \texttt{gamma='scale'} for RBF, and \texttt{reps}=1 with full entanglement for QSVC. They are separate from the authoritative nested-selected comparison.
 
-\begin{table}[htbp]
+\clearpage
+\begin{landscape}
+\begin{table}[p]
 \centering
 \caption{Complete Sample-Size Scaling Results across 5 Outer Splits (Mean $\pm$ SD).}
 \label{tab:supp_scaling}
 \vspace{2mm}
-\resizebox{\textwidth}{!}{%
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lllccccccc}
 \toprule
 $N_{\text{train}}$ & Model Architecture & Family & Repr. & Qubits & Test Accuracy & Precision & Recall & Malignant F1 & ROC-AUC \\
@@ -113,18 +116,21 @@ $N_{\text{train}}$ & Model Architecture & Family & Repr. & Qubits & Test Accurac
 \end{tabular}%
 }
 \end{table}
+\end{landscape}
 
-\newpage
+\clearpage
 \section*{Supplementary Section S2: Computational Complexity and Execution Profiling}
 
 The reported \texttt{total\_runtime} includes preprocessing, classifier fitting, and prediction; QSVC additionally includes exact statevector generation and both training and test Gram products. Inner-search and kernel-diagnostic time are excluded.
 
-\begin{table}[htbp]
+\clearpage
+\begin{landscape}
+\begin{table}[p]
 \centering
 \caption{Execution Time, Computational Complexity, and Storage Footprint.}
 \label{tab:supp_runtime}
 \vspace{2mm}
-\resizebox{\textwidth}{!}{%
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{llccccc}
 \toprule
 Pipeline Stage / Architecture & Platform & Qubits & Mean Runtime (s) & Rel. Cost & Time Complexity & Memory Complexity \\
@@ -142,7 +148,9 @@ QSVC (4Q Statevector) & Vectorized CPU & 4 & $0.5846 \pm 0.0257$ & $\sim 71\time
 \end{tabular}%
 }
 \end{table}
+\end{landscape}
 
+\clearpage
 The exact statevector and historical \texttt{ComputeUncompute} measurements are separate CPU-simulation regimes. Neither is a physical-QPU timing, and no fixed hardware shot budget is inferred.
 
 \bigskip

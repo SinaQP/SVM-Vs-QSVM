@@ -2,7 +2,7 @@
 
 **Manuscript:** *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*
 **Target journal:** *Machine Learning: Science and Technology* (IOP Publishing)
-**Article type:** Paper (Original Research Paper; author to confirm in the portal)
+**Intended article type:** Benchmark (author to confirm availability in the portal; subject to editorial classification)
 **Status date:** September 2026
 **Research provenance:** historical release `v1.0.0` (frozen); corrected nested checkpoint `f4c8418`
 
@@ -13,6 +13,8 @@
 | **READY** | 29 | Verified from repository evidence, manuscript sources, compiled PDFs, or automated checks. |
 | **NEEDS USER REVIEW** | 3 | Requires the author's judgment or confirmation in the submission portal. |
 | **BLOCKING** | 0 | No unresolved scientific, numerical, methodological, citation, disclosure, packaging, or build issue. |
+
+The counts above are derived from the checked items below. The zero-blocker state was re-established only after the 33-test suite, six-stage repository validator, strengthened MLST submission verifier, stored corrected-artifact hash/row checks, historical-artifact diff, clean PDF builds, and page-by-page visual inspection all passed.
 
 ## Scientific and Methodological Integrity
 
@@ -31,11 +33,11 @@
 ## Manuscript and Submission Artifacts
 
 - [x] **READY — Source synchronization:** `paper/manuscript.md` and `paper/mlst/manuscript.tex` agree on methods, results, figure order, limitations, and conclusions.
-- [x] **READY — Bibliography:** 35 cited keys resolve against 36 bibliography entries; no unresolved manuscript citation keys remain.
+- [x] **READY — Bibliography:** 35 cited keys resolve against 35 bibliography entries; no unresolved or unused manuscript citation keys remain.
 - [x] **READY — Main figures:** five primary figures are present, legible, correctly numbered, and described conservatively.
 - [x] **READY — Supplement:** extended sample-size, complexity, and diagnostic material is synchronized with the frozen CSV files.
-- [x] **READY — Main PDF:** rebuilt successfully; 20 pages visually inspected page by page with no clipping or unresolved references.
-- [x] **READY — Supplementary PDF:** rebuilt successfully; 4 pages visually inspected page by page with no clipping or unresolved references.
+- [x] **READY — Main PDF:** rebuilt at a 12-point base size under current IOP article-format guidance; all 23 pages were visually inspected with readable text and tables, no clipping, and no unresolved references.
+- [x] **READY — Supplementary PDF:** rebuilt at a 12-point base size; all 7 pages were visually inspected, with dense tables moved to dedicated landscape pages for readability and no clipping or unresolved references.
 - [x] **READY — Cover letter:** within the 500--800-word target, journal-specific, numerically accurate, and free of unsupported novelty or clinical claims.
 - [x] **READY — Availability statements:** data and code availability text identifies the public WDBC source, repository, release tag, and validation path.
 - [x] **READY — Review records:** numerical, citation, novelty, scientific-review, reviewer-simulation, and paper-notes files reflect the final audit.
@@ -49,15 +51,15 @@
 - [x] **READY — Declarations:** funding, conflict-of-interest, ethics/biomedical, and CRediT statements are present and internally consistent.
 - [x] **READY — Generative-AI disclosure:** the Acknowledgments name OpenAI Codex (GPT-5.6 Sol) and Google Antigravity (3.8 Flash), describe the confirmed activity scope, distinguish programmatic results/figures from conversational outputs, retain human responsibility, and assign no AI authorship.
 - [ ] **NEEDS USER REVIEW — Final PDF read-through:** the author should read both rendered PDFs once in their normal PDF viewer and confirm names, equations, tables, captions, and page flow before upload.
-- [ ] **NEEDS USER REVIEW — Portal metadata:** confirm the portal's current article-type label, subject categories, keywords, and any required classification fields.
+- [ ] **NEEDS USER REVIEW — Portal metadata:** confirm that Benchmark is available as the portal article-type label, plus the subject categories, keywords, and any required classification fields; accept any editor-requested reclassification.
 - [ ] **NEEDS USER REVIEW — Submission attestations:** confirm originality, author agreement, disclosure, data/code availability, and any journal-specific legal attestations at submission time.
 
 ## Automated and Repository Validation
 
-- [x] **READY — Unit/regression tests:** 29/29 tests pass in the declared project virtual environment.
+- [x] **READY — Unit/regression tests:** 33/33 tests pass in the declared project virtual environment, including four focused reporting-consistency regressions.
 - [x] **READY — Repository validator:** all six stages of `scripts/validate_project.py` pass, including frozen-artifact integrity.
-- [x] **READY — Submission verifier:** file completeness, author metadata, citation resolution, and numerical consistency all pass in `scripts/verify_mlst_submission.py`.
+- [x] **READY — Submission verifier:** file completeness, author metadata, citation resolution, numerical consistency, authoritative runtime-ratio derivation, and non-monotonic 2Q sample-size consistency all pass in `scripts/verify_mlst_submission.py`.
 
 ## Blocking Issues
 
-**BLOCKING — none.** No historical experiment was rerun, no frozen historical result was regenerated, and no submission was performed during this review. An independent read-only audit remains required before submission.
+**BLOCKING — none after verification.** The blocker state is supported by the passing automated, stored-artifact, historical-integrity, build, and visual checks listed above, not by manual classification alone. No historical experiment was rerun, no frozen historical result was regenerated, and no submission was performed during this review. A final independent read-only re-audit remains required before submission.

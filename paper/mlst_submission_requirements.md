@@ -5,7 +5,8 @@
 **ISSN:** 2632-2153  
 **Verified Date:** September 2026  
 **Official Journal URL:** https://iopscience.iop.org/journal/2632-2153  
-**IOP Author Support & Guidelines:** https://publishingsupport.iopscience.iop.org/author-guidelines-for-conference-proceedings/ and https://publishingsupport.iopscience.iop.org/
+**IOP Article Format Guidance:** https://publishingsupport.iopscience.iop.org/questions/article-format/
+**Official MLST Scope and Article Types:** https://publishingsupport.iopscience.iop.org/journals/machine-learning-science-and-technology/about-machine-learning-science-technology/
 
 ---
 
@@ -17,12 +18,11 @@
 ---
 
 ## 2. Article Type Selection
-* **Selected Article Type:** **Paper** (Regular Original Research Paper).
+* **Intended Article Type:** **Benchmark**, subject to editor and submission-portal classification.
 * **Rationale:**
-  * The manuscript presents a comprehensive, multi-phase controlled empirical benchmarking study (~5,600+ words, 6 tables, 7 figures, 35 references).
-  * It is neither a rapid short communication (*Letter*), nor an encyclopedic literature synthesis (*Review*), nor a discussion of an existing publication (*Comment*).
-  * A standard "Paper" accommodates full methodological depth, nested cross-validation protocols, kernel geometry diagnostics, and complete ablation data without artificial length truncation.
-* **Length Constraints:** Regular papers in MLST have no rigid page limit; typical lengths range between 6,000 and 10,000 words.
+  * MLST's official article-type guidance says Benchmarks characterize the performance of differing methods, models, algorithms, codes, or software on a consistent problem or dataset and report comparative outcomes.
+  * The manuscript compares classical and quantum-kernel SVM pipelines under a common dataset, partitions, endpoint, and evaluation framework and supplies the technical detail needed for reproduction.
+  * The package does not imply that an editor has approved the classification; the portal choice and any reclassification remain for the author and journal.
 
 ---
 
@@ -46,6 +46,7 @@
 
 ## 5. LaTeX and Formatting Guidelines
 * **Flexible Initial Formatting:** IOP Publishing adheres to flexible initial submission formatting. The manuscript does not need to conform to final journal typography at initial submission as long as it is legible and clear.
+* **Reviewer Font Size:** Current IOP article-format guidance requests a reasonable font size of at least 12 point. Both the main and supplementary reviewer PDFs therefore use a 12-point base class option.
 * **Recommended Package Structure:** Standard LaTeX `article` or IOP LaTeX class (`iopart.cls`), with standard packages (`amsmath`, `amssymb`, `graphicx`, `booktabs`, `hyperref`, `cite`/`natbib`).
 * **Equations and Math:** Standard LaTeX math syntax; consistent operator definitions and notation.
 

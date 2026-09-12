@@ -1,10 +1,10 @@
 To: The Editors, Machine Learning: Science and Technology
 Date: September 2026
-Subject: Original Research Paper — A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification
+Subject: Benchmark — A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification
 
 Dear Editors,
 
-Please consider the manuscript “A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification” for publication as an Original Research Paper in Machine Learning: Science and Technology.
+Please consider the manuscript “A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification” for publication as a Benchmark article in Machine Learning: Science and Technology. Benchmark is the intended submission type based on the journal's current definition of comparative evaluations on a consistent problem or dataset, subject to editorial and submission-portal classification.
 
 Quantum kernels provide a principled way to use quantum state overlaps as similarity measures for classical machine-learning tasks. Their empirical value, however, can only be assessed against carefully selected classical comparators and under evaluation protocols that isolate preprocessing and hyperparameter selection from held-out testing. The submitted study addresses this methodological need through a controlled comparison of linear and radial-basis-function support vector classifiers with quantum support vector classifiers (QSVCs) on the Wisconsin Diagnostic Breast Cancer benchmark.
 

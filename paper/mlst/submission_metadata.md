@@ -2,12 +2,14 @@
 
 **Journal:** *Machine Learning: Science and Technology* (IOP Publishing)  
 **Publisher:** IOP Publishing  
-**Article Type:** Paper (Original Research Paper)  
+**Intended Article Type:** Benchmark (subject to editor and submission-portal classification)
 **Submission Status:** Ready for independent read-only audit; not ready for submission
 
 ---
 
 ## 1. Article Identification
+
+* **Article-type basis:** MLST's current official guidance defines Benchmarks as studies that compare methods, models, algorithms, codes, or software on a consistent problem or dataset and report comparative outcomes. This controlled same-dataset comparison is therefore prepared for that intended type; the journal retains classification authority. Official source (accessed 12 September 2026): https://publishingsupport.iopscience.iop.org/journals/machine-learning-science-and-technology/about-machine-learning-science-technology/.
 
 * **Proposed Title:**  
   *A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification*

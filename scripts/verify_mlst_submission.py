@@ -9,6 +9,83 @@ import pandas as pd
 import numpy as np
 
 
+OBSOLETE_RUNTIME_PATTERNS = (
+    r"\b47\s*(?:--|-|–|—|\\textendash)\s*80\s*(?:times|[×x])\b",
+    r"\b(?:47|80)\s+times\b",
+)
+FALSE_MONOTONIC_SAMPLE_PATTERNS = (
+    r"\bsteadily improved\b",
+    r"\bmonotonically improved\b",
+    r"\bconsistently improved with sample size\b",
+)
+
+
+def authoritative_runtime_ratios(
+    qsvc_summary: pd.DataFrame, runtime_summary: pd.DataFrame
+) -> tuple[float, float]:
+    """Return corrected mean QSVC/Linear-SVM runtime ratios for PCA 2 and 4."""
+    ratios = []
+    for pca in (2, 4):
+        qsvc_row = qsvc_summary.loc[qsvc_summary["pca_components"] == pca]
+        linear_row = runtime_summary.loc[
+            runtime_summary["Stage / Architecture"]
+            == f"Linear SVM PCA {pca} (CPU fit+predict)"
+        ]
+        assert len(qsvc_row) == len(linear_row) == 1, (
+            f"Expected one corrected QSVC and one Linear SVM timing row for PCA {pca}"
+        )
+        ratios.append(
+            float(qsvc_row.iloc[0]["runtime_mean"])
+            / float(linear_row.iloc[0]["Runtime_Mean_s"])
+        )
+    return tuple(ratios)
+
+
+def verify_runtime_ratio_language(
+    text: str, qsvc_summary: pd.DataFrame, runtime_summary: pd.DataFrame
+) -> tuple[float, float]:
+    """Reject the audited stale ratio and require prose derived from stored timings."""
+    ratios = authoritative_runtime_ratios(qsvc_summary, runtime_summary)
+    for pattern in OBSOLETE_RUNTIME_PATTERNS:
+        assert not re.search(pattern, text, flags=re.IGNORECASE), (
+            "Obsolete canonical QSVC runtime-ratio wording found"
+        )
+
+    rounded = tuple(round(value) for value in ratios)
+    expected = re.compile(
+        rf"approximately\s+{rounded[0]}\s+and\s+{rounded[1]}\s+times\b"
+        rf".*?\b2Q\b.*?\b4Q\b.*?respectively",
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    assert expected.search(text), (
+        "Canonical runtime prose does not report the rounded authoritative ratios "
+        f"{rounded[0]} and {rounded[1]} times for 2Q and 4Q, respectively"
+    )
+    return ratios
+
+
+def verify_sample_size_language(text: str, sample_summary: pd.DataFrame) -> list[float]:
+    """Reject monotonic 2Q claims when the stored learning curve has a decline."""
+    two_qubit = sample_summary.loc[
+        (sample_summary["model_family"] == "Quantum")
+        & (sample_summary["pca_components"] == 2)
+    ].sort_values("train_size")
+    assert two_qubit["train_size"].tolist() == [50, 100, 200, 300, 455]
+    sequence = two_qubit["f1_mean"].astype(float).tolist()
+    assert np.any(np.diff(sequence) < 0), (
+        "Stored 2Q sample-size sequence is monotonic; update this focused check"
+    )
+
+    for pattern in FALSE_MONOTONIC_SAMPLE_PATTERNS:
+        assert not re.search(pattern, text, flags=re.IGNORECASE), (
+            "False monotonic QSVC sample-size wording found"
+        )
+    assert re.search(r"\b2Q\b.*?\bpeak(?:ed|s)?\b", text, re.IGNORECASE | re.DOTALL)
+    assert re.search(r"\bdeclin(?:e|ed|es|ing)\b", text, re.IGNORECASE)
+    assert re.search(r"N\s*=\s*300", text) and re.search(r"N\s*=\s*455", text)
+    return sequence
+
+
 def verify_citations():
     tex_path = os.path.join("paper", "mlst", "manuscript.tex")
     bib_path = os.path.join("paper", "mlst", "references.bib")
@@ -26,15 +103,20 @@ def verify_citations():
         for key in match.split(","):
             cited_keys.add(key.strip())
 
-    # Extract all @...@article{key, etc.
-    bib_keys = set(re.findall(r"@\w+\s*\{\s*([^,\s]+)\s*,", bib_text))
+    # Extract bibliographic entries while excluding BibTeX comments.
+    bib_keys = set(
+        re.findall(r"@(?!comment\b)\w+\s*\{\s*([^,\s]+)\s*,", bib_text, re.IGNORECASE)
+    )
 
     missing_keys = cited_keys - bib_keys
+    unused_keys = bib_keys - cited_keys
     print(f"Total cited keys in manuscript.tex: {len(cited_keys)}")
     print(f"Total bib entries in references.bib: {len(bib_keys)}")
     print(f"Missing keys: {missing_keys}")
+    print(f"Unused keys: {unused_keys}")
     assert len(missing_keys) == 0, f"Unresolved citations found: {missing_keys}"
-    print("[OK] Citation Check: PASS (0 unresolved citation keys)")
+    assert len(unused_keys) == 0, f"Unused bibliography entries found: {unused_keys}"
+    print("[OK] Citation Check: PASS (0 unresolved and 0 unused citation keys)")
 
 
 def verify_numerical_consistency():
@@ -54,6 +136,7 @@ def verify_numerical_consistency():
     df_ablation = pd.read_csv(os.path.join("results", "final", "final_feature_map_summary.csv"))
     df_geom = pd.read_csv(os.path.join("results", "final", "final_kernel_comparison.csv"))
     df_runtime = pd.read_csv(os.path.join("results", "final", "final_runtime_summary.csv"))
+    df_sample = pd.read_csv(os.path.join("results", "final", "final_sample_size_summary.csv"))
     corrected_dir = os.path.join("results", "corrected_nested")
     df_qsvc = pd.read_csv(os.path.join(corrected_dir, "qsvc_outer_test_results.csv"))
     df_qsvc_summary = pd.read_csv(os.path.join(corrected_dir, "qsvc_outer_test_summary.csv"))
@@ -137,6 +220,21 @@ def verify_numerical_consistency():
         print(f"[OK] Checked {label}: {val} ± {std if std else 'N/A'}")
 
     print("[OK] Numerical Consistency: PASS (final QSVC/statistics match corrected_nested)")
+
+    for source_path in (
+        os.path.join("paper", "mlst", "manuscript.tex"),
+        os.path.join("paper", "manuscript.md"),
+    ):
+        with open(source_path, "r", encoding="utf-8") as f:
+            source_text = f.read()
+        ratios = verify_runtime_ratio_language(source_text, df_qsvc_summary, df_runtime)
+        sequence = verify_sample_size_language(source_text, df_sample)
+        print(
+            f"[OK] Reporting consistency in {source_path}: "
+            f"runtime ratios={ratios[0]:.6f}, {ratios[1]:.6f}; "
+            f"2Q F1 sequence={[round(value, 6) for value in sequence]}"
+        )
+    print("[OK] Reporting Consistency: PASS (runtime and sample-size prose match artifacts)")
 
 
 def verify_methodological_language():

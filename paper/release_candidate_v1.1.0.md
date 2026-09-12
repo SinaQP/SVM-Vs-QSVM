@@ -23,6 +23,9 @@ Historical release `v1.0.0` remains preserved. This update is additive; it does 
 - Refreshed citation and reference-integrity audits.
 - Truthful generative-AI disclosure naming OpenAI Codex (GPT-5.6 Sol) and Google Antigravity (3.8 Flash).
 - Expanded tests and submission-validation coverage.
+- Corrected residual runtime-ratio and non-monotonic sample-size reporting, with artifact-backed regression protection.
+- Prepared the MLST package for the intended Benchmark article type, subject to editorial classification.
+- Rebuilt and visually verified the 12-point reviewer PDFs (23-page main manuscript; 7-page supplement with landscape data tables).
 
 ## Intended release contents
 
@@ -47,3 +50,5 @@ The release must exclude `.venv/`, `env/`, `venv/`, `tmp/`, Python caches and by
 - Only after these gates: create tag/release `v1.1.0`, archive it if desired, update persistent identifiers, and then consider journal submission.
 
 No push, tag, GitHub release, archive upload, or journal submission is part of this plan's preparation.
+
+Latest targeted-remediation validation: 33/33 tests passed; all six repository-validation stages passed; MLST verification passed, including the new runtime and sample-size prose checks; 11/11 stored corrected-output hashes matched; and `results/final/` remained unchanged relative to `v1.0.0`. This evidence prepares the package for a final independent read-only re-audit; it does not create the release.

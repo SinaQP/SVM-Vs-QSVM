@@ -1,6 +1,6 @@
 # Reference Integrity and Claim-Support Audit
 
-Audit date: 12 September 2026. Scope: every one of the 36 scholarly/software entries in `paper/bibliography.bib` and the mirrored `paper/mlst/references.bib`, plus every substantive citation use in the manuscript. Metadata was rechecked from scratch against Crossref/DOI records and, where applicable, official publisher, MIT Press, JMLR, NeurIPS, arXiv, and PyPI records. “Qualified” means the source supports the narrowed wording now used, not a stronger causal or universal claim.
+Audit date: 12 September 2026. Scope: every one of the 35 scholarly/software entries in `paper/bibliography.bib` and the mirrored `paper/mlst/references.bib`, plus every substantive citation use in the manuscript. Metadata was rechecked from scratch against Crossref/DOI records and, where applicable, official publisher, MIT Press, JMLR, NeurIPS, arXiv, and PyPI records. “Qualified” means the source supports the narrowed wording now used, not a stronger causal or universal claim.
 
 | Citation key | Existence | Authors | Title | Venue | Year | DOI/arXiv | Metadata status | Claim support status | Action taken |
 |---|---:|---:|---:|---|---:|---|---|---|---|
@@ -23,7 +23,6 @@ Audit date: 12 September 2026. Scope: every one of the 36 scholarly/software ent
 | peters2021machine | Yes | Yes | Yes | npj Quantum Information 7(1) | 2021 | 10.1038/s41534-021-00498-9 | Verified | Qualified | Used only for simulator/hardware distinction and future work |
 | qiskit2026 | Yes | Yes | Yes | PyPI software release | 2026 | Official 2.5.0 URL | Corrected software record | Supported | Replaced mismatched Zenodo/Qiskit-version citation with 2.5.0 release |
 | thanasilp2024exponential | Yes | Yes | Corrected | Nature Communications 15(1) | 2024 | 10.1038/s41467-024-49287-w | Corrected title | Qualified | Use only for conditional/asymptotic concentration context |
-| thanasilp2023subtleties | Yes | Corrected | Yes | Quantum Machine Intelligence 5(1) | 2023 | 10.1007/s42484-023-00103-6 | Corrected composite metadata | Supported (background) | Restored Samson Wang, QMI 5:21 and DOI |
 | kubler2021inductive | Yes | Yes | Yes | NeurIPS 34 | 2021 | Official proceedings record | Verified | Qualified | Used for inductive bias/task alignment, not causal proof |
 | shaydulin2022importance | Yes | Yes | Yes | Physical Review A 106(4) | 2022 | 10.1103/PhysRevA.106.042407 | Verified | Supported | None |
 | holmes2022connecting | Yes | Yes | Corrected | PRX Quantum 3(1) | 2022 | 10.1103/PRXQuantum.3.010313 | Corrected title | Qualified | Used for barren-plateau distinction, not kernel diagnosis |
@@ -43,8 +42,8 @@ Audit date: 12 September 2026. Scope: every one of the 36 scholarly/software ent
 
 ## Findings and disposition
 
-The fresh audit found eleven materially incorrect or incomplete records: Street (type/venue), Guyon (issue), Schuld 2021 (false journal/DOI), Bremner (title), Hubregtsen (author spelling), Qiskit (version-inconsistent software citation), Thanasilp 2024 (title), Thanasilp 2023 (author/venue/DOI composite), Holmes (title), Banchi (journal/article/DOI), and the wholly composite Canatar record. Both BibTeX files and the Markdown reference list now agree.
+The fresh audit found ten materially incorrect or incomplete retained records: Street (type/venue), Guyon (issue), Schuld 2021 (false journal/DOI), Bremner (title), Hubregtsen (author spelling), Qiskit (version-inconsistent software citation), Thanasilp 2024 (title), Holmes (title), Banchi (journal/article/DOI), and the wholly composite Canatar record. The uncited `thanasilp2023subtleties` entry was removed rather than cited without a substantive need. Both BibTeX files and the Markdown reference list now agree.
 
 Primary audit endpoints included the DOI records for all DOI-bearing publications; the official JMLR pages for `pedregosa2011scikit` and `cortes2012centered`; the official NeurIPS proceedings page for `kubler2021inductive`; the arXiv records for `schuld2021supervised`, `bowles2024better`, and `leither2026benchmarking`; the MIT Press catalog for `scholkopf2002learning`; and the exact PyPI 2.5.0 release record for `qiskit2026`. The Cambridge book DOI record was used for `cristianini2000introduction`.
 
-Final state: **0 fabricated references; 0 composite references; 0 DOI mismatches; 0 article-number mismatches; 0 unresolved citation keys.** All central claim uses are either supported directly or explicitly qualified. No source is used to assert universal classical superiority, physical-QPU timing, clinical validity, or a causal concentration diagnosis.
+Final state: **0 fabricated references; 0 composite references; 0 DOI mismatches; 0 article-number mismatches; 0 unresolved citation keys; 0 unused bibliography entries.** All central claim uses are either supported directly or explicitly qualified. No source is used to assert universal classical superiority, physical-QPU timing, clinical validity, or a causal concentration diagnosis.

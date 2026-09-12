@@ -24,5 +24,11 @@ Public release `v1.0.0` predates the methodological correction. Version `v1.1.0`
 - Updated methodology, results, reproducibility, numerical, citation, and reference-integrity documentation.
 - Generative-AI disclosure and detailed disclosure audit.
 - Updated project and MLST submission validation.
+- Corrected the residual QSVC runtime comparison to approximately 45 and 71 times the corresponding linear-SVM timings and accurately reported the small 2Q F1 decline from $N=300$ to $N=455$.
+- Added artifact-backed submission checks and four regressions that reject the audited stale runtime and false monotonic sample-size language.
+- Prepared the submission package for the intended MLST Benchmark article type, subject to editorial classification.
+- Rebuilt at a 12-point base size and visually inspected the 23-page main PDF and 7-page supplement; dense supplementary tables now use landscape pages.
+
+Targeted-remediation validation passed: 33/33 tests, all six repository-validation stages, MLST package verification, 11/11 corrected-output hashes and expected row counts, and an unchanged `results/final/` tree relative to `v1.0.0`.
 
 No historical `results/final/` artifacts are rewritten by this release. No tag, hosted release, archive upload, or journal submission has yet been performed.
