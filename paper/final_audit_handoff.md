@@ -8,11 +8,12 @@ Prepared 12 September 2026. This document supplies factual provenance for a diff
 - **Methodology correction commit:** `f4c8418` — `fix(methodology): fully nest QSVC architecture and C selection`
 - **Manuscript remediation commit:** `4dca177798739227d5c2b22e3a0ddcd2922a7729` — `docs(paper): remediate manuscript after nested QSVC correction`
 - **Targeted residual-reporting remediation:** `1b53e2f0f54947fa31cced8a5a978bd74af8490a` — `docs(paper): correct residual reporting and MLST submission inconsistencies`
-- **Final table-cross-reference remediation:** `HEAD` — `docs(paper): fix supplementary table cross-references`
+- **Final table-cross-reference remediation:** `cbaa4463e0135d8ba6e01b6987c19935cef0b95d` — `docs(paper): fix supplementary table cross-references`
+- **Release-documentation synchronization:** `HEAD` — `docs(release): synchronize v1.1.0 validation status`
 - **Historical release:** `v1.0.0`
 - **Proposed corrected release:** `v1.1.0` (not tagged or created)
 
-Because a commit cannot embed its own hash, `HEAD` above identifies the final table-cross-reference remediation commit containing this handoff; an auditor should run `git rev-parse HEAD` and verify the stated commit message. The earlier hashes remain the scientific and manuscript provenance chain.
+Because a commit cannot embed its own hash, `HEAD` above identifies the release-documentation synchronization commit containing this handoff; an auditor should run `git rev-parse HEAD` and verify the stated commit message. The earlier hashes remain the scientific and manuscript provenance chain.
 
 ## Targeted residual corrections
 
@@ -79,4 +80,4 @@ The author-confirmed tools are OpenAI Codex (GPT-5.6 Sol) and Google Antigravity
 
 ## Scope boundary
 
-No new scientific experiment was run during targeted remediation. Historical `v1.0.0` artifacts remain preserved. No push, tag, GitHub release, archival upload, journal submission, or APC action has been performed. The appropriate next state is **READY FOR NARROW FINAL READ-ONLY VERIFICATION**; the independent auditor must reach its own conclusions.
+No new scientific experiment was run during targeted remediation. Historical `v1.0.0` artifacts remain preserved. No push, tag, GitHub release, archival upload, journal submission, or APC action has been performed. The appropriate next state is **READY FOR FINAL RELEASE-READINESS VERIFICATION**; the independent auditor must reach its own conclusions.
