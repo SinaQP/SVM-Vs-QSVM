@@ -32,4 +32,4 @@ The strongest defensible contribution is the integrated design: a WDBC benchmark
 - Confirm that “Benchmark” is available in the current MLST submission portal and accept any editor-requested reclassification. The package records it as the intended type based on the official MLST definition, not as an approved classification.
 - Confirm the originality and not-under-consideration declarations immediately before submission.
 - Decide whether to mention suggested editors or reviewers; none are proposed in this package.
-- Perform the final author read-through of both PDFs, verify that historical release `v1.0.0` remains accessible, and create/verify proposed archival release `v1.1.0` before submission.
+- Perform the final author read-through of both PDFs, verify that historical release `v1.0.0` remains accessible, and verify the published archival release [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0) before submission.

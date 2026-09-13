@@ -12,10 +12,10 @@ The empirical benchmarking conducted in this study utilizes the publicly availab
 
 The public GitHub repository contains the derived tables and records used in the manuscript, including historical split-level model results, tuning/ablation/scaling summaries, kernel-geometry summaries, final figures, corrected nested inner-search records, selected configurations, outer-test predictions and metrics, paired statistical comparisons, and validation manifests. Full Gram matrices are not deposited; the repository provides their aggregate diagnostics and illustrative heatmaps.
 
-Historical artifacts remain preserved in release **`v1.0.0`**. The corrected nested-selection artifacts are recorded at commit `f4c8418` and will be included in the proposed **`v1.1.0`** archival release before submission:
+Historical artifacts remain preserved in release **`v1.0.0`** for provenance. The corrected authoritative outputs, configurations, predictions, validation artifacts, and reproducible analysis code supporting the submitted results are publicly available in the submission-associated archival release **`v1.1.0`**:
 * **Repository URL:** [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM)
 * **Historical Release:** `v1.0.0`
-* **Proposed Corrected Release:** `v1.1.0` (not yet created)
+* **Submission-Associated Archival Release:** [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0)
 * **Historical Directories:** `results/` and `results/final/`
 * **Authoritative Corrected QSVC Directory:** `results/corrected_nested/`
 * **Data Format:** CSV, JSON, Markdown, and PNG.

@@ -4,7 +4,7 @@
 **Target journal:** *Machine Learning: Science and Technology* (IOP Publishing)
 **Intended article type:** Benchmark (author to confirm availability in the portal; subject to editorial classification)
 **Status date:** September 2026
-**Research provenance:** historical release `v1.0.0` (frozen); corrected nested checkpoint `f4c8418`
+**Research provenance:** historical release `v1.0.0` (frozen); corrected submission-associated archival release [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0)
 
 ## Status Summary
 

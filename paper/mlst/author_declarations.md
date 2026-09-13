@@ -62,16 +62,16 @@ As this is a single-author study, all research, implementation, and manuscript p
 
 The empirical benchmarking conducted in this study utilizes the publicly available **Wisconsin Diagnostic Breast Cancer (WDBC)** dataset, originally compiled by Street, Wolberg, and Mangasarian (1993, 1995) at the University of Wisconsin and archived in the UCI Machine Learning Repository (Wolberg et al., 1995). The dataset is openly distributed and accessible via the `scikit-learn` Python library (`sklearn.datasets.load_breast_cancer`). The author claims no proprietary rights or ownership over the original diagnostic data.
 
-The repository contains the historical split-level results and tuning/ablation/scaling summaries, kernel-geometry summaries and heatmaps, final figures, and the corrected nested inner-search records, selected configurations, predictions, metrics, paired comparisons, and validation manifests. Full Gram matrices are not deposited. Historical artifacts remain preserved in release `v1.0.0`; the corrected authority layer is recorded at commit `f4c8418` and is planned for archival release `v1.1.0` before submission:
+The repository contains the historical split-level results and tuning/ablation/scaling summaries, kernel-geometry summaries and heatmaps, final figures, and the corrected nested inner-search records, selected configurations, predictions, metrics, paired comparisons, and validation manifests. Full Gram matrices are not deposited. Historical artifacts remain preserved in release `v1.0.0` for provenance; the corrected authority layer is publicly available in the submission-associated archival release `v1.1.0`:
 * **Repository URL:** [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM)
 * **Historical Release:** `v1.0.0`
-* **Proposed Corrected Release:** `v1.1.0` (not yet created)
+* **Submission-Associated Archival Release:** [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0)
 
 ---
 
 ## 7. Code Availability
 
-All software implementations for classical SVM baselines, quantum-kernel statevector simulation, nested cross-validation, feature-map ablation, sample-size scaling, corrected joint QSVC selection, and statistical testing are available in the open-source repository [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM). Release `v1.0.0` preserves the historical implementation; the corrected code and artifacts will be archived in proposed release `v1.1.0`. The computational pipeline includes:
+All software implementations for classical SVM baselines, quantum-kernel statevector simulation, nested cross-validation, feature-map ablation, sample-size scaling, corrected joint QSVC selection, and statistical testing are available in the open-source repository [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM). Historical release `v1.0.0` preserves the historical implementation for provenance; the corrected code and authoritative artifacts are publicly available in the submission-associated archival release [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0). The computational pipeline includes:
 * Complete source code (`src/svm_vs_qsvm`)
 * Experiment configuration files (`configs/`)
 * Reproducibility and validation scripts (`scripts/`)

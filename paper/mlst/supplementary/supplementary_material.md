@@ -1,7 +1,7 @@
 # Supplementary Material: A Controlled Empirical Comparison of Classical and Quantum Kernel SVMs for Breast Cancer Classification
 
 **Author:** Sina Qasempour (Independent Researcher, Iran; qasempoursina@gmail.com; ORCID: https://orcid.org/0009-0006-8853-6740)  
-**Repository:** historical release `v1.0.0`; corrected nested checkpoint `f4c8418` ([https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM))
+**Repository:** historical release `v1.0.0`; corrected submission-associated archival release [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0)
 **Primary Endpoint:** Malignant Class F1 Score (`pos_label=0`)
 
 ---

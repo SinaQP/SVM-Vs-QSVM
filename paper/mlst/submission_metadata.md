@@ -88,17 +88,17 @@ As a single-author study, all CRediT taxonomy roles were conducted by Sina Qasem
 
 * **Project Repository:** [https://github.com/SinaQP/SVM-Vs-QSVM](https://github.com/SinaQP/SVM-Vs-QSVM)
 * **Historical Release Tag:** `v1.0.0`
-* **Corrected Nested Checkpoint:** `f4c8418`
+* **Submission-Associated Archival Release:** [`v1.1.0`](https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0)
 * **Submission Branch:** `submission/mlst`
 * **Code Availability Statement:**
-  * *"All source code is available at https://github.com/SinaQP/SVM-Vs-QSVM. Release v1.0.0 preserves the historical benchmark and checkpoint f4c8418 records the corrected nested-selection authority layer. A new archival release containing the corrected outputs and documentation is required before submission."*
+  * *"All software implementations are available in the open-source repository https://github.com/SinaQP/SVM-Vs-QSVM. The submission-associated archival release is v1.1.0, which contains the corrected nested-selection implementation, authoritative outputs, tests, and validation scripts. Historical release v1.0.0 remains preserved for provenance."*
 
 ---
 
 ## 8. Research Data Availability
 
 * **Data Availability Statement:**
-  * *"The WDBC benchmark dataset is openly available through UCI and scikit-learn. Historical derived data are in release v1.0.0; corrected selections, predictions, and paired statistics are recorded at checkpoint f4c8418. A new archival release is required before submission."*
+  * *"The WDBC benchmark dataset is openly available through UCI and scikit-learn. Historical release v1.0.0 is retained for provenance. The corrected authoritative outputs, configurations, predictions, validation artifacts, and reproducible analysis code supporting the submitted results are publicly available in the submission-associated archival release v1.1.0 at https://github.com/SinaQP/SVM-Vs-QSVM/releases/tag/v1.1.0."*
 
 ---
 
